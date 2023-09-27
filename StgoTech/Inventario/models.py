@@ -58,11 +58,11 @@ class Consumos(models.Model):
 
     def __str__(self):
         return str(self.id_consumos)
-=======
+
 #TABLA ESTADO  
 class Estado(models.Model):
     id_estado = models.AutoField(primary_key=True, unique=True)
-    estado = models.CharField(blank=True, null=True, max_length=50)
+    estado = models.CharField(choices=ABONA_CANCELA, blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "estado"
