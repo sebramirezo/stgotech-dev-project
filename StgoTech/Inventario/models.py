@@ -58,7 +58,7 @@ class Consumos(models.Model):
 
     def __str__(self):
         return str(self.id_consumos)
-=======
+
 #TABLA ESTADO  
 class Estado(models.Model):
     id_estado = models.AutoField(primary_key=True, unique=True)
