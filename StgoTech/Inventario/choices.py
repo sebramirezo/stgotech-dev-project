@@ -1,4 +1,4 @@
-clasificacion_consu = [
+CLASIF_CONSUMO = [
     ('None', 'N/A'),
     ('COMBUSTIBLE', 'COMBUSTIBLE'),
     ('CONSUMOS', 'CONSUMOS'),
@@ -6,17 +6,17 @@ clasificacion_consu = [
     ('INSUMOS', 'INSUMOS'),
     ('ROTABLES', 'ROTABLES'),
     ('TOOL', 'TOOL'),
-    ('TOOL-CAL', 'TOOL-CAL')
+    ('TOOL-CAL', 'TOOL-CAL'),
 ]
-condition = [
+
+CONDITION = [
     ('None', 'N/A'),
     ('SVC', 'SVC'),
     ('QUA', 'QUA'),
-    ('NSV', 'NSV')
-
+    ('NSV', 'NSV'),
 ]
 
-n_ficha = [
+N_FICHA = [
     ('None', 'N/A'),
     ('1,1', '1,1'),
     ('1,2', '1,2'),
@@ -26,21 +26,18 @@ n_ficha = [
     ('2,3', '2,3'),
     ('3,1', '3,1'),
     ('3,2', '3,2'),
-    ('3,3', '3,3')
-
+    ('3,3', '3,3'),
 ]
 
-owner = [
+OWNER = [
     ('None', 'N/A'),
     ('FHS', 'FHS'),
     ('JAT', 'JAT'),
     ('IMS', 'IMS'),
-    ('STGO', 'STGO')
-
+    ('STGO', 'STGO'),
 ]
 
-
-u_oM = [
+UOM = [
     ('None', 'N/A'),
     ('CO', 'CO'),
     ('E/A', 'E/A'),
@@ -54,12 +51,16 @@ u_oM = [
     ('MT', 'MT'),
     ('PL', 'PL'),
     ('QT', 'QT'),
-    ('TB', 'TB')
-
+    ('TB', 'TB'),
 ]
 
 ABONA_CANCELA = [
     ('None', 'N/A'),
     ('ABONA', 'ABONA'),
     ('CANCELA', 'CANCELA')
+]
+
+CATEGORIA = [
+    ('SN','Serial Number'),
+    ('BN','Batch Number'),
 ]
