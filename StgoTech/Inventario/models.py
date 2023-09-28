@@ -8,6 +8,12 @@ class Categotia_incoming(models.Model):
     id_categoria = models.AutoField(primary_key=True, unique=True)   
     name_categoria = models.CharField(choices=CATEGORIA_INCOMING , blank=True , null=True, max_length=50)
 
+    class Meta:
+        db_table = "categoria_incoming"
+    
+    def __str__(self):
+        return self.id_categoria
+
 #TABLA ESTADO  
 class Estado(models.Model):
     id_estado = models.AutoField(primary_key=True, unique=True)
@@ -17,7 +23,7 @@ class Estado(models.Model):
         db_table = "estado"
     
     def __str__(self):
-        return str(self.eid_estado)
+        return self.id_estado
     
 #TABLA DESCRIPCIÓN
 class Descripcion(models.Model):
@@ -28,18 +34,18 @@ class Descripcion(models.Model):
         db_table = "descripcion"
     
     def __str__(self):
-        return str(self.eid_descripcion)
+        return self.id_descripcion
 
 #TABLA UBICACION
 class Ubicacion(models.Model):
     id_ubicacion = models.AutoField(primary_key=True, unique= True)
-    ubicacion = models.CharField(blank=True, null=True, max_length=50)
+    ubicacion = models.CharField(choices=UBICACIONES ,blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "ubicacion"
     
     def __str__(self):
-        return str(self.eid_ubicacion)
+        return self.ubicacion
     
 #TABLA USER
 class User(models.Model):
@@ -52,7 +58,7 @@ class User(models.Model):
         db_table = "user"
     
     def __str__(self):
-        return str(self.eid_user)
+        return self.nombre_user
 
 #TABLA UOM
 class Uom(models.Model):
@@ -63,7 +69,7 @@ class Uom(models.Model):
         db_table = "uom"
 
     def __str__(self):
-        return str(self.eid_uom)
+        return self.name_uom
     
 #TABLA OWNER
 class Owner(models.Model):
@@ -74,7 +80,7 @@ class Owner(models.Model):
         db_table = "owner"
     
     def __str__(self):
-        return str(self.eid_owner)
+        return self.name_owner
 
 #TABLA N_FICHA
 class Ficha(models.Model):
@@ -85,7 +91,7 @@ class Ficha(models.Model):
         db_table = "n_ficha"
     
     def __str__(self):
-        return str(self.eid_ficha)
+        return self.name_ficha
 
 #TABLA CONDICION
 class Condicion(models.Model):
@@ -96,7 +102,7 @@ class Condicion(models.Model):
         db_table = "condicion"
     
     def __str__(self):
-        return str(self.eid_condicion)
+        return self.name_condicion
 
 #TABLA CLASIFICACION
 class Clasificacion(models.Model):
@@ -107,18 +113,18 @@ class Clasificacion(models.Model):
         db_table = "clasificacion"
     
     def __str__(self):
-        return str(self.eid_clasificacion)
+        return self.name_clasificacion
 
 #TABLA BODEGA
 class Bodega(models.Model):
-    id_bodega = models.AutoField(primary_key=True, unique=True)
+    id_bodega = models.IntegerField(primary_key=True, unique=True)
     name_bodega = models.CharField(choices=BODEGA , blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "bodega"
 
     def __str__(self):
-        return str(self.eid_bodega)
+        return self.name_bodega
 
 #TABLA ORIGEN
 class Origen(models.Model):
@@ -129,7 +135,7 @@ class Origen(models.Model):
         db_table = "origen"
 
     def __str__(self):
-        return str(self.eid_origen)
+        return self.name_origen
     
 #TABLA OBSERVACION
 class Observacion(models.Model):
@@ -139,12 +145,12 @@ class Observacion(models.Model):
     class Meta:
         db_table = "observacion"
     
-    def __str__(self):
-        return str(self.eid_observacion)
+    def __int__(self):
+        return self.id_observacion
 
 #Tabla Comat 
 class Comat(models.Model):
-    id_stdf = models.AutoField(auto_created=True, primary_key=True, unique=True)
+    id_stdf = models.IntegerField(primary_key=True, unique=True)
     awb = models.CharField(blank=True, null=True, max_length=50)
     hawb = models.CharField(blank=True, null=True, max_length=50)
     num_manifiesto = models.CharField(blank=True, null=True, max_length=50)
@@ -167,12 +173,13 @@ class Comat(models.Model):
     class Meta:
         db_table = 'comat'
 
-    def __str__(self):
-        return str(self.id_stdf)
+    def __int__(self):
+        return self.id_stdf
     
 #Tabla Incoming
 class Incoming(models.Model):
-    id_sn_batch = models.AutoField(auto_created=True, primary_key=True, unique=True)
+    id_sn_batch = models.CharField(primary_key=True, unique=True)
+    part_number = models.CharField(blank=True, null=True, max_length=50)
     f_incoming = models.DateField(blank=True, null=True)
     po = models.CharField(blank=True, null=True, max_length=50)
     qty = models.IntegerField(blank=True, null=True)
@@ -194,9 +201,14 @@ class Incoming(models.Model):
 
     class Meta:
         db_table = 'incoming'
+    
+    def __str__(self):
+        return self.id_sn_batch
+
+
 
 class Consumos(models.Model):
-    id_consumo = models.AutoField(auto_created=True, primary_key=True, unique=True)
+    id_consumo = models.CharField(primary_key=True, unique=True)
     orden_consumo = models.CharField(blank=True, null=True, max_length=50)
     f_transaccion = models.DateField(blank=True, null=True)
     qty_extraida = models.IntegerField(blank=True, null=True)
@@ -210,4 +222,4 @@ class Consumos(models.Model):
         db_table = "consumos"
 
     def __str__(self):
-        return str(self.id_consumos)
+        return self.id_consumos
