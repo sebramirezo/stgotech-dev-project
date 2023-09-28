@@ -3,6 +3,10 @@ from django.core.validators import MinValueValidator
 from .choices import *
 
 # Create your models here.
+#TABLA CATEGORIA INCOMING
+class Categotia_incoming(models.Model):
+    id_categoria = models.AutoField(primary_key=True, unique=True)   
+    name_categoria = models.CharField(choices=CATEGORIA_INCOMING , blank=True , null=True, max_length=50)
 
 #TABLA ESTADO  
 class Estado(models.Model):
@@ -108,7 +112,7 @@ class Clasificacion(models.Model):
 #TABLA BODEGA
 class Bodega(models.Model):
     id_bodega = models.AutoField(primary_key=True, unique=True)
-    name_bodega = models.CharField(blank=True, null=True, max_length=50)
+    name_bodega = models.CharField(choices=BODEGA , blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "bodega"
@@ -119,7 +123,7 @@ class Bodega(models.Model):
 #TABLA ORIGEN
 class Origen(models.Model):
     id_origen = models.AutoField(primary_key=True, unique=True)
-    name_origen = models.CharField(blank=True, null=True, max_length=50)
+    name_origen = models.CharField(choices=ORIGEN,blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "origen"
@@ -156,9 +160,9 @@ class Comat(models.Model):
     seguro = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=2, default="0")
     sum_cif = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=2, default="0")
     #Claves Foraneas
-    id_bodega = models.ForeignKey(Bodega)
-    id_observacion = models.ForeignKey(Observacion)
-    id_origen = models.ForeignKey(Origen)
+    id_bodega = models.ForeignKey(Bodega , on_delete=models.CASCADE)
+    id_observacion = models.ForeignKey(Observacion , on_delete=models.CASCADE)
+    id_origen = models.ForeignKey(Origen, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'comat'
@@ -169,7 +173,6 @@ class Comat(models.Model):
 #Tabla Incoming
 class Incoming(models.Model):
     id_sn_batch = models.AutoField(auto_created=True, primary_key=True, unique=True)
-    categoria = models.CharField(choices=CATEGORIA, max_length=50)
     f_incoming = models.DateField(blank=True, null=True)
     po = models.CharField(blank=True, null=True, max_length=50)
     qty = models.IntegerField(blank=True, null=True)
@@ -178,14 +181,15 @@ class Incoming(models.Model):
     f_vencimiento = models.DateField(blank=True, null=True)
     saldo = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
     #Llaves foraneas
-    id_clasificacion = models.ForeignKey(Clasificacion)
-    id_ubicacion = models.ForeignKey(Ubicacion)
-    id_descripcion = models.ForeignKey(Descripcion)
-    id_uom = models.ForeignKey(Uom)
-    id_owner = models.ForeignKey(Owner)
-    id_condicion = models.ForeignKey(Condicion)
-    id_ficha = models.ForeignKey(Ficha)
-    id_observacion = models.ForeignKey(Observacion)
+    id_categoria = models.ForeignKey(Categotia_incoming, on_delete=models.CASCADE)
+    id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.CASCADE)
+    id_ubicacion = models.ForeignKey(Ubicacion, on_delete=models.CASCADE)
+    id_descripcion = models.ForeignKey(Descripcion, on_delete=models.CASCADE)
+    id_uom = models.ForeignKey(Uom, on_delete=models.CASCADE)
+    id_owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    id_condicion = models.ForeignKey(Condicion, on_delete=models.CASCADE)
+    id_ficha = models.ForeignKey(Ficha, on_delete=models.CASCADE)
+    id_observacion = models.ForeignKey(Observacion, on_delete=models.CASCADE)
     id_stdf = models.ForeignKey(Comat, on_delete=models.CASCADE)
 
     class Meta:
@@ -198,8 +202,8 @@ class Consumos(models.Model):
     qty_extraida = models.IntegerField(blank=True, null=True)
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)
     incoming_id = models.ForeignKey(Incoming, null=True, blank=True, on_delete=models.CASCADE)
-    id_observacion = models.ForeignKey(Observacion)
-    id_estado = models.ForeignKey(Estado)
+    id_observacion = models.ForeignKey(Observacion, on_delete=models.CASCADE)
+    id_estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
 
 
     class Meta:
