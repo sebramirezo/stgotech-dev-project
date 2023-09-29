@@ -64,6 +64,14 @@ class OrigenForm(ModelForm):
 
 class ComatForm(ModelForm):
 
+    id_stdf = forms.IntegerField(label='STDF')
+    awb = forms.CharField(label='AWB')
+    hawb = forms.CharField(label='HAWB')
+    num_manifiesto = forms.CharField(label='N Manifiesto')
+    corr_interno = forms.CharField(label='N Correlativo')
+    pcs = forms.IntegerField(label='Piezas')
+    peso = forms.DecimalField(label='Peso')
+
     f_control = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     f_manifiesto = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     f_recepcion = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
