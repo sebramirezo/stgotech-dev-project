@@ -25,16 +25,6 @@ class Estado(models.Model):
     def __str__(self):
         return self.id_estado
     
-#TABLA DESCRIPCIÓN
-class Descripcion(models.Model):
-    id_descripcion = models.AutoField(primary_key=True, unique=True)
-    name_descripcion = models.CharField(blank=True, null=True, max_length=255)
-
-    class Meta:
-        db_table = "descripcion"
-    
-    def __str__(self):
-        return self.id_descripcion
 
 #TABLA UBICACION
 class Ubicacion(models.Model):
@@ -103,6 +93,7 @@ class Condicion(models.Model):
     
     def __str__(self):
         return self.name_condicion
+    
 
 #TABLA CLASIFICACION
 class Clasificacion(models.Model):
@@ -137,16 +128,6 @@ class Origen(models.Model):
     def __str__(self):
         return self.name_origen
     
-#TABLA OBSERVACION
-class Observacion(models.Model):
-    id_observacion = models.AutoField(primary_key=True, unique=True)
-    observacion = models.CharField(blank=True, null=True, max_length=255)
-
-    class Meta:
-        db_table = "observacion"
-    
-    def __int__(self):
-        return self.id_observacion
 
 #Tabla Comat 
 class Comat(models.Model):
@@ -165,9 +146,9 @@ class Comat(models.Model):
     flete = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=2, default="0")
     seguro = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=2, default="0")
     sum_cif = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=2, default="0")
+    observaciones = models.CharField(blank=True, null=True, max_length=250)
     #Claves Foraneas
     id_bodega = models.ForeignKey(Bodega , on_delete=models.CASCADE)
-    id_observacion = models.ForeignKey(Observacion , on_delete=models.CASCADE)
     id_origen = models.ForeignKey(Origen, on_delete=models.CASCADE)
 
     class Meta:
@@ -181,22 +162,22 @@ class Incoming(models.Model):
     id_sn_batch = models.CharField(primary_key=True, unique=True)
     part_number = models.CharField(blank=True, null=True, max_length=50)
     f_incoming = models.DateField(blank=True, null=True)
+    descripcion = models.CharField(blank=True , null=True, max_length=250)
     po = models.CharField(blank=True, null=True, max_length=50)
     qty = models.IntegerField(blank=True, null=True)
     u_purchase_cost = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
     total_u_purchase_cost = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
     f_vencimiento = models.DateField(blank=True, null=True)
     saldo = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
+    observaciones = models.CharField(blank=True, null=True, max_length=250)
     #Llaves foraneas
     id_categoria = models.ForeignKey(Categotia_incoming, on_delete=models.CASCADE)
     id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.CASCADE)
     id_ubicacion = models.ForeignKey(Ubicacion, on_delete=models.CASCADE)
-    id_descripcion = models.ForeignKey(Descripcion, on_delete=models.CASCADE)
     id_uom = models.ForeignKey(Uom, on_delete=models.CASCADE)
     id_owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
     id_condicion = models.ForeignKey(Condicion, on_delete=models.CASCADE)
     id_ficha = models.ForeignKey(Ficha, on_delete=models.CASCADE)
-    id_observacion = models.ForeignKey(Observacion, on_delete=models.CASCADE)
     id_stdf = models.ForeignKey(Comat, on_delete=models.CASCADE)
 
     class Meta:
@@ -213,8 +194,8 @@ class Consumos(models.Model):
     f_transaccion = models.DateField(blank=True, null=True)
     qty_extraida = models.IntegerField(blank=True, null=True)
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)
+    observaciones = models.CharField(blank=True, null=True, max_length=250)
     incoming_id = models.ForeignKey(Incoming, null=True, blank=True, on_delete=models.CASCADE)
-    id_observacion = models.ForeignKey(Observacion, on_delete=models.CASCADE)
     id_estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
 
 
