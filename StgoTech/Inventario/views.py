@@ -32,7 +32,7 @@ def buscar_productos(request):
     query = request.GET.get('q', '')
 
     # Realiza la búsqueda de productos por id_stdf
-    resultados = Comat.objects.filter(id_stdf=query)
+    resultados = Comat.objects.filter(id_stdf__icontains=query)
 
     return render(request, 'comat.html', {'resultados': resultados, 'query': query})
 
