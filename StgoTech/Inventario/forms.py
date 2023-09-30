@@ -64,6 +64,7 @@ class OrigenForm(ModelForm):
 
 class ComatForm(ModelForm):
 
+
     id_stdf = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa STDF"}),label='STDF')
     awb = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa AWB"}),label='AWB')
     hawb = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa HAWB"}),label='HAWB')
@@ -86,6 +87,14 @@ class ComatForm(ModelForm):
     # id_bodega = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Bodega (FK)')
     # id_origen = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Origen (FK)')
 
+    f_control = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+    f_manifiesto = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+    f_recepcion = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+    f_stdf = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
+    id_bodega = forms.CharField(label='Bodega',required=True)
+    id_origen = forms.CharField(label="Origen")
+
+
     class Meta:
         model = Comat
         fields = "__all__"
@@ -105,7 +114,7 @@ class IncomingForm(ModelForm):
 
     f_incoming = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
     f_vencimiento = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
-
+    
     class Meta:
         model = Incoming
         fields = '__all__'
