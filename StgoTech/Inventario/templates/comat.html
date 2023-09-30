@@ -1,0 +1,25 @@
+{% extends "./base.html" %}
+
+{% block body %}
+<form action="{% url 'buscar_stdf' %}" method="GET">
+    <input type="text" name="q" placeholder="Buscar">
+    <input type="submit" value="Buscar">
+</form>
+{% include 'resultado_busqueda_stdf.html' %}
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="container m-2">
+        <div class="row p-2">
+            <!-- {% for comat in form_comat %} -->
+            <div class="col-6 p-2">
+                <label>{{comat.label}}</label>
+                {{comat}}
+            </div>
+            <!-- {% endfor %} -->
+        </div>
+    </div>
+    <input type="submit" value="Guardar">
+</form>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% block content %}
+  <h1>Resultados de la búsqueda</h1>
+  <p>Resultados para: "{{ query }}"</p>
+
+  <ul>
+    <div class="row p-2">
+      {% for producto in resultados %}
+        <div class="col-6 p-2">
+            <label for="">STDF</label>
+            {{producto.id_stdf}}
+        </div>
+        <div class="col-6 p-2">
+          <label for="">AWB</label>
+          {{producto.awb}}
+        </div>
+        <div class="col-6 p-2">
+          {{producto.hawb}}
+        </div>
+        <div class="col-6 p-2">
+          {{producto.corr_interno}}
+        </div>
+        <div class="col-6 p-2">
+          {{producto.f_stdf}}
+        </div>
+        <div class="col-6 p-2">
+          {{producto.pcs}}
+        </div>
+        {% endfor %}
+  </div>
+{% endblock %}
