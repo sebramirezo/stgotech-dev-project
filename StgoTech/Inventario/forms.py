@@ -68,6 +68,8 @@ class ComatForm(ModelForm):
     f_manifiesto = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     f_recepcion = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     f_stdf = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
+    id_bodega = forms.CharField(label='Bodega',required=True)
+    id_origen = forms.CharField(label="Origen")
 
     class Meta:
         model = Comat
@@ -77,7 +79,7 @@ class IncomingForm(ModelForm):
 
     f_incoming = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
     f_vencimiento = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
-
+    
     class Meta:
         model = Incoming
         fields = '__all__'
