@@ -24,12 +24,12 @@
     {% csrf_token %}
     <div class="container m-2">
         <div class="row p-2">
-            <!-- {% for comat in form_comat %} -->
+            {% for comat in form_comat %}
             <div class="col-6 p-2">
                 <label>{{comat.label}}</label>
                 {{comat}}
             </div>
-            <!-- {% endfor %} -->
+            {% endfor %}
         </div>
     </div>
     <input type="submit" value="Guardar">

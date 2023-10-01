@@ -87,12 +87,6 @@ class ComatForm(ModelForm):
     # id_bodega = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Bodega (FK)')
     # id_origen = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Origen (FK)')
 
-    f_control = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    f_manifiesto = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    f_recepcion = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    f_stdf = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
-    id_bodega = forms.CharField(label='Bodega',required=True)
-    id_origen = forms.CharField(label="Origen")
 
 
     class Meta:
@@ -106,6 +100,7 @@ class ComatForm(ModelForm):
         # self.fields['id_bodega'].widget = forms.Select(attrs={'class': 'form-select'})
 
         self.fields['id_origen'].queryset = Origen.objects.all()
+
         # self.fields['id_origen'].widget = forms.Select(attrs={'class': 'form-select'})
 
 
