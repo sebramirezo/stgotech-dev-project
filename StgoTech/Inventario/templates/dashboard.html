@@ -1,9 +1,73 @@
 {% extends "./base.html" %}
 
 {% block body %}
-
-<div class="dashboard">
-    <h1>Inventario Stgo Tech</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="dashboard">
+                <h1>Dashboard</h1>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="dashboard">
+                <h1>Inventario Stgo Tech</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <h5 class="card-title">Top Productos</h5>
+                            <div class="card-body">
+                                <table id="productos-table" class="display">
+                                    <thead>
+                                        <tr>
+                                            <th>ID STDF</th>
+                                            <th>AWB</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for comat_item in comat_data %}
+                                        <tr>
+                                            <td>{{ comat_item.id_stdf }}</td>
+                                            <td>{{ comat_item.awb }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Bodegas</h5>
+                                <table id="bodegas-table" class="display">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Bodega</th>
+                                            <th>Nombre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for bodega_item in bodega_data %}
+                                        <tr>
+                                            <td>{{ bodega_item.id_bodega }}</td>
+                                            <td>{{ bodega_item.name_bodega }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        $('#productos-table').DataTable();
+        $('#bodegas-table').DataTable();
+    });
+</script>
 {% endblock %}
