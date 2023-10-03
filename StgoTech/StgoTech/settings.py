@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': 'inventario_stgotech', 
         'USER': 'postgres',
         'PASSWORD': '123asdzxc',
-        'HOST': '127.0.0.1', 
+        'HOST': 'localhost', 
         'PORT': '5432',
     }
 }

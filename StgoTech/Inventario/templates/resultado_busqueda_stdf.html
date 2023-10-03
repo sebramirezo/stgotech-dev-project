@@ -1,0 +1,69 @@
+{% extends "./base.html" %}
+
+{% block body %}
+  <h1>Resultados de la búsqueda</h1>
+
+  {% if query %}
+  <p>Resultados para: "{{ query }}"</p>
+
+    <div class="row p-2">
+      {% for producto in resultados %}
+        <div class="col-6 p-2">
+            <label for="">STDF</label>
+            {{producto.id_stdf}}
+        </div>
+        <div class="col-6 p-2">
+          <label for="">AWB</label>
+          {{producto.awb}}
+        </div>
+        <div class="col-6 p-2">
+          <label for="">HAWB</label>
+          {{producto.hawb}}
+        </div>
+        <div class="col-6 p-2">
+          <label for="">Correlativo Interno</label>
+          {{producto.corr_interno}}
+        </div>
+        <div class="col-6 p-2">
+          <label for="">Fecha STDF</label>
+          {{producto.f_stdf}}
+        </div>
+        <div class="col-6 p-2">
+          <label for="">Piezas</label>
+          {{producto.pcs}}
+        </div>
+        {% endfor %}
+  </div>
+  {% else %}
+  <p>Resultados para: "{{ query_awb }}"</p>
+
+  <div class="row p-2">
+    {% for producto in resultados_awb %}
+      <div class="col-6 p-2">
+          <label for="">STDF</label>
+          {{producto.id_stdf}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">AWB</label>
+        {{producto.awb}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">AWB</label>
+        {{producto.hawb}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">Correlativo Interno</label>
+        {{producto.corr_interno}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">Fecha STDF</label>
+        {{producto.f_stdf}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">Piezas</label>
+        {{producto.pcs}}
+      </div>
+      {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
