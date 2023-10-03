@@ -1,3 +1,5 @@
+#from django.contrib.admin.widgets import AutocompleteSelect
+#from django.contrib import admin
 from django.forms import ModelForm
 from .models import *
 from django import forms
@@ -63,8 +65,6 @@ class OrigenForm(ModelForm):
         fields = '__all__'
 
 class ComatForm(ModelForm):
-
-
     id_stdf = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa STDF"}),label='STDF')
     awb = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa AWB"}),label='AWB')
     hawb = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa HAWB"}),label='HAWB')
@@ -83,22 +83,23 @@ class ComatForm(ModelForm):
     seguro = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Seguro"}),label='Seguro')
     sum_cif = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el CIF (Podría calcularse auto)"}),label='Suma CIF')
     observaciones = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control", "placeholder": "Ingresa la observación"}),label='Observaciones')
-
-    # id_bodega = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Bodega (FK)')
-    # id_origen = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Origen (FK)')
-
+    #id_bodega = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Bodega (FK)')
+    #id_origen = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Origen (FK)')
     f_control = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     f_manifiesto = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     f_recepcion = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     f_stdf = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
-    id_bodega = forms.CharField(label='Bodega',required=True)
+    id_bodega = forms.CharField(label="Bodega")
     id_origen = forms.CharField(label="Origen")
-
-
+    
+    
     class Meta:
         model = Comat
         fields = "__all__"
+        #widget = AutocompleteSelect(Comat._meta.get_field('id_bodega').remote_field,admin.site,attrs={'placeholder': 'seleccionar...'},)
 
+
+        
     def __init__(self, *args, **kwargs):
         super(ComatForm, self).__init__(*args, **kwargs)
         
