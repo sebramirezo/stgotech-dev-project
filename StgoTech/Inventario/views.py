@@ -9,7 +9,7 @@ def index(request):
 
 #VISTA COMAT
 def comat(request):
-    # get_form_comat = Comat.objects.all()
+    get_form_comat = Comat.objects.all()
 
     form_comat = ComatForm()
 
@@ -23,7 +23,8 @@ def comat(request):
         form_comat = ComatForm()
 
     context = {
-        'form_comat':form_comat
+        'form_comat':form_comat,
+        'get_form_comat':get_form_comat,
     }
     return render(request, 'comat.html', context)
 
