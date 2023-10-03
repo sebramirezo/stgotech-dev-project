@@ -31,10 +31,13 @@ def buscar_productos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query = request.GET.get('q', '')
 
+    query_awb = request.GET.get('w', '')
+
     # Realiza la búsqueda de productos por id_stdf
     resultados = Comat.objects.filter(id_stdf__icontains=query)
+    resultados_awb = Comat.objects.filter(awb__icontains=query_awb)
 
-    return render(request, 'comat.html', {'resultados': resultados, 'query': query})
+    return render(request, 'resultado_busqueda_stdf.html', {'resultados': resultados, 'resultados_awb': resultados_awb, 'query': query, 'query_awb': query_awb})
 
 #VISTA DASHBOARD
 def dashboard(request):
