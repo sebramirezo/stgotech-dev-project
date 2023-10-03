@@ -9,7 +9,7 @@ def index(request):
 
 #VISTA COMAT
 def comat(request):
-    # get_form_comat = Comat.objects.all()
+    get_form_comat = Comat.objects.all()
 
     form_comat = ComatForm()
 
@@ -23,9 +23,32 @@ def comat(request):
         form_comat = ComatForm()
 
     context = {
-        'form_comat':form_comat
+        'form_comat':form_comat,
+        'get_form_comat':get_form_comat,
     }
     return render(request, 'comat.html', context)
+
+
+#VISTA COMAT
+def incoming(request):
+    # get_form_incoming = Incoming.objects.all()
+
+    form_incoming = IncomingForm()
+
+    if request.method == 'POST':
+        form_incoming = IncomingForm(request.POST)
+        if form_incoming.is_valid():
+            form_incoming.save()
+            return redirect('/incoming')
+    
+    else:
+        form_comat = ComatForm()
+
+    context = {
+        'form_incoming':form_incoming,
+    }
+    return render(request, 'incoming.html', context)
+
 
 def buscar_productos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
@@ -38,6 +61,18 @@ def buscar_productos(request):
     resultados_awb = Comat.objects.filter(awb__icontains=query_awb)
 
     return render(request, 'resultado_busqueda_stdf.html', {'resultados': resultados, 'resultados_awb': resultados_awb, 'query': query, 'query_awb': query_awb})
+
+def buscar_productos_incoming(request):
+    # Obtiene el término de búsqueda del usuario desde la URL
+    query_part = request.GET.get('r', '')
+
+    query_inc = request.GET.get('e', '')
+
+    # Realiza la búsqueda de productos por id_stdf
+    resultados_part = Incoming.objects.filter(part_number__icontains=query_part)
+    # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
+
+    return render(request, 'resultado_busqueda_incoming.html', { 'resultados_part': resultados_part, 'query_inc': query_inc, 'query_part': query_part})
 
 #VISTA DASHBOARD
 def dashboard(request):
