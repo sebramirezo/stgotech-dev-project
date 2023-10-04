@@ -23,7 +23,7 @@ class Estado(models.Model):
         db_table = "estado"
     
     def __str__(self):
-        return self.id_estado
+        return self.estado
     
 
 #TABLA UBICACION

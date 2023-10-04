@@ -29,7 +29,7 @@ def comat(request):
     return render(request, 'comat.html', context)
 
 
-#VISTA COMAT
+#VISTA Incoming
 def incoming(request):
     # get_form_incoming = Incoming.objects.all()
 
@@ -48,6 +48,26 @@ def incoming(request):
         'form_incoming':form_incoming,
     }
     return render(request, 'incoming.html', context)
+
+#VISTA Consumo
+def consumos(request):
+    # get_form_consumos = Consumo.objects.all()
+
+    form_consumos = ConsumosForm()
+
+    if request.method == 'POST':
+        form_consumos = ConsumosForm(request.POST)
+        if form_consumos.is_valid():
+            form_consumos.save()
+            return redirect('/consumos')
+    
+    else:
+        form_consumos = ConsumosForm()
+
+    context = {
+        'form_consumos':form_consumos,
+    }
+    return render(request, 'consumos.html', context)
 
 
 def buscar_productos(request):
@@ -73,6 +93,18 @@ def buscar_productos_incoming(request):
     # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
 
     return render(request, 'resultado_busqueda_incoming.html', { 'resultados_part': resultados_part, 'query_inc': query_inc, 'query_part': query_part})
+
+def buscar_productos_consumos(request):
+    # Obtiene el término de búsqueda del usuario desde la URL
+    query_sn = request.GET.get('t', '')
+
+    query_bn = request.GET.get('y', '')
+
+    # Realiza la búsqueda de productos por id_stdf
+    resultados_sn = Consumos.objects.filter(incoming_id=query_sn)
+    # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
+
+    return render(request, 'resultado_busqueda_consumos.html', { 'resultados_sn': resultados_sn, 'query_bn': query_bn, 'query_sn': query_sn})
 
 #VISTA DASHBOARD
 def dashboard(request):
