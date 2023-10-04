@@ -12,7 +12,7 @@ class Categotia_incoming(models.Model):
         db_table = "categoria_incoming"
     
     def __str__(self):
-        return self.id_categoria
+        return self.name_categoria
 
 #TABLA ESTADO  
 class Estado(models.Model):
@@ -23,7 +23,7 @@ class Estado(models.Model):
         db_table = "estado"
     
     def __str__(self):
-        return self.id_estado
+        return self.estado
     
 
 #TABLA UBICACION

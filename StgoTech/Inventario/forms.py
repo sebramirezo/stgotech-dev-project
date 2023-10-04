@@ -87,12 +87,6 @@ class ComatForm(ModelForm):
     # id_bodega = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Bodega (FK)')
     # id_origen = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Origen (FK)')
 
-    f_control = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    f_manifiesto = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    f_recepcion = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    f_stdf = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
-    id_bodega = forms.CharField(label='Bodega',required=True)
-    id_origen = forms.CharField(label="Origen")
 
 
     class Meta:
@@ -106,14 +100,25 @@ class ComatForm(ModelForm):
         # self.fields['id_bodega'].widget = forms.Select(attrs={'class': 'form-select'})
 
         self.fields['id_origen'].queryset = Origen.objects.all()
+
         # self.fields['id_origen'].widget = forms.Select(attrs={'class': 'form-select'})
 
 
 
 class IncomingForm(ModelForm):
 
-    f_incoming = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
-    f_vencimiento = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
+    id_sn_batch = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Serial Number"}),label='Serial Number')
+    part_number = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Part Number"}),label='Part Number')
+    f_incoming = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Ingreso Incoming')
+    po = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa AWB"}),label='Producto Order')
+    qty = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad"}),label='Quantity')
+    u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Unit Purchase Cost"}),label='Unit Purchase Cost')
+    total_u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Total Unit Purchase Cost"}),label='Total Unit Purchase Cost')
+    f_vencimiento = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Vencimiento')
+    saldo = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Stock"}),label='Saldo')
+    descripcion = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control", "placeholder": "Ingresa Descripción"}),label='Descripción')
+    observaciones = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones')
+
     
     class Meta:
         model = Incoming
@@ -121,8 +126,16 @@ class IncomingForm(ModelForm):
 
 class ConsumosForm(ModelForm):
 
-    f_transaccion = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'date'}))
 
+    id_consumo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa ID Consumo"}),label='Serial Number')
+    orden_consumo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Orden de Consumo"}),label='Orden de Consumo')
+    qty_extraida = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad Extraida"}),label='Cantidad Extraida')
+    matricula_aeronave = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Matricula"}),label='Matricula Aeronave')
+    observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones')
+    f_transaccion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control",'type': 'date'}), required=False, label='Fecha de Transacción')
+
+    # incoming_id = forms.CharField(widget=forms.ChoiceField(attrs={"class":"form-control"}),label='Serial Number')
+    # id_estado = forms.CharField(widget=forms.ChoiceField(attrs={"class":"form-control"}),label='Estado')
     class Meta:
         model = Consumos
         fields = '__all__'
