@@ -33,7 +33,7 @@ def comat(request):
 
 #VISTA Incoming
 def incoming(request):
-    # get_form_incoming = Incoming.objects.all()
+    get_form_incoming = Incoming.objects.all()
 
     form_incoming = IncomingForm()
 
@@ -44,10 +44,11 @@ def incoming(request):
             return redirect('/incoming')
     
     else:
-        form_comat = ComatForm()
+        form_incoming = IncomingForm()
 
     context = {
         'form_incoming':form_incoming,
+        'get_form_incoming':get_form_incoming, 
     }
     return render(request, 'incoming.html', context)
 
