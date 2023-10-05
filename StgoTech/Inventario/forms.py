@@ -115,7 +115,7 @@ class ComatForm(ModelForm):
 
 
         self.fields['origen_fk'].queryset = Origen.objects.all()
-        self.fields['id_origen'].queryset = Origen.objects.all()
+        #self.fields['id_origen'].queryset = Origen.objects.all()
 
 
         # self.fields['id_origen'].widget = forms.Select(attrs={'class': 'form-select'})
@@ -124,7 +124,7 @@ class ComatForm(ModelForm):
 
 class IncomingForm(ModelForm):
 
-    id_sn_batch = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Serial Number"}),label='Serial Number')
+    sn_batch_pk = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Serial Number"}),label='Serial Number')
     part_number = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Part Number"}),label='Part Number')
     f_incoming = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Ingreso Incoming')
     po = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa AWB"}),label='Producto Order')

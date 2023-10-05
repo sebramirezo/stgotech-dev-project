@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from .forms import *
+from django.db.models import Q
+
 
 # Create your views here.
 
@@ -74,25 +76,32 @@ def buscar_productos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query = request.GET.get('q', '')
 
-    query_awb = request.GET.get('w', '')
+    # Realiza la búsqueda de productos por id_stdf o awb
+    resultados = Comat.objects.filter(
+        Q(stdf_pk__icontains=query) | Q(awb__icontains=query)| Q(hawb__icontains=query)
+    )
 
-    # Realiza la búsqueda de productos por id_stdf
-    resultados = Comat.objects.filter(id_stdf__icontains=query)
-    resultados_awb = Comat.objects.filter(awb__icontains=query_awb)
+    return render(request, 'resultado_busqueda_stdf.html', {'resultados': resultados, 'query':query})
+    #resultados = Comat.objects.filter(id_stdf__icontains=query)
+    #resultados_awb = Comat.objects.filter(awb__icontains=query_awb)
 
-    return render(request, 'resultado_busqueda_stdf.html', {'resultados': resultados, 'resultados_awb': resultados_awb, 'query': query, 'query_awb': query_awb})
+    
+    #'resultados_awb': resultados_awb, 'query': query, 'query_awb': query_awb
 
 def buscar_productos_incoming(request):
     # Obtiene el término de búsqueda del usuario desde la URL
-    query_part = request.GET.get('r', '')
+    query_inco = request.GET.get('r', '')
 
-    query_inc = request.GET.get('e', '')
+    resultados_inco = Incoming.objects.filter(
+        Q(part_number__icontains = query_inco) 
+
+    )
 
     # Realiza la búsqueda de productos por id_stdf
-    resultados_part = Incoming.objects.filter(part_number__icontains=query_part)
+    #resultados_part = Incoming.objects.filter(part_number__icontains=query_part)
     # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
 
-    return render(request, 'resultado_busqueda_incoming.html', { 'resultados_part': resultados_part, 'query_inc': query_inc, 'query_part': query_part})
+    return render(request, 'resultado_busqueda_incoming.html', { 'resultados_inco': resultados_inco, 'query_inc': query_inco})
 
 def buscar_productos_consumos(request):
     # Obtiene el término de búsqueda del usuario desde la URL

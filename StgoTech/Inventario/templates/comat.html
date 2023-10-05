@@ -4,19 +4,13 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h1>Buscador STDF</h1>
+            <h1>Buscador </h1>
             <form action="{% url 'buscar_stdf' %}" method="GET">
-                <input class="form-control" type="text" name="q" placeholder="Ingrese STDF">
+                <input class="form-control" type="text" name="q" placeholder="Ingrese STDF O AWB">
                 <input class="btn btn-primary m-2" type="submit" value="Buscar">
             </form>
         </div>
-        <div class="col-6">
-            <h1>Buscador AWB</h1>
-            <form action="{% url 'buscar_stdf' %}" method="GET">
-                <input class="form-control" type="text" name="w" placeholder="Ingrese AWB">
-                <input class="btn btn-primary m-2" type="submit" value="Buscar">
-            </form>
-        </div>
+        
     </div>
 </div>
 <!-- {% include 'mostrar_comat.html' %} -->
