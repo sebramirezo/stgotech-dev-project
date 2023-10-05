@@ -12,6 +12,7 @@ class Categotia_incoming(models.Model):
         db_table = "categoria_incoming"
     
     def __str__(self):
+
         return self.categoria_pk
 
 #TABLA ESTADO  

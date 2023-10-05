@@ -4,16 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h1>Buscador STDF</h1>
-            <form action="{% url 'buscar_stdf' %}" method="GET">
-                <input class="form-control" type="text" name="q" placeholder="Ingrese STDF">
+            <h1>Buscador Serial Number</h1>
+            <form action="{% url 'buscar_productos_consumos' %}" method="GET">
+                <input class="form-control" type="text" name="t" placeholder="Ingrese Serial Number">
                 <input class="btn btn-primary m-2" type="submit" value="Buscar">
             </form>
         </div>
         <div class="col-6">
-            <h1>Buscador AWB</h1>
-            <form action="{% url 'buscar_stdf' %}" method="GET">
-                <input class="form-control" type="text" name="w" placeholder="Ingrese AWB">
+            <h1>Buscador Batch Number</h1>
+            <form action="{% url 'buscar_productos_consumos' %}" method="GET">
+                <input class="form-control" type="text" name="y" placeholder="Ingrese Batch Number">
                 <input class="btn btn-primary m-2" type="submit" value="Buscar">
             </form>
         </div>
@@ -22,27 +22,19 @@
 <!-- {% include 'mostrar_comat.html' %} -->
 <hr> 
 <div class="container m-2">
-    <h1>Formulario de Ingreso a Deposito Franco</h1>
+    <h1>Formulario de Consumos</h1>
     <form action="" method="post">
         {% csrf_token %}
         <div class="row p-2">
-            {% for comat in form_comat %}
+            {% for consumo in form_consumos %}
             <div class="col-6 p-2">
-                <label>{{comat.label}}</label>
-                {{comat}}
+                <label>{{consumo.label}}</label>
+                {{consumo}}
             </div>
             {% endfor %}
         </div>
-
-    </div>
-    <input type="submit" value="Guardar">
-</form>
-
-
-
         <input class="btn btn-primary m-2" type="submit" value="Guardar">
     </form>
 </div>
     
-
 {% endblock %}

@@ -3,8 +3,6 @@ from .models import *
 
 
 
-
-
 # Register your models here.
 admin.site.register(Estado)
 admin.site.register(Ubicacion)
