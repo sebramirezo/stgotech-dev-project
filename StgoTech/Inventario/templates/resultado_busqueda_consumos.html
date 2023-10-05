@@ -10,11 +10,11 @@
       {% for producto in resultados_sn %}
         <div class="col-6 p-2">
             <label for="">SN (Incoming ID)</label>
-            {{producto.id_sn_batch}}
+            {{producto.incoming_fk}}
         </div>
         <div class="col-6 p-2">
             <label for="">ID Consumo</label>
-            {{producto.id_consumo}}
+            {{producto.consumo_pk}}
         </div>
         <div class="col-6 p-2">
           <label for="">Fecha Transacción</label>
@@ -34,7 +34,7 @@
         </div>
         <div class="col-6 p-2">
           <label for="">ID Estado</label>
-          {{producto.id_estado}}
+          {{producto.estado_fk}}
         </div>
         {% endfor %}
   </div>
@@ -45,11 +45,11 @@
     {% for producto in resultados_part %}
     <div class="col-6 p-2">
         <label for="">SN (Incoming ID)</label>
-        {{producto.id_sn_batch}}
+        {{producto.incoming_fk}}
     </div>
     <div class="col-6 p-2">
         <label for="">ID Consumo</label>
-        {{producto.id_consumo}}
+        {{producto.consumo_pk}}
     </div>
     <div class="col-6 p-2">
       <label for="">Fecha Transacción</label>
@@ -69,7 +69,7 @@
     </div>
     <div class="col-6 p-2">
       <label for="">ID Estado</label>
-      {{producto.id_estado}}
+      {{producto.estado_fk}}
     </div>
       {% endfor %}
 </div>

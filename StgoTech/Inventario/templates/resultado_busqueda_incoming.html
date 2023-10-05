@@ -10,7 +10,7 @@
       {% for producto in resultados_inc %}
         <div class="col-6 p-2">
             <label for="">SN</label>
-            {{producto.id_sn_batch}}
+            {{producto.sn_batch_pk}}
         </div>
         <div class="col-6 p-2">
             <label for="">Part Number</label>
@@ -26,15 +26,15 @@
         </div>
         <div class="col-6 p-2">
           <label for="">Owner</label>
-          {{producto.id_owner}}
+          {{producto.owner_fk}}
         </div>
         <div class="col-6 p-2">
           <label for="">UOM</label>
-          {{producto.id_uom}}
+          {{producto.uom_fk}}
         </div>
         <div class="col-6 p-2">
           <label for="">Ubicación</label>
-          {{producto.id_ubicacion}}
+          {{producto.ubicacion_fk}}
         </div>
         {% endfor %}
   </div>
@@ -45,7 +45,7 @@
     {% for producto in resultados_part %}
     <div class="col-6 p-2">
         <label for="">SN</label>
-        {{producto.id_sn_batch}}
+        {{producto.sn_batch_pk}}
     </div>
     <div class="col-6 p-2">
         <label for="">Part Number</label>
@@ -61,15 +61,15 @@
     </div>
     <div class="col-6 p-2">
       <label for="">Owner</label>
-        {{producto.id_owner}}
+        {{producto.owner_fk}}
     </div>
     <div class="col-6 p-2">
       <label for="">UOM</label>
-        {{producto.id_uom}}
+        {{producto.uom_fk}}
     </div>
     <div class="col-6 p-2">
       <label for="">Ubicación</label>
-        {{producto.id_ubicacion}}
+        {{producto.ubicacion_fk}}
     </div>
       {% endfor %}
 </div>

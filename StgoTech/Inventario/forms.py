@@ -115,7 +115,7 @@ class ComatForm(ModelForm):
 
 
         self.fields['origen_fk'].queryset = Origen.objects.all()
-        self.fields['id_origen'].queryset = Origen.objects.all()
+        #self.fields['id_origen'].queryset = Origen.objects.all()
 
 
         # self.fields['id_origen'].widget = forms.Select(attrs={'class': 'form-select'})

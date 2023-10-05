@@ -10,7 +10,7 @@
       {% for producto in resultados %}
         <div class="col-6 p-2">
             <label for="">STDF</label>
-            {{producto.id_stdf}}
+            {{producto.stdf_pk}}
         </div>
         <div class="col-6 p-2">
           <label for="">AWB</label>
@@ -41,7 +41,7 @@
     {% for producto in resultados_awb %}
       <div class="col-6 p-2">
           <label for="">STDF</label>
-          {{producto.id_stdf}}
+          {{producto.stdf_pk}}
       </div>
       <div class="col-6 p-2">
         <label for="">AWB</label>
