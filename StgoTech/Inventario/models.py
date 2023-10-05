@@ -5,18 +5,19 @@ from .choices import *
 # Create your models here.
 #TABLA CATEGORIA INCOMING
 class Categotia_incoming(models.Model):
-    id_categoria = models.AutoField(primary_key=True, unique=True)   
+    categoria_pk = models.AutoField(primary_key=True, unique=True)   
     name_categoria = models.CharField(choices=CATEGORIA_INCOMING , blank=True , null=True, max_length=50)
 
     class Meta:
         db_table = "categoria_incoming"
     
     def __str__(self):
-        return self.name_categoria
+
+        return self.categoria_pk
 
 #TABLA ESTADO  
 class Estado(models.Model):
-    id_estado = models.AutoField(primary_key=True, unique=True)
+    estado_pk = models.AutoField(primary_key=True, unique=True)
     estado = models.CharField(choices=ABONA_CANCELA, blank=True, null=True, max_length=50)
 
     class Meta:
@@ -28,18 +29,18 @@ class Estado(models.Model):
 
 #TABLA UBICACION
 class Ubicacion(models.Model):
-    id_ubicacion = models.AutoField(primary_key=True, unique= True)
-    ubicacion = models.CharField(choices=UBICACIONES ,blank=True, null=True, max_length=50)
+    ubicacion_pk = models.AutoField(primary_key=True, unique= True)
+    name_ubicacion = models.CharField(choices=UBICACIONES ,blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "ubicacion"
     
     def __str__(self):
-        return self.ubicacion
+        return self.name_ubicacion
     
 #TABLA USER
 class User(models.Model):
-    id_user = models.AutoField(primary_key=True, unique=True)
+    user_pk = models.AutoField(primary_key=True, unique=True)
     nombre_user = models.CharField(blank=True, null=True, max_length=50)
     correo_user =  models.CharField(blank=True, null=True, max_length=50)
     n_telefono = models.IntegerField(blank=True, null=True)
@@ -52,7 +53,7 @@ class User(models.Model):
 
 #TABLA UOM
 class Uom(models.Model):
-    id_uom = models.AutoField(primary_key=True, unique=True)
+    uom_pk = models.AutoField(primary_key=True, unique=True)
     name_uom = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
@@ -63,7 +64,7 @@ class Uom(models.Model):
     
 #TABLA OWNER
 class Owner(models.Model):
-    id_owner = models.AutoField(primary_key=True, unique=True)
+    owner_pk = models.AutoField(primary_key=True, unique=True)
     name_owner = models.CharField(choices=OWNER, blank=True, null=True, max_length=50)
 
     class Meta:
@@ -74,7 +75,7 @@ class Owner(models.Model):
 
 #TABLA N_FICHA
 class Ficha(models.Model):
-    id_ficha = models.AutoField(primary_key=True, unique=True)
+    ficha_pk = models.AutoField(primary_key=True, unique=True)
     name_ficha = models.CharField(choices=N_FICHA, blank=True, null=True, max_length=50)
 
     class Meta:
@@ -85,7 +86,7 @@ class Ficha(models.Model):
 
 #TABLA CONDICION
 class Condicion(models.Model):
-    id_condicion = models.AutoField(primary_key=True, unique=True)
+    condicion_pk = models.AutoField(primary_key=True, unique=True)
     name_condicion = models.CharField(choices=CONDITION, blank=True, null=True, max_length=50)
 
     class Meta:
@@ -97,7 +98,7 @@ class Condicion(models.Model):
 
 #TABLA CLASIFICACION
 class Clasificacion(models.Model):
-    id_clasificacion = models.AutoField(primary_key=True, unique=True)
+    clasificacion_pk = models.AutoField(primary_key=True, unique=True)
     name_clasificacion = models.CharField(choices=CLASIF_CONSUMO, blank=True, null=True, max_length=50)
 
     class Meta:
@@ -108,7 +109,7 @@ class Clasificacion(models.Model):
 
 #TABLA BODEGA
 class Bodega(models.Model):
-    id_bodega = models.IntegerField(primary_key=True, unique=True)
+    bodega_pk = models.IntegerField(primary_key=True, unique=True)
     name_bodega = models.CharField(choices=BODEGA , blank=True, null=True, max_length=50)
 
     class Meta:
@@ -119,7 +120,7 @@ class Bodega(models.Model):
 
 #TABLA ORIGEN
 class Origen(models.Model):
-    id_origen = models.AutoField(primary_key=True, unique=True)
+    origen_pk = models.AutoField(primary_key=True, unique=True)
     name_origen = models.CharField(choices=ORIGEN,blank=True, null=True, max_length=50)
 
     class Meta:
@@ -129,9 +130,10 @@ class Origen(models.Model):
         return self.name_origen
     
 
+
 #Tabla Comat 
 class Comat(models.Model):
-    id_stdf = models.IntegerField(primary_key=True, unique=True)
+    stdf_pk = models.IntegerField(primary_key=True, unique=True)
     awb = models.CharField(blank=True, null=True, max_length=50)
     hawb = models.CharField(blank=True, null=True, max_length=50)
     num_manifiesto = models.CharField(blank=True, null=True, max_length=50)
@@ -148,18 +150,18 @@ class Comat(models.Model):
     sum_cif = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=2, default="0")
     observaciones = models.CharField(blank=True, null=True, max_length=250)
     #Claves Foraneas
-    id_bodega = models.ForeignKey(Bodega , on_delete=models.CASCADE)
-    id_origen = models.ForeignKey(Origen, on_delete=models.CASCADE)
+    bodega_fk = models.ForeignKey(Bodega , on_delete=models.CASCADE)
+    origen_fk = models.ForeignKey(Origen, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'comat'
 
     def __int__(self):
-        return self.id_stdf
+        return self.stdf
     
 #Tabla Incoming
 class Incoming(models.Model):
-    id_sn_batch = models.CharField(primary_key=True, unique=True)
+    sn_batch_pk = models.CharField(primary_key=True, unique=True)
     part_number = models.CharField(blank=True, null=True, max_length=50)
     f_incoming = models.DateField(blank=True, null=True)
     descripcion = models.CharField(blank=True , null=True, max_length=250)
@@ -171,36 +173,36 @@ class Incoming(models.Model):
     saldo = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
     observaciones = models.CharField(blank=True, null=True, max_length=250)
     #Llaves foraneas
-    id_categoria = models.ForeignKey(Categotia_incoming, on_delete=models.CASCADE)
-    id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.CASCADE)
-    id_ubicacion = models.ForeignKey(Ubicacion, on_delete=models.CASCADE)
-    id_uom = models.ForeignKey(Uom, on_delete=models.CASCADE)
-    id_owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-    id_condicion = models.ForeignKey(Condicion, on_delete=models.CASCADE)
-    id_ficha = models.ForeignKey(Ficha, on_delete=models.CASCADE)
-    id_stdf = models.ForeignKey(Comat, on_delete=models.CASCADE)
+    categoria_fk = models.ForeignKey(Categotia_incoming, on_delete=models.CASCADE)
+    clasificacion_fk = models.ForeignKey(Clasificacion, on_delete=models.CASCADE)
+    ubicacion_fk = models.ForeignKey(Ubicacion, on_delete=models.CASCADE)
+    uom_fk = models.ForeignKey(Uom, on_delete=models.CASCADE)
+    owner_fk = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    condicion_fk = models.ForeignKey(Condicion, on_delete=models.CASCADE)
+    ficha_fk = models.ForeignKey(Ficha, on_delete=models.CASCADE)
+    stdf_fk = models.ForeignKey(Comat, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'incoming'
     
     def __str__(self):
-        return self.id_sn_batch
+        return self.sn_batch
 
 
 
 class Consumos(models.Model):
-    id_consumo = models.CharField(primary_key=True, unique=True)
+    consumo_pk = models.CharField(primary_key=True, unique=True)
     orden_consumo = models.CharField(blank=True, null=True, max_length=50)
     f_transaccion = models.DateField(blank=True, null=True)
     qty_extraida = models.IntegerField(blank=True, null=True)
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)
     observaciones = models.CharField(blank=True, null=True, max_length=250)
-    incoming_id = models.ForeignKey(Incoming, null=True, blank=True, on_delete=models.CASCADE)
-    id_estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
+    incoming_fk = models.ForeignKey(Incoming, null=True, blank=True, on_delete=models.CASCADE)
+    estado_fk = models.ForeignKey(Estado, on_delete=models.CASCADE)
 
 
     class Meta:
         db_table = "consumos"
 
     def __str__(self):
-        return self.id_consumos
+        return self.consumos_pk
