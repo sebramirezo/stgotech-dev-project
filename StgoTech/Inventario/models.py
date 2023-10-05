@@ -13,7 +13,7 @@ class Categotia_incoming(models.Model):
     
     def __str__(self):
 
-        return self.categoria_pk
+        return self.name_categoria
 
 #TABLA ESTADO  
 class Estado(models.Model):
@@ -54,7 +54,7 @@ class User(models.Model):
 #TABLA UOM
 class Uom(models.Model):
     uom_pk = models.AutoField(primary_key=True, unique=True)
-    name_uom = models.CharField(blank=True, null=True, max_length=50)
+    name_uom = models.CharField(choices=UOM , blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "uom"
@@ -186,7 +186,7 @@ class Incoming(models.Model):
         db_table = 'incoming'
     
     def __str__(self):
-        return self.sn_batch
+        return self.sn_batch_pk
 
 
 
