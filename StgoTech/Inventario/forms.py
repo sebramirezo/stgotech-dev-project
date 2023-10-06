@@ -119,18 +119,34 @@ class IncomingForm(ModelForm):
     u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Unit Purchase Cost"}),label='Unit Purchase Cost')
     total_u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Total Unit Purchase Cost"}),label='Total Unit Purchase Cost')
     f_vencimiento = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Vencimiento')
-    saldo = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Stock"}),label='Saldo')
-    descripcion = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control", "placeholder": "Ingresa Descripción"}),label='Descripción')
+    descripcion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Descripción"}),label='Descripción')
     observaciones = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones')
 
     
     class Meta:
         model = Incoming
-        fields = '__all__'
-
+        fields = [
+        'sn_batch_pk',
+        'part_number',
+        'f_incoming',
+        'po',
+        'qty',
+        'u_purchase_cost',
+        'total_u_purchase_cost',
+        'f_vencimiento',
+        'descripcion',
+        'categoria_fk',
+        'clasificacion_fk', 
+        'ubicacion_fk', 
+        'uom_fk' , 
+        'owner_fk' , 
+        'condicion_fk', 
+        'ficha_fk' , 
+        'stdf_fk',
+        'observaciones',
+    ]
 class ConsumosForm(ModelForm):
 
-    consumo_pk = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa ID Consumo"}),label='Serial Number')
     orden_consumo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Orden de Consumo"}),label='Orden de Consumo')
     qty_extraida = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad Extraida"}),label='Cantidad Extraida')
     matricula_aeronave = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Matricula"}),label='Matricula Aeronave')
