@@ -27,6 +27,30 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
       $(document).ready(function () {
+          var dataTable = $('#tabla-incoming').DataTable({
+              "processing": true,
+              "serverSide": true,
+              "ajax": {
+                  "url": "{% url 'obtener_datos_incoming' %}",
+                  "type": "GET", 
+                  "data": function (d) {
+                      d.e = '{{ query_inco }}';}
+                    
+              },
+              "columns": [
+                  // Define las columnas que deseas mostrar
+                  { "data": "sn_batch_pk" },
+                  { "data": "categoria_fk" },
+                  { "data": "part_number" },
+                  { "data": "qty" },
+                  { "data": "f_vencimiento" },
+                  { "data": "saldo" },
+              ]
+          });
+      });
+
+
+      $(document).ready(function () {
           var dataTable = $('#tabla-comat').DataTable({
               "processing": true,
               "serverSide": true,
@@ -59,8 +83,6 @@
             $('#id_ficha_fk').select2();
             $('#id_stdf_fk').select2();
             $('#id_incoming_fk').select2();
-            
-        
           
         });
 
