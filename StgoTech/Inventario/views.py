@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from .forms import *
 from django.db.models import Q , F
+from django.http.response import JsonResponse
+from django.core import serializers
 
 
 # Create your views here.
@@ -12,7 +14,7 @@ def index(request):
 #VISTA COMAT
 def comat(request):
     get_form_comat = Comat.objects.all()
-
+    total_cif = 0
     if request.method == 'POST':
         form_comat = ComatForm(request.POST)
         if form_comat.is_valid():
@@ -20,9 +22,10 @@ def comat(request):
             comat = form_comat.save(commit=False)
             
             # Realiza la suma de fob, flete y seguro
-            comat.sum_cif = comat.fob + comat.flete + comat.seguro
+            total_cif= comat.fob + comat.flete + comat.seguro
             
             # Guarda el objeto Comat con la cif actualizada
+            comat.sum_cif = total_cif
             comat.save()
             
             return redirect('/comat')
@@ -34,6 +37,34 @@ def comat(request):
         'get_form_comat':get_form_comat,
     }
     return render(request, 'comat.html', context)
+
+
+
+
+
+def obtener_datos_comat(request):
+    # Obtén los parámetros enviados por DataTables
+    draw = int(request.GET.get('draw', 0))
+    start = int(request.GET.get('start', 0))
+    length = int(request.GET.get('length', 10))  # Número de registros por página
+
+    # Realiza la consulta teniendo en cuenta la paginación
+    comat_data = Comat.objects.all()[start:start + length]
+
+    # Formatea los datos en un formato compatible con DataTables
+    data = []
+    for comat in comat_data:
+        data.append({
+            "stdf_pk": comat.stdf_pk,
+            "awb": comat.awb,
+        })
+
+    return JsonResponse({
+        "data": data,
+        "draw": draw,
+        "recordsTotal": Comat.objects.count(),  # Total de registros sin filtrar
+        "recordsFiltered": Comat.objects.count(),  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
+    })
 
 
 #VISTA Incoming
@@ -127,15 +158,84 @@ def buscar_productos_consumos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_consu = request.GET.get('t', '')
 
+    return render(request, 'resultado_busqueda_consumos.html', {'query_consu': query_consu})
 
 
-    # Realiza la búsqueda de productos por id_stdf
-    resultados_consu = Consumos.objects.filter(
-        Q(incoming_fk = query_consu) 
-    )
-    # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
+from django.db.models import Q
 
-    return render(request, 'resultado_busqueda_consumos.html', { 'resultados_consu': resultados_consu, 'query_consu': query_consu})
+def obtener_datos_consumos(request):
+    # Obtén los parámetros enviados por DataTables
+    draw = int(request.GET.get('draw', 0))
+    start = int(request.GET.get('start', 0))
+    length = int(request.GET.get('length', 10))  # Número de registros por página
+    search_value = request.GET.get('t', '')  # Término de búsqueda
+
+    # Inicializa la consulta sin filtrar
+    consumos_data = Consumos.objects.all()
+
+    # Realiza la consulta teniendo en cuenta el término de búsqueda en incoming_fk
+    if search_value:
+            consumos_data = consumos_data.filter(Q(incoming_fk=search_value))
+
+    # Realiza la paginación
+    consumos_data = consumos_data[start:start + length]
+
+    # Formatea los datos en un formato compatible con DataTables
+    data = []
+    for consumo in consumos_data:
+        data.append({
+            "consumo_pk": consumo.consumo_pk,
+            "incoming_fk": consumo.incoming_fk.sn_batch_pk,
+            "f_transaccion": consumo.f_transaccion,
+            "matricula_aeronave": consumo.matricula_aeronave,
+            "orden_consumo": consumo.orden_consumo,
+            "qty_extraida": consumo.qty_extraida,
+            "estado_fk": consumo.estado_fk.estado,
+        })
+
+    if search_value:
+        records_filtered = Consumos.objects.filter(incoming_fk=search_value).count()
+    else:
+    # Si no hay término de búsqueda, simplemente cuenta todos los registros
+        records_filtered = Consumos.objects.count()
+
+    return JsonResponse({
+        "data": data,
+        "draw": draw,
+        "recordsTotal": Consumos.objects.count(),  # Total de registros sin filtrar
+        "recordsFiltered": records_filtered,
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #VISTA DASHBOARD
 def dashboard(request):

@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from .choices import *
 
+
 # Create your models here.
 #TABLA CATEGORIA INCOMING
 class Categotia_incoming(models.Model):
@@ -109,7 +110,7 @@ class Clasificacion(models.Model):
 
 #TABLA BODEGA
 class Bodega(models.Model):
-    bodega_pk = models.IntegerField(primary_key=True, unique=True)
+    bodega_pk = models.AutoField(primary_key=True, unique=True)
     name_bodega = models.CharField(choices=BODEGA , blank=True, null=True, max_length=50)
 
     class Meta:
@@ -191,7 +192,7 @@ class Incoming(models.Model):
 
 
 class Consumos(models.Model):
-    consumo_pk = models.AutoField(primary_key=True, unique=True)
+    consumo_pk = models.AutoField(primary_key=True, unique=True , validators=[MinValueValidator(1)])
     orden_consumo = models.CharField(blank=True, null=True, max_length=50)
     f_transaccion = models.DateField(blank=True, null=True)
     qty_extraida = models.IntegerField(blank=True, null=True)

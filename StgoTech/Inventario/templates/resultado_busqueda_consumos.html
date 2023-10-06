@@ -7,38 +7,7 @@
   <p>Resultados para: "{{ query_consu }}"</p>
   {% endif %}
 
-    <div class="row p-2">
-      {% for producto in resultados_consu %}
-        <div class="col-6 p-2">
-            <label for="">SN (Incoming ID)</label>
-            {{producto.incoming_fk}}
-        </div>
-        <div class="col-6 p-2">
-            <label for="">ID Consumo</label>
-            {{producto.consumo_pk}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">Fecha Transacción</label>
-          {{producto.f_transaccion}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">Matricula Aeronava</label>
-          {{producto.matricula_aeronave}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">Orden de Consumo</label>
-          {{producto.orden_consumo}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">Cantidad Extraida</label>
-          {{producto.qty_extraida}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">ID Estado</label>
-          {{producto.estado_fk}}
-        </div>
-        {% endfor %}
-  </div>
-  
+  {% include 'mostrar_consumos.html' %}
+
 
 {% endblock %}
