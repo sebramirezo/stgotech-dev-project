@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from .forms import *
-from django.db.models import Q , F
+from django.db.models import Q 
 from django.http.response import JsonResponse
-from django.core import serializers
+
 
 
 # Create your views here.
@@ -38,8 +38,18 @@ def comat(request):
     }
     return render(request, 'comat.html', context)
 
+#BUSCADOR COMAT
 
+def buscar_productos(request):
+    # Obtiene el término de búsqueda del usuario desde la URL
+    query_comat = request.GET.get('c', '')
 
+    return render(request, 'resultado_busqueda_stdf.html', {'query_comat':query_comat})
+    #resultados = Comat.objects.filter(id_stdf__icontains=query)
+    #resultados_awb = Comat.objects.filter(awb__icontains=query_awb)
+
+    
+    #'resultados_awb': resultados_awb, 'query': query, 'query_awb': query_awb
 
 
 def obtener_datos_comat(request):
@@ -47,9 +57,18 @@ def obtener_datos_comat(request):
     draw = int(request.GET.get('draw', 0))
     start = int(request.GET.get('start', 0))
     length = int(request.GET.get('length', 10))  # Número de registros por página
+    search_value = request.GET.get('c', '')  # Término de búsqueda
 
-    # Realiza la consulta teniendo en cuenta la paginación
-    comat_data = Comat.objects.all()[start:start + length]
+    comat_data = Comat.objects.all()
+    
+    if search_value:
+        comat_data = comat_data.filter(Q(stdf_pk__icontains=search_value) | Q(awb__icontains=search_value)| Q(hawb__icontains=search_value))
+        
+
+
+    # Realizar la consulta teniendo en cuenta la paginación
+    comat_data = comat_data[start:start + length]
+
 
     # Formatea los datos en un formato compatible con DataTables
     data = []
@@ -57,13 +76,24 @@ def obtener_datos_comat(request):
         data.append({
             "stdf_pk": comat.stdf_pk,
             "awb": comat.awb,
+            "hawb":comat.hawb,
+            "num_manifiesto":comat.num_manifiesto,
+            "sum_cif":comat.sum_cif,
+            "bodega_fk":comat.bodega_fk.name_bodega,
+            
         })
+    
+    if search_value:
+        records_filtered = Comat.objects.filter(stdf_pk__icontains=search_value).count()
+    else:
+    # Si no hay término de búsqueda, simplemente cuenta todos los registros
+        records_filtered = Comat.objects.count()
 
     return JsonResponse({
         "data": data,
         "draw": draw,
         "recordsTotal": Comat.objects.count(),  # Total de registros sin filtrar
-        "recordsFiltered": Comat.objects.count(),  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
+        "recordsFiltered": records_filtered  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
     })
 
 
@@ -122,21 +152,6 @@ def consumos(request):
     return render(request, 'consumos.html', context)
 
 
-def buscar_productos(request):
-    # Obtiene el término de búsqueda del usuario desde la URL
-    query = request.GET.get('q', '')
-
-    # Realiza la búsqueda de productos por id_stdf o awb
-    resultados = Comat.objects.filter(
-        Q(stdf_pk__icontains=query) | Q(awb__icontains=query)| Q(hawb__icontains=query)
-    )
-
-    return render(request, 'resultado_busqueda_stdf.html', {'resultados': resultados, 'query':query})
-    #resultados = Comat.objects.filter(id_stdf__icontains=query)
-    #resultados_awb = Comat.objects.filter(awb__icontains=query_awb)
-
-    
-    #'resultados_awb': resultados_awb, 'query': query, 'query_awb': query_awb
 
 def buscar_productos_incoming(request):
     # Obtiene el término de búsqueda del usuario desde la URL
@@ -161,7 +176,7 @@ def buscar_productos_consumos(request):
     return render(request, 'resultado_busqueda_consumos.html', {'query_consu': query_consu})
 
 
-from django.db.models import Q
+
 
 def obtener_datos_consumos(request):
     # Obtén los parámetros enviados por DataTables

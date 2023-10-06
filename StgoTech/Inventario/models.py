@@ -157,8 +157,8 @@ class Comat(models.Model):
     class Meta:
         db_table = 'comat'
 
-    def __int__(self):
-        return self.stdf_pk
+    def __str__(self):
+        return str(self.stdf_pk)
     
 #Tabla Incoming
 class Incoming(models.Model):

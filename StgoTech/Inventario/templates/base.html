@@ -26,19 +26,27 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-      $(document).ready( function () {
-        $('#tabla-comat').DataTable({
-            "processing": true,
-            "serverSide": true,  // Habilitar el modo de procesamiento del lado del servidor
-            "ajax": {
-                "url": "{% url 'obtener_datos_comat' %}",  // Reemplaza con la URL de tu vista de Django que servirá los datos
-                "type": "GET",  // Puede ser GET o POST, según tu preferencia
-            },
-            "columns": [
-                { "data": "stdf_pk" },
-                { "data": "awb" },
-            ],
-        });
+      $(document).ready(function () {
+          var dataTable = $('#tabla-comat').DataTable({
+              "processing": true,
+              "serverSide": true,
+              "ajax": {
+                  "url": "{% url 'obtener_datos_comat' %}",
+                  "type": "GET", 
+                  "data": function (d) {
+                      d.c = '{{ query_comat }}';}
+                    
+              },
+              "columns": [
+                  // Define las columnas que deseas mostrar
+                  { "data": "stdf_pk" },
+                  { "data": "awb" },
+                  { "data": "hawb" },
+                  { "data": "num_manifiesto" },
+                  { "data": "sum_cif" },
+                  { "data": "bodega_fk" },
+              ]
+          });
       });
 
       $(document).ready(function() {
