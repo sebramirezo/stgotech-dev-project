@@ -97,6 +97,63 @@ def obtener_datos_comat(request):
     })
 
 
+def buscar_productos_incoming(request):
+    # Obtiene el término de búsqueda del usuario desde la URL
+    query_inco = request.GET.get('e', '')
+    
+    return render(request, 'resultado_busqueda_incoming.html', {'query_inco':query_inco})
+    
+    # Realiza la búsqueda de productos por id_stdf
+    #resultados_part = Incoming.objects.filter(part_number__icontains=query_part)
+    # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
+
+
+
+
+def obtener_datos_incoming(request):
+    # Obtén los parámetros enviados por DataTables
+    draw = int(request.GET.get('draw', 0))
+    start = int(request.GET.get('start', 0))
+    length = int(request.GET.get('length', 10))  # Número de registros por página
+    search_value = request.GET.get('e', '')  # Término de búsqueda
+
+    incoming_data = Incoming.objects.all()
+    
+    if search_value:
+        incoming_data = incoming_data.filter(Q(part_number__icontains = search_value) | Q(sn_batch_pk__icontains=search_value))
+        
+
+
+    # Realizar la consulta teniendo en cuenta la paginación
+    incoming_data = incoming_data[start:start + length]
+
+
+    # Formatea los datos en un formato compatible con DataTables
+    data = []
+    for incoming in incoming_data:
+        data.append({
+            "sn_batch_pk":incoming.sn_batch_pk,
+            "categoria_fk":incoming.categoria_fk.name_categoria,
+            "part_number":incoming.part_number,
+            "qty":incoming.qty,
+            "f_vencimiento":incoming.f_vencimiento,
+            "saldo":incoming.saldo,
+        })
+    
+    if search_value:
+        records_filtered = Incoming.objects.filter(part_number__icontains=search_value).count()
+    else:
+    # Si no hay término de búsqueda, simplemente cuenta todos los registros
+        records_filtered = Incoming.objects.count()
+
+    return JsonResponse({
+        "data": data,
+        "draw": draw,
+        "recordsTotal": Incoming.objects.count(),  # Total de registros sin filtrar
+        "recordsFiltered": records_filtered  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
+    })
+
+
 #VISTA Incoming
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
@@ -153,19 +210,6 @@ def consumos(request):
 
 
 
-def buscar_productos_incoming(request):
-    # Obtiene el término de búsqueda del usuario desde la URL
-    query_inco = request.GET.get('e', '')
-
-    resultados_inco = Incoming.objects.filter(
-        Q(part_number__icontains = query_inco) | Q(sn_batch_pk__icontains=query_inco) 
-    )
-
-    return render(request, 'resultado_busqueda_incoming.html', {'resultados_inco': resultados_inco, 'query_inco':query_inco})
-    
-    # Realiza la búsqueda de productos por id_stdf
-    #resultados_part = Incoming.objects.filter(part_number__icontains=query_part)
-    # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
 
    
 
