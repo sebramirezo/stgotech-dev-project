@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from .forms import *
-from django.db.models import Q
+from django.db.models import Q , F
 
 
 # Create your views here.
@@ -13,14 +13,19 @@ def index(request):
 def comat(request):
     get_form_comat = Comat.objects.all()
 
-    form_comat = ComatForm()
-
     if request.method == 'POST':
         form_comat = ComatForm(request.POST)
         if form_comat.is_valid():
-            form_comat.save()
+            # Obtén el objeto Comat sin guardarlo aún
+            comat = form_comat.save(commit=False)
+            
+            # Realiza la suma de fob, flete y seguro
+            comat.sum_cif = comat.fob + comat.flete + comat.seguro
+            
+            # Guarda el objeto Comat con la cif actualizada
+            comat.save()
+            
             return redirect('/comat')
-    
     else:
         form_comat = ComatForm()
 
@@ -35,40 +40,51 @@ def comat(request):
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
 
-    form_incoming = IncomingForm()
-
     if request.method == 'POST':
         form_incoming = IncomingForm(request.POST)
         if form_incoming.is_valid():
-            form_incoming.save()
+            # Guarda el formulario de Incoming
+            incoming = form_incoming.save()
+
+            # Copia el valor de cantidad_extraida a la columna saldo
+            incoming.saldo = incoming.qty
+            incoming.save()
+
             return redirect('/incoming')
     
     else:
         form_incoming = IncomingForm()
 
     context = {
-        'form_incoming':form_incoming,
-        'get_form_incoming':get_form_incoming, 
+        'form_incoming': form_incoming,
+        'get_form_incoming': get_form_incoming, 
     }
     return render(request, 'incoming.html', context)
 
 #VISTA Consumo
 def consumos(request):
-    # get_form_consumos = Consumo.objects.all()
-
     form_consumos = ConsumosForm()
-
+    saldo_actualizado = 0
     if request.method == 'POST':
         form_consumos = ConsumosForm(request.POST)
         if form_consumos.is_valid():
-            form_consumos.save()
+            consumo = form_consumos.save()  # Guardar el formulario de Consumos
+
+            # Obtener el registro correspondiente en Incoming
+            incoming = consumo.incoming_fk
+
+            saldo_actualizado += incoming.qty
+            # Calcular el nuevo valor de saldo
+            saldo_actualizado -=  consumo.qty_extraida
+
+            # Actualizar el valor de saldo en el registro de Incoming
+            incoming.saldo = saldo_actualizado
+            incoming.save()
+
             return redirect('/consumos')
-    
-    else:
-        form_consumos = ConsumosForm()
 
     context = {
-        'form_consumos':form_consumos,
+        'form_consumos': form_consumos,
     }
     return render(request, 'consumos.html', context)
 
@@ -91,30 +107,33 @@ def buscar_productos(request):
 
 def buscar_productos_incoming(request):
     # Obtiene el término de búsqueda del usuario desde la URL
-    query_inco = request.GET.get('r', '')
+    query_inco = request.GET.get('e', '')
 
     resultados_inco = Incoming.objects.filter(
-        Q(part_number__icontains = query_inco) 
-
+        Q(part_number__icontains = query_inco) | Q(sn_batch_pk__icontains=query_inco) 
     )
 
+    return render(request, 'resultado_busqueda_incoming.html', {'resultados_inco': resultados_inco, 'query_inco':query_inco})
+    
     # Realiza la búsqueda de productos por id_stdf
     #resultados_part = Incoming.objects.filter(part_number__icontains=query_part)
     # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
 
-    return render(request, 'resultado_busqueda_incoming.html', { 'resultados_inco': resultados_inco, 'query_inc': query_inco})
+   
 
 def buscar_productos_consumos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
-    query_sn = request.GET.get('t', '')
+    query_consu = request.GET.get('t', '')
 
-    query_bn = request.GET.get('y', '')
+
 
     # Realiza la búsqueda de productos por id_stdf
-    resultados_sn = Consumos.objects.filter(incoming_id=query_sn)
+    resultados_consu = Consumos.objects.filter(
+        Q(incoming_fk = query_consu) 
+    )
     # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
 
-    return render(request, 'resultado_busqueda_consumos.html', { 'resultados_sn': resultados_sn, 'query_bn': query_bn, 'query_sn': query_sn})
+    return render(request, 'resultado_busqueda_consumos.html', { 'resultados_consu': resultados_consu, 'query_consu': query_consu})
 
 #VISTA DASHBOARD
 def dashboard(request):

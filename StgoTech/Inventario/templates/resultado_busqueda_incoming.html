@@ -4,39 +4,44 @@
   <h1>Resultados de la búsqueda</h1>
 
   {% if query_inco %}
-  <p>Resultados para: "{{ query_inco }}"</p>
+    <p>Resultados para: "{{ query_inco }}"</p>
   {% endif %}
-    <div class="row p-2">
-      {% for producto in resultados_inco %}
-        <div class="col-6 p-2">
-            <label for="">SN</label>
-            {{producto.sn_batch_pk}}
-        </div>
-        <div class="col-6 p-2">
-            <label for="">Part Number</label>
-            {{producto.part_number}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">Quantity</label>
-          {{producto.qty}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">Product Order</label>
-          {{producto.po}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">Owner</label>
-          {{producto.id_owner}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">UOM</label>
-          {{producto.id_uom}}
-        </div>
-        <div class="col-6 p-2">
-          <label for="">Ubicación</label>
-          {{producto.id_ubicacion}}
-        </div>
-        {% endfor %}
-  </div>
+  
+  <div class="row p-2">
+    {% for producto in resultados_inco %}
+      <div class="col-6 p-2">
+          <label for="">SN</label>
+          {{producto.sn_batch_pk}}
+      </div>
+      <div class="col-6 p-2">
+          <label for="">Part Number</label>
+          {{producto.part_number}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">Quantity</label>
+        {{producto.qty}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">Saldo</label>
+        {{producto.saldo}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">Product Order</label>
+        {{producto.po}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">Owner</label>
+        {{producto.owner_fk}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">UOM</label>
+        {{producto.uom_fk}}
+      </div>
+      <div class="col-6 p-2">
+        <label for="">Ubicación</label>
+        {{producto.ubicacion_fk}}
+      </div>
+      {% endfor %}
+</div>
   
 {% endblock %}
