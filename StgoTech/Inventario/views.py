@@ -39,14 +39,16 @@ def comat(request):
 #VISTA Incoming
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
-
+    total_unit_cost = 0
     if request.method == 'POST':
         form_incoming = IncomingForm(request.POST)
         if form_incoming.is_valid():
             # Guarda el formulario de Incoming
-            incoming = form_incoming.save()
-
+            incoming = form_incoming.save(commit=False)
+            total_unit_cost =  incoming.qty * incoming.u_purchase_cost 
             # Copia el valor de cantidad_extraida a la columna saldo
+
+            incoming.total_u_purchase_cost = total_unit_cost
             incoming.saldo = incoming.qty
             incoming.save()
 
