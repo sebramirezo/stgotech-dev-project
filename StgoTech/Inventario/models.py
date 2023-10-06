@@ -157,7 +157,7 @@ class Comat(models.Model):
         db_table = 'comat'
 
     def __int__(self):
-        return self.stdf
+        return self.stdf_pk
     
 #Tabla Incoming
 class Incoming(models.Model):
@@ -205,4 +205,4 @@ class Consumos(models.Model):
         db_table = "consumos"
 
     def __str__(self):
-        return self.consumos_pk
+        return self.consumo_pk

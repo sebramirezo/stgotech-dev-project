@@ -2,12 +2,37 @@ from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from .forms import *
 from django.db.models import Q
+from django.http.response import JsonResponse
 
 
 # Create your views here.
 
 def index(request):
     return redirect('dashboard')
+
+def obtener_datos_comat(request):
+    # Obtén los parámetros enviados por DataTables
+    draw = int(request.GET.get('draw', 0))
+    start = int(request.GET.get('start', 0))
+    length = int(request.GET.get('length', 10))  # Número de registros por página
+
+    # Realiza la consulta teniendo en cuenta la paginación
+    comat_data = Comat.objects.all()[start:start + length]
+
+    # Formatea los datos en un formato compatible con DataTables
+    data = []
+    for comat in comat_data:
+        data.append({
+            "stdf_pk": comat.stdf_pk,
+            "awb": comat.awb,
+        })
+
+    return JsonResponse({
+        "data": data,
+        "draw": draw,
+        "recordsTotal": Comat.objects.count(),  # Total de registros sin filtrar
+        "recordsFiltered": Comat.objects.count(),  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
+    })
 
 #VISTA COMAT
 def comat(request):
@@ -29,6 +54,7 @@ def comat(request):
         'get_form_comat':get_form_comat,
     }
     return render(request, 'comat.html', context)
+
 
 
 #VISTA Incoming
@@ -111,7 +137,7 @@ def buscar_productos_consumos(request):
     query_bn = request.GET.get('y', '')
 
     # Realiza la búsqueda de productos por id_stdf
-    resultados_sn = Consumos.objects.filter(incoming_id=query_sn)
+    resultados_sn = Consumos.objects.filter(incoming_fk=query_sn)
     # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
 
     return render(request, 'resultado_busqueda_consumos.html', { 'resultados_sn': resultados_sn, 'query_bn': query_bn, 'query_sn': query_sn})

@@ -10,4 +10,5 @@ urlpatterns = [
     path('buscar_incoming/', views.buscar_productos_incoming, name='buscar_productos_incoming'),
     path('buscar_consumos/', views.buscar_productos_consumos, name='buscar_productos_consumos'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('obtener_datos_comat/', views.obtener_datos_comat, name='obtener_datos_comat'),
 ]
