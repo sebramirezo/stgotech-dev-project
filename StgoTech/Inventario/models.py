@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from .choices import *
 
+
 # Create your models here.
 #TABLA CATEGORIA INCOMING
 class Categotia_incoming(models.Model):
@@ -72,7 +73,7 @@ class Owner(models.Model):
     
     def __str__(self):
         return self.name_owner
-
+        
 #TABLA N_FICHA
 class Ficha(models.Model):
     ficha_pk = models.AutoField(primary_key=True, unique=True)
@@ -109,7 +110,7 @@ class Clasificacion(models.Model):
 
 #TABLA BODEGA
 class Bodega(models.Model):
-    bodega_pk = models.IntegerField(primary_key=True, unique=True)
+    bodega_pk = models.AutoField(primary_key=True, unique=True)
     name_bodega = models.CharField(choices=BODEGA , blank=True, null=True, max_length=50)
 
     class Meta:
@@ -150,14 +151,14 @@ class Comat(models.Model):
     sum_cif = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=2, default="0")
     observaciones = models.CharField(blank=True, null=True, max_length=250)
     #Claves Foraneas
-    bodega_fk = models.ForeignKey(Bodega , on_delete=models.CASCADE)
-    origen_fk = models.ForeignKey(Origen, on_delete=models.CASCADE)
+    bodega_fk = models.ForeignKey(Bodega , on_delete=models.SET_NULL, null=True)
+    origen_fk = models.ForeignKey(Origen, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = 'comat'
 
-    def __int__(self):
-        return self.stdf_pk
+    def __str__(self):
+        return str(self.stdf_pk)
     
 #Tabla Incoming
 class Incoming(models.Model):
@@ -173,13 +174,13 @@ class Incoming(models.Model):
     saldo = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
     observaciones = models.CharField(blank=True, null=True, max_length=250)
     #Llaves foraneas
-    categoria_fk = models.ForeignKey(Categotia_incoming, on_delete=models.CASCADE)
-    clasificacion_fk = models.ForeignKey(Clasificacion, on_delete=models.CASCADE)
-    ubicacion_fk = models.ForeignKey(Ubicacion, on_delete=models.CASCADE)
-    uom_fk = models.ForeignKey(Uom, on_delete=models.CASCADE)
-    owner_fk = models.ForeignKey(Owner, on_delete=models.CASCADE)
-    condicion_fk = models.ForeignKey(Condicion, on_delete=models.CASCADE)
-    ficha_fk = models.ForeignKey(Ficha, on_delete=models.CASCADE)
+    categoria_fk = models.ForeignKey(Categotia_incoming, on_delete=models.SET_NULL, null=True)
+    clasificacion_fk = models.ForeignKey(Clasificacion, on_delete=models.SET_NULL, null=True)
+    ubicacion_fk = models.ForeignKey(Ubicacion, on_delete=models.SET_NULL, null=True)
+    uom_fk = models.ForeignKey(Uom, on_delete=models.SET_NULL, null=True)
+    owner_fk = models.ForeignKey(Owner, on_delete=models.SET_NULL, null=True)
+    condicion_fk = models.ForeignKey(Condicion,on_delete=models.SET_NULL, null=True)
+    ficha_fk = models.ForeignKey(Ficha, on_delete=models.SET_NULL, null=True)
     stdf_fk = models.ForeignKey(Comat, on_delete=models.CASCADE)
 
     class Meta:
@@ -191,18 +192,18 @@ class Incoming(models.Model):
 
 
 class Consumos(models.Model):
-    consumo_pk = models.CharField(primary_key=True, unique=True)
+    consumo_pk = models.AutoField(primary_key=True, unique=True , validators=[MinValueValidator(1)])
     orden_consumo = models.CharField(blank=True, null=True, max_length=50)
     f_transaccion = models.DateField(blank=True, null=True)
     qty_extraida = models.IntegerField(blank=True, null=True)
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)
     observaciones = models.CharField(blank=True, null=True, max_length=250)
-    incoming_fk = models.ForeignKey(Incoming, null=True, blank=True, on_delete=models.CASCADE)
-    estado_fk = models.ForeignKey(Estado, on_delete=models.CASCADE)
+    incoming_fk = models.ForeignKey(Incoming, null=True, blank=True,on_delete=models.CASCADE)
+    estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True)
 
 
     class Meta:
         db_table = "consumos"
 
     def __str__(self):
-        return self.consumo_pk
+        return str(self.incoming_fk)
