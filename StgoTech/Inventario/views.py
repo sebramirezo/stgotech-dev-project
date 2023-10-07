@@ -139,8 +139,11 @@ def buscar_productos_consumos(request):
 
 #VISTA DASHBOARD
 def dashboard(request):
-
+    comat_data = Comat.objects.all().order_by()[:10]
+    incoming_data = Incoming.objects.all()
     context = {
+        'comat_data':comat_data,
+        'incoming_data':incoming_data
 
     }
 
