@@ -1,6 +1,7 @@
 
 BODEGA = [
 
+    ('None', 'N/A'),
     ('SCL', 'SCL'),
     ('AEROSAN', 'AEROSAN'),
     ('FEDEX', 'FEDEX'),
@@ -22,6 +23,7 @@ BODEGA = [
 
 ORIGEN = [
 
+('None', 'N/A'),
 ('MIA', 'MIA'),
 ('HAM', 'HAM'),
 ('FRA', 'FRA'),
@@ -84,6 +86,7 @@ CONDITION = [
 ]
 
 N_FICHA = [
+    
     ('None', 'N/A'),
     ('1,1', '1,1'),
     ('1,2', '1,2'),
@@ -128,6 +131,7 @@ ABONA_CANCELA = [
 ]
 
 CATEGORIA_INCOMING = [
+    ('None', 'N/A'),
     ('SN','Serial Number'),
     ('BN','Batch Number'),
 ]
@@ -136,6 +140,7 @@ CATEGORIA_INCOMING = [
 
 UBICACIONES = [
 
+('None', 'N/A'),
 ('07-0151', '07-0151'),
 ('07-0152', '07-0152'),
 ('07-0153', '07-0153'),

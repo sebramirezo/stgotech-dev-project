@@ -1,22 +1,24 @@
 {% extends "./base.html" %}
 
 {% block body %}
+
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h1>Buscador </h1>
+            <h4>Buscador </h4>
             <form action="{% url 'buscar_stdf' %}" method="GET">
-                <input class="form-control" type="text" name="q" placeholder="Ingrese STDF O AWB">
+                <input class="form-control" type="text" name="c" placeholder="Ingrese STDF, AWB O HAWB">
                 <input class="btn btn-primary m-2" type="submit" value="Buscar">
             </form>
         </div>
         
     </div>
 </div>
-<!-- {% include 'mostrar_comat.html' %} -->
+
+
 <hr> 
 <div class="container m-2">
-    <h1>Formulario de Ingreso a Deposito Franco</h1>
+    <h5>Formulario de Comat</h5>
     <form action="" method="post">
         {% csrf_token %}
         <div class="row p-2">
@@ -29,13 +31,8 @@
         </div>
 
     </div>
-    <input type="submit" value="Guardar">
-</form>
+    <input class="btn btn-primary m-2" type="submit" value="Guardar">
 
-
-
-        <input class="btn btn-primary m-2" type="submit" value="Guardar">
-    </form>
 </div>
     
 
