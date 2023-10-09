@@ -6,6 +6,7 @@ urlpatterns = [
     path('comat/', views.comat, name='comat'),
     path('incoming/', views.incoming, name='incoming'),
     path('consumos/', views.consumos, name='consumos'),
+    path('buscar_productos_inicio/', views.buscar_productos_inicio, name='buscar_productos_inicio'),
     path('buscar/', views.buscar_productos, name='buscar_stdf'),
     path('buscar_incoming/', views.buscar_productos_incoming, name='buscar_productos_incoming'),
     path('buscar_consumos/', views.buscar_productos_consumos, name='buscar_productos_consumos'),
@@ -13,4 +14,6 @@ urlpatterns = [
     path('obtener_datos_comat/', views.obtener_datos_comat, name='obtener_datos_comat'),
     path('obtener_datos_consumos/', views.obtener_datos_consumos, name='obtener_datos_consumos'),
     path('obtener_datos_incoming/', views.obtener_datos_incoming, name='obtener_datos_incoming'),
+    path('buscar_datos_inicio/', views.buscar_datos_inicio, name='buscar_datos_inicio'),
+    
 ]
