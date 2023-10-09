@@ -1,0 +1,13 @@
+{% extends "./base.html" %}
+
+{% block body %}
+  <h1>Resultados de la búsqueda</h1>
+
+  {% if query_inicio %}
+  <p>Resultados para: "{{ query_inicio }}"</p>
+  {% endif %}
+
+  {% include 'mostrar_inicio.html' %}
+
+
+{% endblock %}
