@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Inventario.apps.InventarioConfig',
+    'django_select2',
     'ajax_datatable',
 ]
 
@@ -83,6 +84,23 @@ TEMPLATES = [
         },
     },
 ]
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
+# # Set the cache backend to select2
+# SELECT2_CACHE_BACKEND = 'default'
+
+# # Tell select2 which cache configuration to use:
+# # SELECT2_CACHE_BACKEND = "default"
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
 
 WSGI_APPLICATION = 'StgoTech.wsgi.application'
 

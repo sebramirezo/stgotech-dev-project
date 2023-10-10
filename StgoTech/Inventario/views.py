@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from .forms import *
 from django.db.models import Q 
 from django.http.response import JsonResponse
+import json
 
 
 
@@ -181,7 +182,10 @@ def obtener_datos_incoming(request):
 #VISTA Incoming
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
+    stdf_fk_select2 = request.GET.get('id_stdf_fk')
+    print(stdf_fk_select2)
     total_unit_cost = 0
+
     if request.method == 'POST':
         form_incoming = IncomingForm(request.POST)
         if form_incoming.is_valid():
@@ -288,6 +292,21 @@ def obtener_datos_consumos(request):
         "recordsTotal": Consumos.objects.count(),  # Total de registros sin filtrar
         "recordsFiltered": records_filtered,
     })
+
+## Test
+def obtener_datos_stdf_incoming(request):
+
+    term = request.GET.get('q', '')
+
+    stdf_data = Comat.objects.filter(stdf_pk__icontains=term).values('stdf_pk')[:20]
+
+    # stdf_data = Comat.objects.all().values('stdf_pk')
+    stdf_list = list(stdf_data)
+    
+    # Convierte la lista de diccionarios a una lista de objetos JSON
+    stdf_json = [{'stdf_pk': item['stdf_pk']} for item in stdf_list]
+    
+    return JsonResponse({'stdf_data': stdf_json}, safe=False)
 
 
 

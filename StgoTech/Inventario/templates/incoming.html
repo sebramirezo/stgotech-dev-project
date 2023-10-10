@@ -16,7 +16,7 @@
 <hr> 
 <div class="container m-2">
     <h1>Formulario de Ingreso de Productos al Almacen - Incoming Inspection</h1>
-    <form action="" method="post">
+    <form id="incoming_form" action="" method="post">
         {% csrf_token %}
         <div class="row p-2">
             {% for incoming in form_incoming %}

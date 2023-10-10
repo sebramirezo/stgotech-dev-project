@@ -13,4 +13,5 @@ urlpatterns = [
     path('obtener_datos_comat/', views.obtener_datos_comat, name='obtener_datos_comat'),
     path('obtener_datos_consumos/', views.obtener_datos_consumos, name='obtener_datos_consumos'),
     path('obtener_datos_incoming/', views.obtener_datos_incoming, name='obtener_datos_incoming'),
+    path('obtener_stdf_incoming/', views.obtener_datos_stdf_incoming, name='obtener_stdf_incoming'),
 ]
