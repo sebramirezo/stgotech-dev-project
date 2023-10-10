@@ -1,9 +1,72 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from .forms import *
-from django.db.models import Q 
+from django.db.models import Q , Sum
 from django.http.response import JsonResponse
 import json
+
+
+
+
+def buscar_productos_inicio(request):
+    # Obtiene el término de búsqueda del usuario desde la URL
+    query_inicio = request.GET.get('n', '')
+
+    return render(request, 'resultado_busqueda_inicio.html', {'query_inicio':query_inicio})
+
+
+
+
+def buscar_datos_inicio(request):
+    draw = int(request.GET.get('draw', 0))
+    start = int(request.GET.get('start', 0))
+    length = int(request.GET.get('length', 10))
+    search_value = request.GET.get('n', '')
+
+    resultados = []
+
+    # Consulta en Comat y realiza JOIN con Incoming y Consumos
+    resultados += list(
+        Incoming.objects.filter(
+            Q(part_number__icontains=search_value)  
+        ).select_related('stdf_fk', 'ubicacion_fk', 'categoria_fk', 'owner_fk').values(
+            "sn_batch_pk",
+            "categoria_fk__name_categoria",
+            "part_number",
+            "categoria_fk__name_categoria",
+            "descripcion",
+            "stdf_fk__stdf_pk",
+            "qty",
+            "saldo",
+            "stdf_fk__awb",
+            "stdf_fk__num_manifiesto",
+            "owner_fk__name_owner",
+            "ubicacion_fk__name_ubicacion",
+            "f_vencimiento"
+        ).annotate(
+            qty_extraida_total=Sum('consumos__qty_extraida')  # Suma de la cantidad extraída
+        ).distinct()  # Utiliza distinct para obtener un registro por número de parte
+        [start:start + length]
+    )
+
+    records_filtered = len(resultados)
+
+    return JsonResponse({
+        "data": resultados,
+        "draw": draw,
+        "recordsTotal": records_filtered,  # Total de registros sin filtrar
+        "recordsFiltered": records_filtered  # Total de registros después del filtrado
+    })
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -212,7 +275,6 @@ def incoming(request):
 #VISTA Consumo
 def consumos(request):
     form_consumos = ConsumosForm()
-    saldo_actualizado = 0
     if request.method == 'POST':
         form_consumos = ConsumosForm(request.POST)
         if form_consumos.is_valid():
@@ -221,12 +283,10 @@ def consumos(request):
             # Obtener el registro correspondiente en Incoming
             incoming = consumo.incoming_fk
 
-            saldo_actualizado += incoming.qty
-            # Calcular el nuevo valor de saldo
-            saldo_actualizado -=  consumo.qty_extraida
+            incoming.saldo -=consumo.qty_extraida
+            
 
             # Actualizar el valor de saldo en el registro de Incoming
-            incoming.saldo = saldo_actualizado
             incoming.save()
 
             return redirect('/consumos')
@@ -308,6 +368,22 @@ def obtener_datos_stdf_incoming(request):
     
     return JsonResponse({'stdf_data': stdf_json}, safe=False)
 
+def detalle_comat(request, stdf_pk):
+    detalle_comat = Comat.objects.get(stdf_pk=stdf_pk)    
+    return render(request,'detalle_comat.html' , {'detalle_comat':detalle_comat})
+
+def detalle_incoming(request, sn_batch_pk):
+    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)    
+    return render(request,'detalle_incoming.html' , {'detalle_incoming':detalle_incoming})
+
+def detalle_consumos(request, consumo_pk):
+    detalle_consumos = Consumos.objects.get(consumo_pk=consumo_pk)   
+
+    incoming_data = detalle_consumos.incoming_fk
+
+    return render(request,'detalle_consumos.html' , {'detalle_consumos':detalle_consumos, 'incoming_data' : incoming_data })
+
+
 
 
 
@@ -341,8 +417,11 @@ def obtener_datos_stdf_incoming(request):
 
 #VISTA DASHBOARD
 def dashboard(request):
-
+    comat_data = Comat.objects.all().order_by()[:10]
+    incoming_data = Incoming.objects.all()
     context = {
+        'comat_data':comat_data,
+        'incoming_data':incoming_data
 
     }
 

@@ -53,8 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Inventario.apps.InventarioConfig',
-    'django_select2',
-    'ajax_datatable',
+
 ]
 
 MIDDLEWARE = [
