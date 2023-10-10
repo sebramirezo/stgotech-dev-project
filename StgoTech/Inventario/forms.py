@@ -1,8 +1,12 @@
 #from django.contrib.admin.widgets import AutocompleteSelect
 #from django.contrib import admin
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
 from .models import *
 from django import forms
+from ajax_datatable.views import AjaxDatatableView
+from django.contrib.auth.models import Permission
+from django_select2 import forms as s2forms
+from django_select2.forms import HeavySelect2Widget
 
 class CategoriaForm(ModelForm):
 
@@ -146,8 +150,9 @@ class IncomingForm(ModelForm):
     owner_fk = forms.ModelChoiceField(queryset=Owner.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingreso Owner"}), label='Owner')
     condicion_fk = forms.ModelChoiceField(queryset=Condicion.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa Condicion"}), label='Condicion')
     ficha_fk = forms.ModelChoiceField(queryset=Ficha.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingreso N° Ficha"}), label='N° Ficha')
-    stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF"}), label='STDF')
-    
+    stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+    # stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+
     class Meta:
         model = Incoming
         fields = [
@@ -167,9 +172,9 @@ class IncomingForm(ModelForm):
         'condicion_fk', 
         'ficha_fk' , 
         'stdf_fk',
-        'observaciones',
-        
+        'observaciones',    
     ]
+    
 class ConsumosForm(ModelForm):
 
     orden_consumo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Orden de Consumo"}),label='Orden de Consumo')

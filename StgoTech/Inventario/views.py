@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from .forms import *
 from django.db.models import Q 
 from django.http.response import JsonResponse
+import json
 
 
 
@@ -10,6 +11,30 @@ from django.http.response import JsonResponse
 
 def index(request):
     return redirect('dashboard')
+
+def obtener_datos_comat(request):
+    # Obtén los parámetros enviados por DataTables
+    draw = int(request.GET.get('draw', 0))
+    start = int(request.GET.get('start', 0))
+    length = int(request.GET.get('length', 10))  # Número de registros por página
+
+    # Realiza la consulta teniendo en cuenta la paginación
+    comat_data = Comat.objects.all()[start:start + length]
+
+    # Formatea los datos en un formato compatible con DataTables
+    data = []
+    for comat in comat_data:
+        data.append({
+            "stdf_pk": comat.stdf_pk,
+            "awb": comat.awb,
+        })
+
+    return JsonResponse({
+        "data": data,
+        "draw": draw,
+        "recordsTotal": Comat.objects.count(),  # Total de registros sin filtrar
+        "recordsFiltered": Comat.objects.count(),  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
+    })
 
 #VISTA COMAT
 def comat(request):
@@ -157,7 +182,10 @@ def obtener_datos_incoming(request):
 #VISTA Incoming
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
+    stdf_fk_select2 = request.GET.get('id_stdf_fk')
+    print(stdf_fk_select2)
     total_unit_cost = 0
+
     if request.method == 'POST':
         form_incoming = IncomingForm(request.POST)
         if form_incoming.is_valid():
@@ -264,6 +292,21 @@ def obtener_datos_consumos(request):
         "recordsTotal": Consumos.objects.count(),  # Total de registros sin filtrar
         "recordsFiltered": records_filtered,
     })
+
+## Test
+def obtener_datos_stdf_incoming(request):
+
+    term = request.GET.get('q', '')
+
+    stdf_data = Comat.objects.filter(stdf_pk__icontains=term).values('stdf_pk')[:20]
+
+    # stdf_data = Comat.objects.all().values('stdf_pk')
+    stdf_list = list(stdf_data)
+    
+    # Convierte la lista de diccionarios a una lista de objetos JSON
+    stdf_json = [{'stdf_pk': item['stdf_pk']} for item in stdf_list]
+    
+    return JsonResponse({'stdf_data': stdf_json}, safe=False)
 
 
 
