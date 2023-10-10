@@ -1,8 +1,10 @@
 #from django.contrib.admin.widgets import AutocompleteSelect
 #from django.contrib import admin
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
 from .models import *
 from django import forms
+from django.contrib.auth.models import Permission
+
 
 class CategoriaForm(ModelForm):
 
@@ -138,7 +140,7 @@ class IncomingForm(ModelForm):
     u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Unit Purchase Cost"}),label='Unit Purchase Cost')
     f_vencimiento = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Vencimiento')
     descripcion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Descripción"}),label='Descripción')
-    observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones')
+    observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=False)
     categoria_fk = forms.ModelChoiceField(queryset=Categotia_incoming.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa la Categoria SN o BN"}), label='Categoria')
     clasificacion_fk = forms.ModelChoiceField(queryset=Clasificacion.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa la Clasificación"}), label='Clasificación')
     ubicacion_fk = forms.ModelChoiceField(queryset=Ubicacion.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa la Ubicacion"}), label='Ubicación')
@@ -146,8 +148,9 @@ class IncomingForm(ModelForm):
     owner_fk = forms.ModelChoiceField(queryset=Owner.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingreso Owner"}), label='Owner')
     condicion_fk = forms.ModelChoiceField(queryset=Condicion.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa Condicion"}), label='Condicion')
     ficha_fk = forms.ModelChoiceField(queryset=Ficha.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingreso N° Ficha"}), label='N° Ficha')
-    stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF"}), label='STDF')
-    
+    stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+    # stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+
     class Meta:
         model = Incoming
         fields = [
@@ -167,15 +170,15 @@ class IncomingForm(ModelForm):
         'condicion_fk', 
         'ficha_fk' , 
         'stdf_fk',
-        'observaciones',
-        
+        'observaciones',    
     ]
+    
 class ConsumosForm(ModelForm):
 
     orden_consumo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Orden de Consumo"}),label='Orden de Consumo')
     qty_extraida = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad Extraida"}),label='Cantidad Extraida')
     matricula_aeronave = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Matricula"}),label='Matricula Aeronave')
-    observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones')
+    observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=False)
     f_transaccion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control",'type': 'date'}), required=False, label='Fecha de Transacción')
     incoming_fk = forms.ModelChoiceField(queryset=Incoming.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa Serial Number o Batch Number"}), label='Serial Number o Batch Number')
     
