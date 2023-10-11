@@ -61,15 +61,6 @@ def buscar_datos_inicio(request):
 
 
 
-
-
-
-
-
-
-
-
-
 # Create your views here.
 
 def index(request):
@@ -223,6 +214,7 @@ def obtener_datos_incoming(request):
             "sn_batch_pk":incoming.sn_batch_pk,
             "categoria_fk":incoming.categoria_fk.name_categoria,
             "part_number":incoming.part_number,
+            "descripcion": incoming.descripcion,
             "qty":incoming.qty,
             "f_vencimiento":incoming.f_vencimiento,
             "saldo":incoming.saldo,
@@ -245,8 +237,6 @@ def obtener_datos_incoming(request):
 #VISTA Incoming
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
-    stdf_fk_select2 = request.GET.get('id_stdf_fk')
-    print(stdf_fk_select2)
     total_unit_cost = 0
 
     if request.method == 'POST':
