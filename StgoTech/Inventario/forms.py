@@ -148,8 +148,8 @@ class IncomingForm(ModelForm):
     owner_fk = forms.ModelChoiceField(queryset=Owner.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingreso Owner"}), label='Owner')
     condicion_fk = forms.ModelChoiceField(queryset=Condicion.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa Condicion"}), label='Condicion')
     ficha_fk = forms.ModelChoiceField(queryset=Ficha.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingreso N° Ficha"}), label='N° Ficha')
-    stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
-    # stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+    # stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+    stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
 
     class Meta:
         model = Incoming

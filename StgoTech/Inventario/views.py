@@ -6,8 +6,15 @@ from django.http.response import JsonResponse
 import json
 
 
+#VISTAS DE INICIO
 
 
+#REDIRIGE A LA PAGINA PRINCIPAL INICIO
+def index(request):
+    return redirect('dashboard')
+
+
+#BUSCADOR DE LA PAGINA DE INICIO, REDIRIGE AL RESULTADO DE BUSQUEDA DE LA PAGINA DE INICIO
 def buscar_productos_inicio(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_inicio = request.GET.get('n', '')
@@ -16,7 +23,7 @@ def buscar_productos_inicio(request):
 
 
 
-
+#OBTIENE LOS DATOS QUE RELACIONADOS A LA BUSQUEDA QUE SE REALIZO
 def buscar_datos_inicio(request):
     draw = int(request.GET.get('draw', 0))
     start = int(request.GET.get('start', 0))
@@ -59,47 +66,25 @@ def buscar_datos_inicio(request):
     })
 
 
+#OBTIENE LOS DATOS PARA REALIZAR EL DETALLE DE LA PAGINA DE INICIO
+def detalle_inicio(request, sn_batch_pk):
+
+    detalle_inicio = Incoming.objects.get(sn_batch_pk=sn_batch_pk)   
+
+    comat_data = detalle_inicio.stdf_fk
+
+    consumos_data = detalle_inicio.consumos_set.all()
+
+    return render(request,'detalle_inicio.html' , {'detalle_inicio':detalle_inicio, 'comat_data' : comat_data, 'consumos_data':consumos_data })
 
 
 
 
 
 
+#VISTAS DE COMAT
 
-
-
-
-
-# Create your views here.
-
-def index(request):
-    return redirect('dashboard')
-
-def obtener_datos_comat(request):
-    # Obtén los parámetros enviados por DataTables
-    draw = int(request.GET.get('draw', 0))
-    start = int(request.GET.get('start', 0))
-    length = int(request.GET.get('length', 10))  # Número de registros por página
-
-    # Realiza la consulta teniendo en cuenta la paginación
-    comat_data = Comat.objects.all()[start:start + length]
-
-    # Formatea los datos en un formato compatible con DataTables
-    data = []
-    for comat in comat_data:
-        data.append({
-            "stdf_pk": comat.stdf_pk,
-            "awb": comat.awb,
-        })
-
-    return JsonResponse({
-        "data": data,
-        "draw": draw,
-        "recordsTotal": Comat.objects.count(),  # Total de registros sin filtrar
-        "recordsFiltered": Comat.objects.count(),  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
-    })
-
-#VISTA COMAT
+#VISTA DE COMAT QUE GUARDA EL FORMULARIO
 def comat(request):
     get_form_comat = Comat.objects.all()
     total_cif = 0
@@ -126,8 +111,8 @@ def comat(request):
     }
     return render(request, 'comat.html', context)
 
-#BUSCADOR COMAT
 
+#BUSCADOR DE COMAT
 def buscar_productos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_comat = request.GET.get('c', '')
@@ -140,6 +125,34 @@ def buscar_productos(request):
     #'resultados_awb': resultados_awb, 'query': query, 'query_awb': query_awb
 
 
+
+# def obtener_datos_comat(request):
+#     # Obtén los parámetros enviados por DataTables
+#     draw = int(request.GET.get('draw', 0))
+#     start = int(request.GET.get('start', 0))
+#     length = int(request.GET.get('length', 10))  # Número de registros por página
+
+#     # Realiza la consulta teniendo en cuenta la paginación
+#     comat_data = Comat.objects.all()[start:start + length]
+
+#     # Formatea los datos en un formato compatible con DataTables
+#     data = []
+#     for comat in comat_data:
+#         data.append({
+#             "stdf_pk": comat.stdf_pk,
+#             "awb": comat.awb,
+#         })
+
+#     return JsonResponse({
+#         "data": data,
+#         "draw": draw,
+#         "recordsTotal": Comat.objects.count(),  # Total de registros sin filtrar
+#         "recordsFiltered": Comat.objects.count(),  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
+#     })
+
+
+
+#OBTIENE LOS RESULTADOS CON MÁS RELACION QUE TIENE LA BUSQUEDA
 def obtener_datos_comat(request):
     # Obtén los parámetros enviados por DataTables
     draw = int(request.GET.get('draw', 0))
@@ -184,69 +197,25 @@ def obtener_datos_comat(request):
         "recordsFiltered": records_filtered  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
     })
 
-
-def buscar_productos_incoming(request):
-    # Obtiene el término de búsqueda del usuario desde la URL
-    query_inco = request.GET.get('e', '')
-    
-    return render(request, 'resultado_busqueda_incoming.html', {'query_inco':query_inco})
-    
-    # Realiza la búsqueda de productos por id_stdf
-    #resultados_part = Incoming.objects.filter(part_number__icontains=query_part)
-    # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
+#OBTIENE LOS DATOS PARA REALIZAR EL DETALLE POR LA ID
+def detalle_comat(request, stdf_pk):
+    detalle_comat = Comat.objects.get(stdf_pk=stdf_pk)    
+    return render(request,'detalle_comat.html' , {'detalle_comat':detalle_comat})
 
 
 
 
-def obtener_datos_incoming(request):
-    # Obtén los parámetros enviados por DataTables
-    draw = int(request.GET.get('draw', 0))
-    start = int(request.GET.get('start', 0))
-    length = int(request.GET.get('length', 10))  # Número de registros por página
-    search_value = request.GET.get('e', '')  # Término de búsqueda
-
-    incoming_data = Incoming.objects.all()
-    
-    if search_value:
-        incoming_data = incoming_data.filter(Q(part_number__icontains = search_value) | Q(sn_batch_pk__icontains=search_value))
-        
 
 
-    # Realizar la consulta teniendo en cuenta la paginación
-    incoming_data = incoming_data[start:start + length]
 
 
-    # Formatea los datos en un formato compatible con DataTables
-    data = []
-    for incoming in incoming_data:
-        data.append({
-            "sn_batch_pk":incoming.sn_batch_pk,
-            "categoria_fk":incoming.categoria_fk.name_categoria,
-            "part_number":incoming.part_number,
-            "qty":incoming.qty,
-            "f_vencimiento":incoming.f_vencimiento,
-            "saldo":incoming.saldo,
-        })
-    
-    if search_value:
-        records_filtered = Incoming.objects.filter(part_number__icontains=search_value).count()
-    else:
-    # Si no hay término de búsqueda, simplemente cuenta todos los registros
-        records_filtered = Incoming.objects.count()
+#VISTAS INCOMING
 
-    return JsonResponse({
-        "data": data,
-        "draw": draw,
-        "recordsTotal": Incoming.objects.count(),  # Total de registros sin filtrar
-        "recordsFiltered": records_filtered  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
-    })
-
-
-#VISTA Incoming
+#VISTA DE INCOMING QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA PAGINA DE INCOMING
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
-    stdf_fk_select2 = request.GET.get('id_stdf_fk')
-    print(stdf_fk_select2)
+    # # stdf_fk_select2 = request.GET.get('id_stdf_fk')
+    # print(stdf_fk_select2)
     total_unit_cost = 0
 
     if request.method == 'POST':
@@ -272,7 +241,74 @@ def incoming(request):
     }
     return render(request, 'incoming.html', context)
 
-#VISTA Consumo
+
+#GUARDA EL VALOR QUE SE BUSCO Y REDIRIGE A LA PAGINA DE RESULTADOS
+def buscar_productos_incoming(request):
+    # Obtiene el término de búsqueda del usuario desde la URL
+    query_inco = request.GET.get('e', '')
+    
+    return render(request, 'resultado_busqueda_incoming.html', {'query_inco':query_inco})
+    
+    # Realiza la búsqueda de productos por id_stdf
+    #resultados_part = Incoming.objects.filter(part_number__icontains=query_part)
+    # resultados_inc = Incoming.objects.filter(id_stdf=query_inc)
+
+
+#OBTIENE LOS DATOS RELACIONADOS A LA BUSQUEDA 
+def obtener_datos_incoming(request):
+    # Obtén los parámetros enviados por DataTables
+    draw = int(request.GET.get('draw', 0))
+    start = int(request.GET.get('start', 0))
+    length = int(request.GET.get('length', 10))  # Número de registros por página
+    search_value = request.GET.get('e', '')  # Término de búsqueda
+
+    incoming_data = Incoming.objects.all()
+    
+    if search_value:
+        incoming_data = incoming_data.filter(Q(part_number__icontains = search_value) | Q(sn_batch_pk__icontains=search_value))
+        
+
+
+    # Realizar la consulta teniendo en cuenta la paginación
+    incoming_data = incoming_data[start:start + length]
+
+
+    # Formatea los datos en un formato compatible con DataTables
+    data = []
+    for incoming in incoming_data:
+        data.append({
+            "sn_batch_pk":incoming.sn_batch_pk,
+            "categoria_fk":incoming.categoria_fk.name_categoria,
+            "part_number":incoming.part_number,
+            "descripcion": incoming.descripcion,
+            "qty":incoming.qty,
+            "f_vencimiento":incoming.f_vencimiento,
+            "saldo":incoming.saldo,
+        })
+    
+    if search_value:
+        records_filtered = Incoming.objects.filter(part_number__icontains=search_value).count()
+    else:
+    # Si no hay término de búsqueda, simplemente cuenta todos los registros
+        records_filtered = Incoming.objects.count()
+
+    return JsonResponse({
+        "data": data,
+        "draw": draw,
+        "recordsTotal": Incoming.objects.count(),  # Total de registros sin filtrar
+        "recordsFiltered": records_filtered  # Total de registros después del filtrado (puedes ajustar esto según tus necesidades)
+    })
+
+
+def detalle_incoming(request, sn_batch_pk):
+    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)    
+    return render(request,'detalle_incoming.html' , {'detalle_incoming':detalle_incoming})
+
+
+
+#VISTAS DE CONSUMO
+
+#VISTA DE CONSUMO QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA VISTA DE CONSUMOS
 def consumos(request):
     form_consumos = ConsumosForm()
     if request.method == 'POST':
@@ -300,7 +336,7 @@ def consumos(request):
 
 
    
-
+#GUARDA LA BUSQUEDA QUE SE REALIZO Y REDIRIGE A LA PAGINA DE RESULTADOS DE CONSUMOS
 def buscar_productos_consumos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_consu = request.GET.get('t', '')
@@ -309,7 +345,7 @@ def buscar_productos_consumos(request):
 
 
 
-
+#OBTIENE LOS DATOS RELACIONADOS A LA BUSQUEDA DE CONSUMOS
 def obtener_datos_consumos(request):
     # Obtén los parámetros enviados por DataTables
     draw = int(request.GET.get('draw', 0))
@@ -351,31 +387,10 @@ def obtener_datos_consumos(request):
         "draw": draw,
         "recordsTotal": Consumos.objects.count(),  # Total de registros sin filtrar
         "recordsFiltered": records_filtered,
+        
     })
 
-## Test
-def obtener_datos_stdf_incoming(request):
-
-    term = request.GET.get('q', '')
-
-    stdf_data = Comat.objects.filter(stdf_pk__icontains=term).values('stdf_pk')[:20]
-
-    # stdf_data = Comat.objects.all().values('stdf_pk')
-    stdf_list = list(stdf_data)
-    
-    # Convierte la lista de diccionarios a una lista de objetos JSON
-    stdf_json = [{'stdf_pk': item['stdf_pk']} for item in stdf_list]
-    
-    return JsonResponse({'stdf_data': stdf_json}, safe=False)
-
-def detalle_comat(request, stdf_pk):
-    detalle_comat = Comat.objects.get(stdf_pk=stdf_pk)    
-    return render(request,'detalle_comat.html' , {'detalle_comat':detalle_comat})
-
-def detalle_incoming(request, sn_batch_pk):
-    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)    
-    return render(request,'detalle_incoming.html' , {'detalle_incoming':detalle_incoming})
-
+#OBTIENE LOS DATOS PARA REALIZAR EL DETALLE DE CONSUMOS
 def detalle_consumos(request, consumo_pk):
     detalle_consumos = Consumos.objects.get(consumo_pk=consumo_pk)   
 
@@ -408,8 +423,20 @@ def detalle_consumos(request, consumo_pk):
 
 
 
+# ## Test
+# def obtener_datos_stdf_incoming(request):
 
+#     term = request.GET.get('q', '')
 
+#     stdf_data = Comat.objects.filter(stdf_pk__icontains=term).values('stdf_pk')[:20]
+
+#     # stdf_data = Comat.objects.all().values('stdf_pk')
+#     stdf_list = list(stdf_data)
+    
+#     # Convierte la lista de diccionarios a una lista de objetos JSON
+#     stdf_json = [{'stdf_pk': item['stdf_pk']} for item in stdf_list]
+    
+#     return JsonResponse({'stdf_data': stdf_json}, safe=False)
 
 
 
