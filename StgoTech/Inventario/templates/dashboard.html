@@ -57,65 +57,95 @@
         </div>
       </div>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-3">
-            <div class="dashboard">
-                <h1>Dashboard</h1>
-            </div>
-        </div>
-        <div class="col-9">
-            <div class="dashboard">
-                <h1>Inventario Stgo Tech</h1>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <h5 class="card-title">Top Productos</h5>
-                            <div class="card-body">
-                                <table id="productos-table" class="display">
-                                    <thead>
-                                        <tr>
-                                            <th>ID STDF</th>
-                                            <th>AWB</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for comat_item in comat_data %}
-                                        <tr>
-                                            <td>{{ comat_item.id_stdf }}</td>
-                                            <td>{{ comat_item.awb }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Bodegas</h5>
-                                <table id="bodegas-table" class="display">
-                                    <thead>
-                                        <tr>
-                                            <th>ID Bodega</th>
-                                            <th>Nombre</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for bodega_item in bodega_data %}
-                                        <tr>
-                                            <td>{{ bodega_item.id_bodega }}</td>
-                                            <td>{{ bodega_item.name_bodega }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, ininital-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+       <!-- Charts Js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboar <h1>
+        <div class="col-md-6">
+            <canvas id="myChart"></canvas>
         </div>
     </div>
+</body>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [
+        {
+          type: 'line',
+          label: 'STDF',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1,
+         
+          backgroundColor: [
+           'rgba(255, 99, 132, 0.2)',
+           'rgba(255, 159, 64, 0.2)',
+           'rgba(255, 205, 86, 0.2)',
+           'rgba(75, 192, 192, 0.2)',
+           'rgba(54, 162, 235, 0.2)',
+           'rgba(153, 102, 255, 0.2)',
+           'rgba(201, 203, 207, 0.2)'
+          ],
+          borderColor: [
+           'rgb(255, 99, 132)',
+           'rgb(255, 159, 64)',
+           'rgb(255, 205, 86)',
+           'rgb(75, 192, 192)',
+           'rgb(54, 162, 235)',
+           'rgb(153, 102, 255)',
+           'rgb(201, 203, 207)'
+          ],
+        },
+        {
+        type: 'bar',
+        label: 'Parth number',
+        data: [10, 7, 1, 1, 4, 8],
+        borderWidth: 1,
+        backgroundColor: [
+         'rgba(255, 99, 132, 0.6)',
+         'rgba(255, 159, 64, 0.6)',
+         'rgba(255, 205, 86, 0.6)',
+         'rgba(75, 192, 192, 0.6)',
+         'rgba(54, 162, 235, 0.6)',
+         'rgba(153, 102, 255, 0.6)',
+         'rgba(201, 203, 207, 0.6)'
+        ],
+        borderColor: [
+         'rgb(255, 99, 132)',
+         'rgb(255, 159, 64)',
+         'rgb(255, 205, 86)',
+         'rgb(75, 192, 192)',
+         'rgb(54, 162, 235)',
+         'rgb(153, 102, 255)',
+         'rgb(201, 203, 207)'
+        ],
+      },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
 {% endblock %}
