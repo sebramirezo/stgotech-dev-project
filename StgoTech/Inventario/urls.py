@@ -19,6 +19,7 @@ urlpatterns = [
     path('detalle_comat/<int:stdf_pk>/', views.detalle_comat, name='detalle_comat'),
     path('detalle_incoming/<str:sn_batch_pk>/', views.detalle_incoming, name='detalle_incoming'),
     path('detalle_consumos/<int:consumo_pk>/', views.detalle_consumos, name='detalle_consumos'),
-    path('detalle_inicio/<str:sn_batch_pk>/', views.detalle_inicio, name='detalle_inicio'),
+    path('detalle_inicio/<int:stdf_pk>/', views.detalle_inicio, name='detalle_inicio'),
+
 
 ]
