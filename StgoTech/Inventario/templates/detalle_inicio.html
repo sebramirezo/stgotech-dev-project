@@ -3,38 +3,127 @@
 {% block body %}
 
 
+<h2>Detalles STDF {{comat_data.stdf_pk}}</h2>
 
 
 
+<div class="row p-2">
+    <div class="col-md-6">
+        <dl class="row">
+            <dt>STDF:</dt>
+            <dd>{{comat_data.stdf_pk}}</dd>
+            <dt>AWB::</dt>
+            <dd>{{comat_data.awb}}</dd>
+            <dt>HAWB::</dt>
+            <dd>{{comat_data.hawb}}</dd>
+            <dt>N° MANIFIESTO:</dt>
+            <dd>{{comat_data.num_manifiesto}}</dd>
+            <dt>CORRELATIVO INTERNO:</dt>
+            <dd>{{comat_data.corr_interno}}</dd>
+            <dt>PIEZAS:</dt>
+            <dd>{{comat_data.pcs}}</dd>
+            <dt>PESO:</dt>
+            <dd>{{comat_data.peso}}</dd>
+            <dt>FECHA DE CONTROL::</dt>
+            <dd>{{comat_data.f_control}}</dd>
+            <dt>FECHA DE MANIFIESTO:</dt>
+            <dd>{{comat_data.f_manifiesto}}</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="row">
+                <dt>FECHA DE RECEPCION:</dt>
+                <dd>{{comat_data.f_recepcion}}</dd>
+                <dt>FECHA DE STDF:</dt>
+                <dd>{{comat_data.f_stdf}}</dd>
+                <dt>BODEGA:</dt>
+                <dd>{{comat_data.bodega_fk}}</dd>
+                <dt>FOB:</dt>
+                <dd>{{comat_data.fob}}</dd>
+                <dt>FLETE::</dt>
+                <dd>{{comat_data.flete}}</dd>
+                <dt>SEGURO:</dt>
+                <dd>{{comat_data.seguro}}</dd>
+                <dt>CIF:</dt>
+                <dd>{{comat_data.sum_cif}}</dd>
+                <dt>ORIGEN:</dt>
+                <dd>{{comat_data.origen_fk}}</dd>
+                <dt>OBSERVACION:</dt>
+                <dd>{{comat_data.observaciones}}</dd>
 
-
-
-
-
-
-<table id="tabla-detalle-incoming" class="display">
-    <thead>
-        <tr>
-            <th>SN</th>
-            <th>QTY</th>
-            <th>Descripcion</th>
-            <th>saldo</th>
-            
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
-
-<div>
-    <p>STDF:</p>
-    <li>{{ comat_data.stdf_pk }}</li>
-
-
+                
+        </dl>
+    </div>
 </div>
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="tabla-responsive">
+
+    <table id="tabla-detalle-incoming" class="display">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>PN</th>
+                <th>F INCOMING</th>
+                <th>descripcion</th>
+                <th>po</th>
+                <th>QTY</th>
+                <th>UPC</th>
+                <th>TUPC</th>
+                <th>F VEN</th>
+                <th>saldo</th>
+                <th>categoria</th>
+                <th>clasificacion</th>
+                <th>ubicacion</th>
+                <th>uom</th>
+                <th>owner</th>
+                <th>condicion</th>
+                <th>ficha</th>
+                <th>observaciones</th>
+                
+            </tr>
+        </thead>
+        <tbody></tbody>
+
+    </table>
+
+</div>
+
+
+
+<style>
+
+    .tabla-responsive {
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    #tabla-detalle-incoming {
+        width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+    }
+
+    @media (max-width: 1068px) {
+    #tabla-detalle-incoming .observaciones {
+        display: none;
+    }
+}
+
+
+</style>
 
 
 

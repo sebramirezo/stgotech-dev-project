@@ -19,6 +19,9 @@
          
         {% endblock %}
       </div>
+      
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -99,7 +102,7 @@
             $('#id_uom_fk').select2();
             $('#id_condicion_fk').select2();
             $('#id_ficha_fk').select2();
-            // $('#id_stdf_fk').select2();
+            $('#id_stdf_fk').select2();
             $('#id_incoming_fk').select2();
           
         });
@@ -136,41 +139,41 @@
               ]
           });
         });
-// Test
-        $(document).ready(function () {
-            // Inicializa el elemento select2
-            $('#id_stdf_fk').select2({
-                placeholder: 'Selecciona una opción',
-                ajax: {
-                    url: '/obtener_stdf_incoming/', // La URL donde obtendrás los datos desde Django
-                    dataType: 'json',
-                    // delay: 250,
-                    data: function (params) {
-                        return {
-                            q: params.term // Enviar el término de búsqueda como parámetro de consulta
-                        };
-                    },
-                    processResults: function (data) {
-                        // Modifica la estructura de los resultados si es necesario
-                        const modifiedResults = data.stdf_data.map(item => {
-                            return {
-                                id: item.stdf_pk,
-                                text: item.stdf_pk,
-                            };
-                        });
-                        console.log('modifiedResults:', modifiedResults);
+// // Test
+//         $(document).ready(function () {
+//             // Inicializa el elemento select2
+//             $('#id_stdf_fk').select2({
+//                 placeholder: 'Selecciona una opción',
+//                 ajax: {
+//                     url: '/obtener_stdf_incoming/', // La URL donde obtendrás los datos desde Django
+//                     dataType: 'json',
+//                     // delay: 250,
+//                     data: function (params) {
+//                         return {
+//                             q: params.term // Enviar el término de búsqueda como parámetro de consulta
+//                         };
+//                     },
+//                     processResults: function (data) {
+//                         // Modifica la estructura de los resultados si es necesario
+//                         const modifiedResults = data.stdf_data.map(item => {
+//                             return {
+//                                 id: item.stdf_pk,
+//                                 text: item.stdf_pk,
+//                             };
+//                         });
+//                         console.log('modifiedResults:', modifiedResults);
 
-                        return {
-                            results: modifiedResults
-                        };
-                    },
-                    cache: false,
-                    error: function (xhr, textStatus, errorThrown) {
-                        console.error('Error en la solicitud AJAX:', errorThrown);
-                    }
-                }
-            });
-        });
+//                         return {
+//                             results: modifiedResults
+//                         };
+//                     },
+//                     cache: false,
+//                     error: function (xhr, textStatus, errorThrown) {
+//                         console.error('Error en la solicitud AJAX:', errorThrown);
+//                     }
+//                 }
+//             });
+//         });
 
         $(document).ready(function () {
           var dataTable = $('#tabla-inicio').DataTable({
@@ -202,49 +205,71 @@
                   {
                     "data": null,
                     "render": function (data, type, row, meta) {
+
                         var stdf_fk__stdf_pk = data.stdf_fk__stdf_pk;
                         var url = "/detalle_inicio/" + stdf_fk__stdf_pk + "/";
                         return '<a href="' + url + '" class="ver-detalles" data-stdf_fk__stdf_pk="' + stdf_fk__stdf_pk + '">Detalles</a>';
                     }
                   }
                   
+
               ]
           });
         });
 
-
         $(document).ready(function () {
-            var url = window.location.pathname;
-            var stdf_pk = url.split('/').slice(-2, -1)[0];
-            
-            // Configuración del DataTable secundario para comat_data
-            var dataTable = $('#tabla-detalle-incoming').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": "{% url 'detalle_inicio' 0 %}".replace(0, stdf_pk),
-                    "type": "GET",
-                    "data": function (d) {
-                        d.format = 'json';
-                    }
-                },
-                "columns": [
-                    { "data": "sn_batch_pk" },
-                    { "data": "qty" },
-                    { "data": "descripcion" },
-                    { "data": "saldo" },
-                ]
-            });
-        });
+          var url = window.location.pathname;
+          var stdf_pk = url.split('/').slice(-2, -1)[0];
 
+          // Configuración del DataTable secundario para comat_data
+          var dataTable = $('#tabla-detalle-incoming').DataTable({
+              responsive : true,
+              "processing": true,
+              "serverSide": true,
+              "ajax": {
+                  "url": "{% url 'detalle_inicio_incoming' 0 %}".replace(0, stdf_pk),
+                  "type": "GET",
+                  "data": function (d) {
+                      d.format = 'json';
+                  },
+                  "dataSrc": "incoming_data"
+              },
+              "columns": [
+                  { "data": "sn_batch_pk", "width": "10%"  },
+                  { "data": "part_number", "width": "10%" },
+                  { "data": "f_incoming", "width": "10%" },
+                  { "data": "descripcion", "width": "10%" },
+                  { "data": "po", "width": "10%" },
+                  { "data": "qty", "width": "10%" },
+                  { "data": "u_purchase_cost", "width": "10%" },
+                  { "data": "total_u_purchase_cost", "width": "10%" },
+                  { "data": "f_vencimiento", "width": "10%" },
+                  { "data": "saldo", "width": "10%" },
+                  { "data": "categoria_fk", "width": "10%" },
+                  { "data": "clasificacion_fk", "width": "10%" },
+                  { "data": "ubicacion_fk", "width": "10%" },
+                  { "data": "uom_fk", "width": "10%" },
+                  { "data": "owner_fk", "width": "10%" },
+                  { "data": "condicion_fk", "width": "10%" },
+                  { "data": "ficha_fk", "width": "10%" },
+                  { "data": "observaciones", "width": "10%" },
+              
+              ]
+          });
+      });
 
-
-
-        
-
-        // Función para mostrar la ventana emergente
-        
+      
+    
     </script>
+
+
+
+
+
+
+
+
+
 
     
   </body>
