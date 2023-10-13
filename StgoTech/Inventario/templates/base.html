@@ -199,10 +199,48 @@
                   { "data": "owner_fk__name_owner"},
                   { "data": "ubicacion_fk__name_ubicacion" },
                   { "data": "f_vencimiento" },
+                  {
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        var stdf_fk__stdf_pk = data.stdf_fk__stdf_pk;
+                        var url = "/detalle_inicio/" + stdf_fk__stdf_pk + "/";
+                        return '<a href="' + url + '" class="ver-detalles" data-stdf_fk__stdf_pk="' + stdf_fk__stdf_pk + '">Detalles</a>';
+                    }
+                  }
                   
               ]
           });
         });
+
+
+        $(document).ready(function () {
+            var url = window.location.pathname;
+            var stdf_pk = url.split('/').slice(-2, -1)[0];
+            
+            // Configuración del DataTable secundario para comat_data
+            var dataTable = $('#tabla-detalle-incoming').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{% url 'detalle_inicio' 0 %}".replace(0, stdf_pk),
+                    "type": "GET",
+                    "data": function (d) {
+                        d.format = 'json';
+                    }
+                },
+                "columns": [
+                    { "data": "sn_batch_pk" },
+                    { "data": "qty" },
+                    { "data": "descripcion" },
+                    { "data": "saldo" },
+                ]
+            });
+        });
+
+
+
+
+        
 
         // Función para mostrar la ventana emergente
         
