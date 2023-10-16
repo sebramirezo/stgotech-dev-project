@@ -1,3 +1,11 @@
+Prioridad = [
+
+    ('Media', 'Media'),
+    ('Alta', 'Alta'),
+    ('Baja', 'Baja'),
+
+]
+
 
 BODEGA = [
 

@@ -84,6 +84,7 @@ class ComatForm(ModelForm):
     flete = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Flete - Utilice coma para separar  00,00","step":"1"}),label='Flete')
     seguro = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Seguro - Utilice coma para separar  00,00","step":"1"}),label='Seguro')
     observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa la observación"}),label='Observaciones' , required=False)
+    prioridad = forms.ChoiceField(choices=Prioridad,widget=forms.Select(attrs={"class": "form-control", "placeholder": "Ingresa la Prioridad"}),label='Prioridad',required=True)
     #id_bodega = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Bodega (FK)')
     #id_origen = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Origen (FK)')
 
@@ -109,6 +110,7 @@ class ComatForm(ModelForm):
         'bodega_fk',
         'origen_fk',
         'observaciones',
+        'prioridad',
         ]
         #widget = AutocompleteSelect(Comat._meta.get_field('id_bodega').remote_field,admin.site,attrs={'placeholder': 'seleccionar...'},)
 
@@ -155,6 +157,7 @@ class IncomingForm(ModelForm):
         model = Incoming
         fields = [
         'sn_batch_pk',
+        'categoria_fk',
         'part_number',
         'f_incoming',
         'po',
@@ -162,7 +165,6 @@ class IncomingForm(ModelForm):
         'u_purchase_cost',
         'f_vencimiento',
         'descripcion',
-        'categoria_fk',
         'clasificacion_fk', 
         'ubicacion_fk', 
         'uom_fk' , 

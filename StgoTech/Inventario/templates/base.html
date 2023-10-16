@@ -133,16 +133,21 @@
           });
       });
 
+
+             
+
       $(document).ready(function() {
-            $('#id_bodega_fk').select2();
-            $('#id_origen_fk').select2();
-            $('#id_ubicacion_fk').select2();
-            $('#id_clasificacion_fk').select2();
-            $('#id_uom_fk').select2();
-            $('#id_condicion_fk').select2();
-            $('#id_ficha_fk').select2();
-            $('#id_stdf_fk').select2();
-            $('#id_incoming_fk').select2();
+            $('#id_bodega_fk').select2({'placeholder':'Seleccione Bodega'});
+            $('#id_origen_fk').select2({'placeholder':'Seleccione Origen'});
+            $('#id_ubicacion_fk').select2({'placeholder':'Seleccione Ubicación'});
+            $('#id_clasificacion_fk').select2({'placeholder':'Seleccione Clasificación'});
+            $('#id_uom_fk').select2({'placeholder':'Seleccione UOM'});
+            $('#id_condicion_fk').select2({'placeholder':'Seleccione Condición'});
+            $('#id_ficha_fk').select2({'placeholder':'Seleccione N° de Ficha'});
+            $('#id_stdf_fk').select2({'placeholder':'Seleccione STDF'});
+            $('#id_incoming_fk').select2({'placeholder':'Seleccione Serial/Batch Number'});
+            $('#id_owner_fk').select2({'placeholder':'Seleccione Owner'});
+            $('#id_categoria_fk').select2({'placeholder':'Seleccione Categoria'});
           
         });
 
@@ -168,7 +173,6 @@
                   { "data": "matricula_aeronave" },
                   { "data": "orden_consumo" },
                   { "data": "qty_extraida" },
-                  { "data": "estado_fk" },
                   {
                     "data": null,
                     "render": function (data, type, row, meta) {
@@ -216,107 +220,91 @@
 //             });
 //         });
 
+        
+
+
         $(document).ready(function () {
-          var dataTable = $('#tabla-inicio').DataTable({
+            var dataTableIncoming = $('#tabla-inicio').DataTable({
+                searching: false,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{% url 'buscar_datos_inicio' %}",
+                    "type": "GET",
+                    "data": function (d) {
+                        d.n = '{{ query_inicio }}';
+                    },
+                    "dataSrc": "data_incoming"
+                },
+                "columns": [
+                    // Define las columnas que deseas mostrar para Incoming
+                    { "data": "sn_batch_pk" },
+                    { "data": "categoria_fk__name_categoria" },
+                    { "data": "part_number" },
+                    { "data": "descripcion" },
+                    { "data": "stdf_fk__stdf_pk" },
+                    { "data": "qty" },
+                    { "data": "qty_extraida_total" },
+                    { "data": "saldo" },
+                    { "data": "stdf_fk__awb" },
+                    { "data": "stdf_fk__num_manifiesto" },
+                    { "data": "owner_fk__name_owner"},
+                    { "data": "ubicacion_fk__name_ubicacion" },
+                    { "data": "f_vencimiento" },
+                    {
+                            "data": null,
+                            "render": function (data, type, row, meta) {
 
-                scrollY: true,
-                scrollX: true,
-               searching: false,
+                                var stdf_fk__stdf_pk = data.stdf_fk__stdf_pk;
+                                var url = "/detalle_inicio/" + stdf_fk__stdf_pk + "/";
+                                return '<a href="' + url + '" class="ver-detalles" data-stdf_fk__stdf_pk="' + stdf_fk__stdf_pk + '">Detalles</a>';
+                            }
+                        }
+                ]
 
-               "searching": false,
+            });
 
-              "processing": true,
-              "serverSide": true,
-              "ajax": {
-                  "url": "{% url 'buscar_datos_inicio' %}",
-                  "type": "GET", 
-                  "data": function (d) {
-                      d.n = '{{ query_inicio }}';}
+            var dataTableComatsSinIncoming = $('#tabla-inicio-no-incomings').DataTable({
+                searching: true,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{% url 'buscar_datos_inicio' %}",
+                    "type": "GET",
+                    "data": function (d) {
+                        d.n = '{{ query_inicio }}';
+                    },
+                    "dataSrc": "data_comats_sin_incoming",
                     
-              },
-              "columns": [
-                  // Define las columnas que deseas mostrar
-                  { "data": "sn_batch_pk" },
-                  { "data": "categoria_fk__name_categoria" },
-                  { "data": "part_number" },
-                  { "data": "descripcion" },
-                  { "data": "stdf_fk__stdf_pk" },
-                  { "data": "qty" },
-                  { "data": "qty_extraida_total" },
-                  { "data": "saldo" },
-                  { "data": "stdf_fk__awb" },
-                  { "data": "stdf_fk__num_manifiesto" },
-                  { "data": "owner_fk__name_owner"},
-                  { "data": "ubicacion_fk__name_ubicacion" },
-                  { "data": "f_vencimiento" },
-                  {
-                    "data": null,
-                    "render": function (data, type, row, meta) {
+                },
+                "columns": [
+                    // Define las columnas que deseas mostrar para Comats sin Incoming
+                    { "data": "stdf_pk" },
+                    { "data": "awb" },
+                    { "data": "hawb" },
+                    { "data": "prioridad" },
 
-                        var stdf_fk__stdf_pk = data.stdf_fk__stdf_pk;
-                        var url = "/detalle_inicio/" + stdf_fk__stdf_pk + "/";
-                        return '<a href="' + url + '" class="ver-detalles" data-stdf_fk__stdf_pk="' + stdf_fk__stdf_pk + '">Detalles</a>';
-                    }
-                  }
-                  
+                ]
+                
 
-              ]
-          });
+            });
         });
 
+
+
+
+
+
+
+
+
+
+
         
-       
-
-
-
-
-
+        // Configuración del DataTable secundario para comat_data
         $(document).ready(function () {
             var url = window.location.pathname;
             var stdf_pk = url.split('/').slice(-2, -1)[0];
-
-
-          // Configuración del DataTable secundario para comat_data
-          var dataTable = $('#tabla-detalle-incoming').DataTable({
-                scrollY: true,
-                scrollX: true,
-              responsive : true,
-              "processing": true,
-              "serverSide": true,
-              "ajax": {
-                  "url": "{% url 'detalle_inicio_incoming' 0 %}".replace(0, stdf_pk),
-                  "type": "GET",
-                  "data": function (d) {
-                      d.format = 'json';
-                  },
-                  "dataSrc": "incoming_data"
-              },
-              "columns": [
-                  { "data": "sn_batch_pk", "width": "10%"  },
-                  { "data": "part_number", "width": "10%" },
-                  { "data": "f_incoming", "width": "10%" },
-                  { "data": "descripcion", "width": "10%" },
-                  { "data": "po", "width": "10%" },
-                  { "data": "qty", "width": "10%" },
-                  { "data": "u_purchase_cost", "width": "10%" },
-                  { "data": "total_u_purchase_cost", "width": "10%" },
-                  { "data": "f_vencimiento", "width": "10%" },
-                  { "data": "saldo", "width": "10%" },
-                  { "data": "categoria_fk", "width": "10%" },
-                  { "data": "clasificacion_fk", "width": "10%" },
-                  { "data": "ubicacion_fk", "width": "10%" },
-                  { "data": "uom_fk", "width": "10%" },
-                  { "data": "owner_fk", "width": "10%" },
-                  { "data": "condicion_fk", "width": "10%" },
-                  { "data": "ficha_fk", "width": "10%" },
-                  { "data": "observaciones", "width": "10%" },
-              
-              ]
-          });
-      });
-</script>
-    
-    </script>
 
             // Configuración del DataTable secundario para comat_data
             var incomingDataTable = $('#tabla-detalle-incoming').DataTable({
@@ -387,9 +375,24 @@
         
         
         });
+        
+        
+        
 
 
 
+        
+       
+
+
+
+
+
+       
+    
+    </script>
+
+            
 
 
 
@@ -398,7 +401,6 @@
 
       
     
-    </script>
 
 
 
