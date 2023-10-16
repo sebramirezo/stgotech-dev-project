@@ -177,7 +177,7 @@
 
         $(document).ready(function () {
           var dataTable = $('#tabla-inicio').DataTable({
-               searching: false,
+               "searching": false,
               "processing": true,
               "serverSide": true,
               "ajax": {
@@ -217,55 +217,97 @@
           });
         });
 
-        $(document).ready(function () {
-          var url = window.location.pathname;
-          var stdf_pk = url.split('/').slice(-2, -1)[0];
+        
+       
 
-          // Configuración del DataTable secundario para comat_data
-          var dataTable = $('#tabla-detalle-incoming').DataTable({
-              responsive : true,
-              "processing": true,
-              "serverSide": true,
-              "ajax": {
-                  "url": "{% url 'detalle_inicio_incoming' 0 %}".replace(0, stdf_pk),
-                  "type": "GET",
-                  "data": function (d) {
-                      d.format = 'json';
-                  },
-                  "dataSrc": "incoming_data"
-              },
-              "columns": [
-                  { "data": "sn_batch_pk", "width": "10%"  },
-                  { "data": "part_number", "width": "10%" },
-                  { "data": "f_incoming", "width": "10%" },
-                  { "data": "descripcion", "width": "10%" },
-                  { "data": "po", "width": "10%" },
-                  { "data": "qty", "width": "10%" },
-                  { "data": "u_purchase_cost", "width": "10%" },
-                  { "data": "total_u_purchase_cost", "width": "10%" },
-                  { "data": "f_vencimiento", "width": "10%" },
-                  { "data": "saldo", "width": "10%" },
-                  { "data": "categoria_fk", "width": "10%" },
-                  { "data": "clasificacion_fk", "width": "10%" },
-                  { "data": "ubicacion_fk", "width": "10%" },
-                  { "data": "uom_fk", "width": "10%" },
-                  { "data": "owner_fk", "width": "10%" },
-                  { "data": "condicion_fk", "width": "10%" },
-                  { "data": "ficha_fk", "width": "10%" },
-                  { "data": "observaciones", "width": "10%" },
-              
-              ]
-          });
-      });
+
+
+
+
+        $(document).ready(function () {
+            var url = window.location.pathname;
+            var stdf_pk = url.split('/').slice(-2, -1)[0];
+
+            // Configuración del DataTable secundario para comat_data
+            var incomingDataTable = $('#tabla-detalle-incoming').DataTable({
+                searching: true,
+                searchParams: ["search"],
+                responsive: true,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{% url 'detalle_inicio' 0 %}".replace(0, stdf_pk),
+                    "type": "GET",
+                    "data": function (d) {
+                        d.format = 'json';
+                    },
+                    "dataSrc": function (json) {
+                        return json.incoming_data;
+                    }
+                },
+                "columns": [
+                            { "data": "sn_batch_pk", "width": "10%" },
+                            { "data": "part_number", "width": "10%" },
+                            { "data": "f_incoming", "width": "10%" },
+                            { "data": "descripcion", "width": "10%" },
+                            { "data": "po", "width": "10%" },
+                            { "data": "qty", "width": "10%" },
+                            { "data": "u_purchase_cost", "width": "10%" },
+                            { "data": "total_u_purchase_cost", "width": "10%" },
+                            { "data": "f_vencimiento", "width": "10%" },
+                            { "data": "saldo", "width": "10%" },
+                            { "data": "categoria_fk", "width": "10%" },
+                            { "data": "clasificacion_fk", "width": "10%" },
+                            { "data": "ubicacion_fk", "width": "10%" },
+                            { "data": "uom_fk", "width": "10%" },
+                            { "data": "owner_fk", "width": "10%" },
+                            { "data": "condicion_fk", "width": "10%" },
+                            { "data": "ficha_fk", "width": "10%" },
+                            { "data": "observaciones", "width": "10%" },
+                        ],
+                        
+            });
+
+            // Configuración del DataTable secundario para consumos_data
+            var consumosDataTable = $('#tabla-detalle-consumos').DataTable({
+                searching: true,
+                responsive: true,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{% url 'detalle_inicio' 0 %}".replace(0, stdf_pk),
+                    "type": "GET",
+                    "data": function (c) {
+                        c.format = 'json';
+                    },
+                    "dataSrc": "consumos_data"
+                },
+                "columns": [
+                            { "data": "incoming_fk", "width": "10%" },
+                            { "data": "orden_consumo", "width": "10%" },
+                            { "data": "f_transaccion", "width": "10%" },
+                            { "data": "qty_extraida", "width": "10%" },
+                            { "data": "matricula_aeronave", "width": "10%" },
+                            { "data": "observaciones", "width": "10%" },
+                        ],
+                        
+                        
+            });
+
+        
+        
+        });
+
+
+
+
+
+
+
 
       
     
     </script>
-
-
-
-
-
 
 
 
