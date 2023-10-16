@@ -954,6 +954,7 @@ def detalle_inicio(request, stdf_pk):
                 "seguro": comat_data.seguro,
                 "bodega_fk": comat_data.bodega_fk.name_bodega,
                 "origen_fk": comat_data.origen_fk.name_origen,
+                "estado_fk": comat_data.estado_fk.estado,
             },
         "incoming_data": incoming_data_list,
         "consumos_data": consumos_data_list,

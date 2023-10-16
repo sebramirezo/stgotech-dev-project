@@ -194,6 +194,6 @@ class ConsumosForm(ModelForm):
         'f_transaccion',
         'incoming_fk',
         'observaciones',
-        'estado_fk',
+        
         
         ]
