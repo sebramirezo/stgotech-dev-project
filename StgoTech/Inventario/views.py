@@ -540,20 +540,355 @@ def detalle_consumos(request, consumo_pk):
 #         })
 
 
-def detalle_inicio_incoming(request, stdf_pk):
+# def detalle_inicio_incoming(request, stdf_pk):
+#     draw = int(request.GET.get('draw', 0))
+#     start = int(request.GET.get('start', 0))
+#     length = int(request.GET.get('length', 10))  # Número de registros por página
+
+#     # Obtén el objeto Comat específico basado en stdf_pk
+#     comat_data = Comat.objects.get(stdf_pk=stdf_pk)
+
+#     # Obtén los datos relacionados de Incoming y Consumos
+#     incoming_data = Incoming.objects.filter(stdf_fk=comat_data)
+
+#     incoming_data_list = []
+
+#     for incoming_obj in incoming_data:
+#         incoming_data_list.append({
+#             "sn_batch_pk": incoming_obj.sn_batch_pk,
+#             "part_number": incoming_obj.part_number,
+#             "f_incoming": incoming_obj.f_incoming,
+#             "descripcion": incoming_obj.descripcion,
+#             "po":incoming_obj.po,
+#             "qty":incoming_obj.qty,
+#             "u_purchase_cost":incoming_obj.u_purchase_cost,
+#             "total_u_purchase_cost":incoming_obj.total_u_purchase_cost,
+#             "f_vencimiento":incoming_obj.f_vencimiento,
+#             "saldo":incoming_obj.saldo,
+#             "observaciones":incoming_obj.observaciones,
+#             "categoria_fk":incoming_obj.categoria_fk.name_categoria,
+#             "clasificacion_fk":incoming_obj.clasificacion_fk.name_clasificacion,
+#             "ubicacion_fk":incoming_obj.ubicacion_fk.name_ubicacion,
+#             "uom_fk":incoming_obj.uom_fk.name_uom,
+#             "owner_fk":incoming_obj.owner_fk.name_owner,
+#             "condicion_fk":incoming_obj.condicion_fk.name_condicion,
+#             "ficha_fk":incoming_obj.ficha_fk.name_ficha,
+#     })
+    
+#     data = {
+#         "comat_data": {
+#             "stdf_pk": comat_data.stdf_pk,
+#                 "awb": comat_data.awb,
+#                 "hawb": comat_data.hawb,
+#                 "num_manifiesto": comat_data.num_manifiesto,
+#                 "sum_cif": comat_data.sum_cif,
+#                 "corr_interno" : comat_data.corr_interno,
+#                 "psc": comat_data.pcs,
+#                 "peso": comat_data.peso,
+#                 "f_control": comat_data.f_control,
+#                 "f_manifiesto": comat_data.f_manifiesto,
+#                 "f_recepcion": comat_data.f_recepcion,
+#                 "f_stdf": comat_data.f_stdf,
+#                 "fob": comat_data.fob,
+#                 "flete": comat_data.flete,
+#                 "seguro": comat_data.seguro,
+#                 "bodega_fk": comat_data.bodega_fk.name_bodega,
+#                 "origen_fk": comat_data.origen_fk.name_origen,
+#             },
+#         "incoming_data": incoming_data_list,
+#         "recordsTotal": incoming_data.count(),  # Total de registros sin filtrar
+#         "recordsFiltered": incoming_data.count(),  # Total de registros después de aplicar filtros
+#     }
+#     if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
+#         # Si es una solicitud AJAX, devuelve una respuesta JSON
+#         return JsonResponse(data)
+#     else:
+#         # Si no es una solicitud AJAX, renderiza una plantilla HTML
+#         return render(request, 'detalle_inicio.html', {
+#             "comat_data": comat_data,
+#             "incoming_data": incoming_data,
+#         })
+    
+# def detalle_inicio_consumos(request, stdf_pk):
+#     draw = int(request.GET.get('draw', 0))
+#     start = int(request.GET.get('start', 0))
+#     length = int(request.GET.get('length', 10))  # Número de registros por página
+
+#     # Obtén el objeto Comat específico basado en stdf_pk
+#     comat_data = Comat.objects.get(stdf_pk=stdf_pk)
+
+# # Obtén los objetos "Incoming" relacionados con "Comat"
+#     incoming_objects = Incoming.objects.filter(stdf_fk=comat_data)
+
+# # Obtén los objetos "Consumos" relacionados con los objetos "Incoming"
+#     consumos_data = Consumos.objects.filter(incoming_fk__in=incoming_objects)
+   
+   
+    
+#     consumos_data_list = []
+
+    
+#     for consumos_obj in consumos_data:
+#         consumos_data_list.append({
+            
+#             "incoming_fk":consumos_obj.incoming_fk.sn_batch_pk,
+#             "orden_consumo":consumos_obj.orden_consumo,
+#             "f_transaccion":consumos_obj.f_transaccion,
+#             "qty_extraida":consumos_obj.qty_extraida,
+#             "matricula_aeronave":consumos_obj.matricula_aeronave,
+#             "observaciones":consumos_obj.observaciones,
+                
+#     })
+#     data2 = {
+#         "comat_data": {
+#             "stdf_pk": comat_data.stdf_pk,
+#                 "awb": comat_data.awb,
+#                 "hawb": comat_data.hawb,
+#                 "num_manifiesto": comat_data.num_manifiesto,
+#                 "sum_cif": comat_data.sum_cif,
+#                 "corr_interno" : comat_data.corr_interno,
+#                 "psc": comat_data.pcs,
+#                 "peso": comat_data.peso,
+#                 "f_control": comat_data.f_control,
+#                 "f_manifiesto": comat_data.f_manifiesto,
+#                 "f_recepcion": comat_data.f_recepcion,
+#                 "f_stdf": comat_data.f_stdf,
+#                 "fob": comat_data.fob,
+#                 "flete": comat_data.flete,
+#                 "seguro": comat_data.seguro,
+#                 "bodega_fk": comat_data.bodega_fk.name_bodega,
+#                 "origen_fk": comat_data.origen_fk.name_origen,
+#             },
+        
+#         "consumos_data": consumos_data_list,
+#         "recordsTotal": consumos_data.count(),  # Total de registros sin filtrar
+#         "recordsFiltered": consumos_data.count(),  # Total de registros después de aplicar filtros
+#     }
+#     if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
+#         # Si es una solicitud AJAX, devuelve una respuesta JSON
+        
+#         return JsonResponse(data2)
+        
+#     else:
+#         # Si no es una solicitud AJAX, renderiza una plantilla HTML
+#         return render(request, 'detalle_inicio.html', {
+#             "comat_data": comat_data,
+#             "consumos_data": consumos_data,
+#         })
+
+
+
+
+
+# def detalle_inicio(request, stdf_pk):
+#     comat_data = Comat.objects.get(stdf_pk=stdf_pk)
+    
+#     # Obtén los objetos "Incoming" relacionados con "Comat"
+#     incoming_objects = Incoming.objects.filter(stdf_fk=comat_data)
+    
+#     incoming_data_list = []
+#     consumos_data_list = []
+
+#     for incoming_obj in incoming_objects:
+#         incoming_data_list.append({
+#             "sn_batch_pk": incoming_obj.sn_batch_pk,
+#             "part_number": incoming_obj.part_number,
+#             "f_incoming": incoming_obj.f_incoming,
+#             "descripcion": incoming_obj.descripcion,
+#             "po":incoming_obj.po,
+#             "qty":incoming_obj.qty,
+#             "u_purchase_cost":incoming_obj.u_purchase_cost,
+#             "total_u_purchase_cost":incoming_obj.total_u_purchase_cost,
+#             "f_vencimiento":incoming_obj.f_vencimiento,
+#             "saldo":incoming_obj.saldo,
+#             "observaciones":incoming_obj.observaciones,
+#             "categoria_fk":incoming_obj.categoria_fk.name_categoria,
+#             "clasificacion_fk":incoming_obj.clasificacion_fk.name_clasificacion,
+#             "ubicacion_fk":incoming_obj.ubicacion_fk.name_ubicacion,
+#             "uom_fk":incoming_obj.uom_fk.name_uom,
+#             "owner_fk":incoming_obj.owner_fk.name_owner,
+#             "condicion_fk":incoming_obj.condicion_fk.name_condicion,
+#             "ficha_fk":incoming_obj.ficha_fk.name_ficha,
+#     })
+
+#         # Obtén los objetos "Consumos" relacionados con los objetos "Incoming"
+#         consumos_data = Consumos.objects.filter(incoming_fk=incoming_obj)
+
+#         for consumos_obj in consumos_data:
+#             consumos_data_list.append({
+#                 "incoming_fk":consumos_obj.incoming_fk.sn_batch_pk,
+#                 "orden_consumo":consumos_obj.orden_consumo,
+#                 "f_transaccion":consumos_obj.f_transaccion,
+#                 "qty_extraida":consumos_obj.qty_extraida,
+#                 "matricula_aeronave":consumos_obj.matricula_aeronave,
+#                 "observaciones":consumos_obj.observaciones,
+                
+#             })
+
+#          incoming_records_total = incoming_objects.count()
+#         incoming_records_filtered = incoming_records_total  # Opcionalmente, puedes aplicar filtros aquí
+
+#         consumos_records_total = Consumos.objects.filter(incoming_fk__in=incoming_objects).count()
+#         consumos_records_filtered = consumos_records_total 
+
+#     data = {
+#         "comat_data": {
+#                 "stdf_pk": comat_data.stdf_pk,
+#                 "awb": comat_data.awb,
+#                 "hawb": comat_data.hawb,
+#                 "num_manifiesto": comat_data.num_manifiesto,
+#                 "sum_cif": comat_data.sum_cif,
+#                 "corr_interno" : comat_data.corr_interno,
+#                 "psc": comat_data.pcs,
+#                 "peso": comat_data.peso,
+#                 "f_control": comat_data.f_control,
+#                 "f_manifiesto": comat_data.f_manifiesto,
+#                 "f_recepcion": comat_data.f_recepcion,
+#                 "f_stdf": comat_data.f_stdf,
+#                 "fob": comat_data.fob,
+#                 "flete": comat_data.flete,
+#                 "seguro": comat_data.seguro,
+#                 "bodega_fk": comat_data.bodega_fk.name_bodega,
+#                 "origen_fk": comat_data.origen_fk.name_origen,
+#             },
+#         "incoming_data": incoming_data_list,
+#         "consumos_data": consumos_data_list,
+#     }
+
+#     if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
+#         # Si es una solicitud AJAX, devuelve una respuesta JSON
+#         return JsonResponse(data)
+#     else:
+#         # Si no es una solicitud AJAX, renderiza una plantilla HTML
+#         return render(request, 'detalle_inicio.html', {
+#             "comat_data": comat_data,
+#             "incoming_data":incoming_data_list,
+#             "consumos_data": consumos_data,
+#         })
+
+
+
+
+
+
+
+
+# def detalle_inicio(request, stdf_pk):
+#     draw = int(request.GET.get('draw', 0))
+#     start = int(request.GET.get('start', 0))
+#     length = int(request.GET.get('length', 10))  # Número de registros por página
+
+
+
+#     comat_data = Comat.objects.get(stdf_pk=stdf_pk)
+
+#     incoming_objects = Incoming.objects.filter(stdf_fk=comat_data)
+#     incoming_data_list = []
+
+#     for incoming_obj in incoming_objects:
+#         incoming_data_list.append({
+#             "sn_batch_pk": incoming_obj.sn_batch_pk,
+#             "part_number": incoming_obj.part_number,
+#             "f_incoming": incoming_obj.f_incoming,
+#             "descripcion": incoming_obj.descripcion,
+#             "po":incoming_obj.po,
+#             "qty":incoming_obj.qty,
+#             "u_purchase_cost":incoming_obj.u_purchase_cost,
+#             "total_u_purchase_cost":incoming_obj.total_u_purchase_cost,
+#             "f_vencimiento":incoming_obj.f_vencimiento,
+#             "saldo":incoming_obj.saldo,
+#             "observaciones":incoming_obj.observaciones,
+#             "categoria_fk":incoming_obj.categoria_fk.name_categoria,
+#             "clasificacion_fk":incoming_obj.clasificacion_fk.name_clasificacion,
+#             "ubicacion_fk":incoming_obj.ubicacion_fk.name_ubicacion,
+#             "uom_fk":incoming_obj.uom_fk.name_uom,
+#             "owner_fk":incoming_obj.owner_fk.name_owner,
+#             "condicion_fk":incoming_obj.condicion_fk.name_condicion,
+#             "ficha_fk":incoming_obj.ficha_fk.name_ficha,
+#     })
+
+#     consumos_data_list = []
+
+#     for incoming_obj in incoming_objects:
+#         consumos_data = Consumos.objects.filter(incoming_fk=incoming_obj)
+#         for consumos_obj in consumos_data:
+#             consumos_data_list.append({
+#                 "incoming_fk":consumos_obj.incoming_fk.sn_batch_pk,
+#                 "orden_consumo":consumos_obj.orden_consumo,
+#                 "f_transaccion":consumos_obj.f_transaccion,
+#                 "qty_extraida":consumos_obj.qty_extraida,
+#                 "matricula_aeronave":consumos_obj.matricula_aeronave,
+#                 "observaciones":consumos_obj.observaciones,
+                
+#             })
+
+#     incoming_records_total = incoming_objects.count()
+#     incoming_records_filtered = incoming_records_total  # Opcionalmente, puedes aplicar filtros aquí
+
+#     consumos_records_total = Consumos.objects.filter(incoming_fk__in=incoming_objects).count()
+#     consumos_records_filtered = consumos_records_total  # Opcionalmente, puedes aplicar filtros aquí
+
+#     data = {
+#         "comat_data": {
+#                 "stdf_pk": comat_data.stdf_pk,
+#                 "awb": comat_data.awb,
+#                 "hawb": comat_data.hawb,
+#                 "num_manifiesto": comat_data.num_manifiesto,
+#                 "sum_cif": comat_data.sum_cif,
+#                 "corr_interno" : comat_data.corr_interno,
+#                 "psc": comat_data.pcs,
+#                 "peso": comat_data.peso,
+#                 "f_control": comat_data.f_control,
+#                 "f_manifiesto": comat_data.f_manifiesto,
+#                 "f_recepcion": comat_data.f_recepcion,
+#                 "f_stdf": comat_data.f_stdf,
+#                 "fob": comat_data.fob,
+#                 "flete": comat_data.flete,
+#                 "seguro": comat_data.seguro,
+#                 "bodega_fk": comat_data.bodega_fk.name_bodega,
+#                 "origen_fk": comat_data.origen_fk.name_origen,
+#             },
+#         "incoming_data": incoming_data_list,
+#         "consumos_data": consumos_data_list,
+#         "incoming_recordsTotal": incoming_records_total,
+#         "incoming_recordsFiltered": incoming_records_filtered,
+#         "consumos_recordsTotal": consumos_records_total,
+#         "consumos_recordsFiltered": consumos_records_filtered,
+#     }
+
+#     if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
+#         return JsonResponse(data)
+#     else:
+#         # Si no es una solicitud AJAX, renderiza una plantilla HTML
+#         return render(request, 'detalle_inicio.html', {
+#             "comat_data": comat_data,
+#             "incoming_data_list": incoming_data_list,  # Cambia el nombre aquí
+#             "incoming_recordsTotal": incoming_records_total,  # Agrega esto
+#             "incoming_recordsFiltered": incoming_records_filtered,  # Agrega esto
+#             "consumos_data": consumos_data_list,
+#             "consumos_recordsTotal": consumos_records_total,
+#             "consumos_recordsFiltered": consumos_records_filtered,
+#         })
+
+
+
+
+
+
+def detalle_inicio(request, stdf_pk):
     draw = int(request.GET.get('draw', 0))
     start = int(request.GET.get('start', 0))
     length = int(request.GET.get('length', 10))  # Número de registros por página
 
-    # Obtén el objeto Comat específico basado en stdf_pk
     comat_data = Comat.objects.get(stdf_pk=stdf_pk)
 
-    # Obtén los datos relacionados de Incoming y Consumos
-    incoming_data = Incoming.objects.filter(stdf_fk=comat_data)
+    # Tabla de Incoming
+    incoming_objects = Incoming.objects.filter(stdf_fk=comat_data)
+    incoming_objects_paginated = incoming_objects[start:start + length]
 
     incoming_data_list = []
 
-    for incoming_obj in incoming_data:
+    for incoming_obj in incoming_objects_paginated:
         incoming_data_list.append({
             "sn_batch_pk": incoming_obj.sn_batch_pk,
             "part_number": incoming_obj.part_number,
@@ -574,10 +909,35 @@ def detalle_inicio_incoming(request, stdf_pk):
             "condicion_fk":incoming_obj.condicion_fk.name_condicion,
             "ficha_fk":incoming_obj.ficha_fk.name_ficha,
     })
-    
+
+    incoming_records_total = incoming_objects.count()
+    incoming_records_filtered = incoming_records_total  # Opcionalmente, puedes aplicar filtros aquí
+
+    # Tabla de Consumos
+    consumos_objects = Consumos.objects.filter(incoming_fk__in=incoming_objects)
+    consumos_objects_paginated = consumos_objects[start:start + length]
+
+    consumos_data_list = []
+
+    for consumos_obj in consumos_objects_paginated:
+        consumos_data_list.append({
+                "incoming_fk":consumos_obj.incoming_fk.sn_batch_pk,
+                "orden_consumo":consumos_obj.orden_consumo,
+                "f_transaccion":consumos_obj.f_transaccion,
+                "qty_extraida":consumos_obj.qty_extraida,
+                "matricula_aeronave":consumos_obj.matricula_aeronave,
+                "observaciones":consumos_obj.observaciones,
+        })
+
+    consumos_records_total = consumos_objects.count()
+    consumos_records_filtered = consumos_records_total  # Opcionalmente, puedes aplicar filtros aquí
+
     data = {
+        "draw": draw,
+        "recordsTotal": incoming_records_total,
+        "recordsFiltered": incoming_records_filtered,
         "comat_data": {
-            "stdf_pk": comat_data.stdf_pk,
+                "stdf_pk": comat_data.stdf_pk,
                 "awb": comat_data.awb,
                 "hawb": comat_data.hawb,
                 "num_manifiesto": comat_data.num_manifiesto,
@@ -596,91 +956,22 @@ def detalle_inicio_incoming(request, stdf_pk):
                 "origen_fk": comat_data.origen_fk.name_origen,
             },
         "incoming_data": incoming_data_list,
-        "recordsTotal": incoming_data.count(),  # Total de registros sin filtrar
-        "recordsFiltered": incoming_data.count(),  # Total de registros después de aplicar filtros
-    }
-    if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
-        # Si es una solicitud AJAX, devuelve una respuesta JSON
-        return JsonResponse(data)
-    else:
-        # Si no es una solicitud AJAX, renderiza una plantilla HTML
-        return render(request, 'detalle_inicio.html', {
-            "comat_data": comat_data,
-            "incoming_data": incoming_data,
-        })
-    
-def detalle_inicio_consumos(request, stdf_pk):
-    draw = int(request.GET.get('draw', 0))
-    start = int(request.GET.get('start', 0))
-    length = int(request.GET.get('length', 10))  # Número de registros por página
-
-    # Obtén el objeto Comat específico basado en stdf_pk
-    comat_data = Comat.objects.get(stdf_pk=stdf_pk)
-
-    # Obtén los datos relacionados de Incoming y Consumos
-    incoming_data = Incoming.objects.filter(stdf_fk=comat_data)
-    consumos_data = Consumos.objects.filter(incoming_fk__stdf_fk=comat_data)
-
-    consumos_data_list = []
-
-    
-    for consumos_obj in consumos_data:
-        consumos_data_list.append({
-            "orden_consumo":consumos_obj.orden_consumo,
-            "f_transaccion":consumos_obj.f_transaccion,
-            "qty_extraida":consumos_obj.qty_extraida,
-            "matricula_aeronave":consumos_obj.matricula_aeronave,
-            "observaciones":consumos_obj.observaciones,
-            "estado_fk":consumos_obj.estado_fk.estado,    
-    })
-    data = {
-        "comat_data": {
-            "stdf_pk": comat_data.stdf_pk,
-                "awb": comat_data.awb,
-                "hawb": comat_data.hawb,
-                "num_manifiesto": comat_data.num_manifiesto,
-                "sum_cif": comat_data.sum_cif,
-                "corr_interno" : comat_data.corr_interno,
-                "psc": comat_data.pcs,
-                "peso": comat_data.peso,
-                "f_control": comat_data.f_control,
-                "f_manifiesto": comat_data.f_manifiesto,
-                "f_recepcion": comat_data.f_recepcion,
-                "f_stdf": comat_data.f_stdf,
-                "fob": comat_data.fob,
-                "flete": comat_data.flete,
-                "seguro": comat_data.seguro,
-                "bodega_fk": comat_data.bodega_fk.name_bodega,
-                "origen_fk": comat_data.origen_fk.name_origen,
-            },
-        
         "consumos_data": consumos_data_list,
-        "recordsTotal": incoming_data.count(),  # Total de registros sin filtrar
-        "recordsFiltered": incoming_data.count(),  # Total de registros después de aplicar filtros
     }
+
     if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
-        # Si es una solicitud AJAX, devuelve una respuesta JSON
         return JsonResponse(data)
     else:
         # Si no es una solicitud AJAX, renderiza una plantilla HTML
         return render(request, 'detalle_inicio.html', {
             "comat_data": comat_data,
-            "consumos_data": consumos_data,
+            "incoming_data_list": incoming_data_list,
+            "incoming_recordsTotal": incoming_records_total,
+            "incoming_recordsFiltered": incoming_records_filtered,
+            "consumos_data": consumos_data_list,
+            "consumos_recordsTotal": consumos_records_total,
+            "consumos_recordsFiltered": consumos_records_filtered,
         })
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
 
 
 
