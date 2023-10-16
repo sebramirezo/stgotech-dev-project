@@ -2,14 +2,14 @@
 
 {% block body %}
 <div class="dashboard">
-    <h1>Inventario Stgo Tech</h1>
-
+    <h5>Bienvenido {{user}}</h5>
+    <hr>
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <h4>Buscador </h4>
+                <h5>Buscador Inicio</h5>
                 <form action="{% url 'buscar_productos_inicio' %}" method="GET">
-                    <input class="form-control" type="text" name="n" placeholder="Part Number">
+                    <input class="form-control" type="text" name="n" placeholder="Ingresa un Part Number">
                     <input class="btn btn-primary m-2" type="submit" value="Buscar">
                 </form>
             </div>
@@ -18,10 +18,44 @@
     </div>
 
 
-    <div class="container px-4 py-5" id="featured-3">
+    <div class="container justify-content-center px-4 py-5" id="featured-3">
         <h2 class="pb-2 border-bottom">Accesos Directos</h2>
-        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-          <div class="feature col">
+        <div class="row g-3 py-5 row-cols-1 row-cols-lg-3">
+            <div class="col card m-1 p-4 text-bg-light mb-1" style="width: 400px;">
+                <div class="feature-icon bg-success bg-gradient">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+                  </div>
+                <div class="card-body">
+                  <h5 class="card-title">Comat</h5>
+                  <p class="card-text">Formulario de ingreso de productos del comercio exterior al deposito franco.</p>
+                  <a href="/comat" class="btn btn-success">Ir a Comat</a>
+                </div>
+              </div>
+              
+              <div class="col card m-1 p-4 text-bg-light mb-1" style="width: 400px;">
+                <div class="feature-icon bg-warning bg-gradient">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+                  </div>
+                <div class="card-body">
+                  <h5 class="card-title">Incoming</h5>
+                  <p class="card-text">Formulario de ingreso de productos al almacen.</p>
+                  <hr>
+                  <a href="/incoming" class="btn btn-warning">Ir a Incoming</a>
+                </div>
+              </div>
+
+              <div class="col card m-1 p-4 text-bg-light mb-1" style="width: 400px;">
+                <div class="feature-icon bg-primary bg-gradient">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+                  </div>
+                <div class="card-body">
+                  <h5 class="card-title">Consumos</h5>
+                  <p class="card-text">Formulario de productos consumidos.</p>
+                  <hr>
+                  <a href="/consumos" class="btn btn-primary">Ir a Consumos</a>
+                </div>
+              </div>
+          <!-- <div class="feature col">
             <div class="feature-icon bg-primary bg-gradient">
               <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
             </div>
@@ -53,10 +87,11 @@
                 Ir a Consumos
               <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
             </a>
-          </div>
+          </div> -->
         </div>
       </div>
 </div>
+<hr>
 <div class="container">
     <div class="row">
         <div class="col-3">

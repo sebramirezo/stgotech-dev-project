@@ -6,8 +6,9 @@
   {% if query_inicio %}
   <p>Resultados para: "{{ query_inicio }}"</p>
   {% endif %}
-
-  {% include 'mostrar_inicio.html' %}
+  <div class="container">
+    {% include 'mostrar_inicio.html' %}
+  </div>
 
 
 {% endblock %}
