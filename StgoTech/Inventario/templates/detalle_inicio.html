@@ -5,16 +5,16 @@
 
 <h2>Detalles STDF {{comat_data.stdf_pk}}</h2>
 
-
+<h4>Estado: {{comat_data.estado_fk}}</h4>
 
 <div class="row p-2">
     <div class="col-md-6">
         <dl class="row">
             <dt>STDF:</dt>
             <dd>{{comat_data.stdf_pk}}</dd>
-            <dt>AWB::</dt>
+            <dt>AWB:</dt>
             <dd>{{comat_data.awb}}</dd>
-            <dt>HAWB::</dt>
+            <dt>HAWB:</dt>
             <dd>{{comat_data.hawb}}</dd>
             <dt>N° MANIFIESTO:</dt>
             <dd>{{comat_data.num_manifiesto}}</dd>
@@ -24,7 +24,7 @@
             <dd>{{comat_data.pcs}}</dd>
             <dt>PESO:</dt>
             <dd>{{comat_data.peso}}</dd>
-            <dt>FECHA DE CONTROL::</dt>
+            <dt>FECHA DE CONTROL:</dt>
             <dd>{{comat_data.f_control}}</dd>
             <dt>FECHA DE MANIFIESTO:</dt>
             <dd>{{comat_data.f_manifiesto}}</dd>
@@ -40,7 +40,7 @@
                 <dd>{{comat_data.bodega_fk}}</dd>
                 <dt>FOB:</dt>
                 <dd>{{comat_data.fob}}</dd>
-                <dt>FLETE::</dt>
+                <dt>FLETE:</dt>
                 <dd>{{comat_data.flete}}</dd>
                 <dt>SEGURO:</dt>
                 <dd>{{comat_data.seguro}}</dd>
@@ -57,10 +57,19 @@
 </div>
 
 
+
 <div class="tabla-responsive">
 
     <table id="tabla-detalle-incoming" class="display nowrap" style="width:100%">
+
+<h3>INCOMINGS</h3>
+
+<div class="tabla-responsive">
+
+    <table id="tabla-detalle-incoming" class="display" id="search-incoming">
+
         <thead>
+            
             <tr>
                 <th>SN</th>
                 <th>PN</th>
@@ -110,5 +119,31 @@
 
 
 </style>
+
+<br>
+
+<h3>CONSUMOS</h3>
+
+<div class="tabla-responsive">
+
+    <table id="tabla-detalle-consumos" class="display">
+        <thead>
+            
+            <tr>
+                <th>SN/BATCH NUMBER</th>
+                <th>ORDEN DE CONSUMOS</th>
+                <th>Fecha Transaccion</th>
+                <th>Qty Extraidas</th>
+                <th>Matricula Aeronave</th>
+                <th>Observacion</th>
+                
+            </tr>
+        </thead>
+        <tbody></tbody>
+
+    </table>
+
+</div>
+
 
 {% endblock %}

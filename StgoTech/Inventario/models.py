@@ -153,6 +153,7 @@ class Comat(models.Model):
     #Claves Foraneas
     bodega_fk = models.ForeignKey(Bodega , on_delete=models.SET_NULL, null=True)
     origen_fk = models.ForeignKey(Origen, on_delete=models.SET_NULL, null=True)
+    estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True , default=1)
 
     class Meta:
         db_table = 'comat'
@@ -199,7 +200,7 @@ class Consumos(models.Model):
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)
     observaciones = models.CharField(blank=True, null=True, max_length=250)
     incoming_fk = models.ForeignKey(Incoming, null=True, blank=True,on_delete=models.CASCADE)
-    estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True)
+    
 
 
     class Meta:
