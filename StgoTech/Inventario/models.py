@@ -40,18 +40,7 @@ class Ubicacion(models.Model):
     def __str__(self):
         return self.name_ubicacion
     
-#TABLA USER
-class User(models.Model):
-    user_pk = models.AutoField(primary_key=True, unique=True)
-    nombre_user = models.CharField(blank=True, null=True, max_length=50)
-    correo_user =  models.CharField(blank=True, null=True, max_length=50)
-    n_telefono = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        db_table = "user"
-    
-    def __str__(self):
-        return self.nombre_user
 
 #TABLA UOM
 class Uom(models.Model):
@@ -156,7 +145,7 @@ class Comat(models.Model):
     bodega_fk = models.ForeignKey(Bodega , on_delete=models.SET_NULL, null=True)
     origen_fk = models.ForeignKey(Origen, on_delete=models.SET_NULL, null=True)
     estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True , default=1)
-    usuario_fk = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
+    usuario =  models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
 
     class Meta:
         db_table = 'comat'
@@ -186,7 +175,7 @@ class Incoming(models.Model):
     condicion_fk = models.ForeignKey(Condicion,on_delete=models.SET_NULL, null=True)
     ficha_fk = models.ForeignKey(Ficha, on_delete=models.SET_NULL, null=True)
     stdf_fk = models.ForeignKey(Comat, on_delete=models.CASCADE)
-    usuario_fk = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
 
     class Meta:
         db_table = 'incoming'
@@ -204,7 +193,7 @@ class Consumos(models.Model):
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)
     observaciones = models.CharField(blank=True, null=True, max_length=250)
     incoming_fk = models.ForeignKey(Incoming, null=True, blank=True,on_delete=models.CASCADE)
-    usuario_fk = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
     
 
 
