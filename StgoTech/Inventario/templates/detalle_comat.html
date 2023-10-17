@@ -3,6 +3,96 @@
 {% block body %}
 
 
+<!-- Detalle Comat Estilo Tabla -->
+<div class="container">
+    <div class="table-responsive">
+        <h2>Detalles Comat</h2>
+        <table class="table table-hover table-sm table-light table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Caracteristicas</th>
+                    <th scope="col">Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="">
+                    <td scope="row"><b>STDF</b></td>
+                    <td>{{detalle_comat.stdf_pk}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>AWB</b></td>
+                    <td>{{detalle_comat.awb}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>HAWB</b></td>
+                    <td>{{detalle_comat.hawb}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>N° MANIFIESTO</b></td>
+                    <td>{{detalle_comat.num_manifiesto}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>CORRELATIVO INTERNO</b></td>
+                    <td>{{detalle_comat.corr_interno}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>PCS</b></td>
+                    <td>{{detalle_comat.pcs}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>PESO</b></td>
+                    <td>{{detalle_comat.peso}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>FECHA DE CONTROL</b></td>
+                    <td>{{detalle_comat.f_control}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>FECHA DE MANIFIESTO</b></td>
+                    <td>{{detalle_comat.f_manifiesto}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>FECHA DE RECEPCION</b></td>
+                    <td>{{detalle_comat.f_recepcion}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>FECHA DE STDF</b></td>
+                    <td>{{detalle_comat.f_stdf}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>FOB</b></td>
+                    <td>{{detalle_comat.fob}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>FLETE</b></td>
+                    <td>{{detalle_comat.flete}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>SEGURO</b></td>
+                    <td>{{detalle_comat.seguro}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>CIF</b></td>
+                    <td>{{detalle_comat.sum_cif}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>BODEGA</b></td>
+                    <td>{{detalle_comat.bodega_fk}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>ORIGEN</b></td>
+                    <td>{{detalle_comat.origen_fk}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>OBSERVACIONES</b></td>
+                    <td>{{detalle_comat.observaciones}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 
 <div class="row p-2">
     <div class="col-md-6 p-2">

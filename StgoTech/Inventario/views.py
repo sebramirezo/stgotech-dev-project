@@ -6,10 +6,25 @@ from django.db.models import Q , Sum
 from django.http.response import JsonResponse
 import json
 from django.core import serializers
+from django.contrib.auth import logout
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required, permission_required
+
+# Vistas relacionadas al inicio y cierre de sesión
+def redirect_login(request):
+    return redirect('login')
+
+class CustomLoginView(LoginView):
+    template_name = 'registration/login.html'
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('/login')
+
+####################################################
+
 
 #VISTAS DE INICIO
-
-
 #REDIRIGE A LA PAGINA PRINCIPAL INICIO
 def index(request):
     return redirect('dashboard')
