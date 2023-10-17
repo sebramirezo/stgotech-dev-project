@@ -80,16 +80,14 @@ class ComatForm(ModelForm):
     f_recepcion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local'}), required=False, label='Fecha de Recepción')
     f_stdf = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha del STDF')
 
-    fob = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del FOB Formato - Utilice coma para separar  00,00","step":"1"}),label='FOB')
-    flete = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Flete - Utilice coma para separar  00,00","step":"1"}),label='Flete')
-    seguro = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Seguro - Utilice coma para separar  00,00","step":"1"}),label='Seguro')
+    fob = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del FOB Formato - Utilice coma para separar  00,00"}),label='FOB')
+    flete = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Flete - Utilice coma para separar  00,00"}),label='Flete')
+    seguro = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Seguro - Utilice coma para separar  00,00"}),label='Seguro')
     observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa la observación"}),label='Observaciones' , required=False)
     prioridad = forms.ChoiceField(choices=Prioridad,widget=forms.Select(attrs={"class": "form-control", "placeholder": "Ingresa la Prioridad"}),label='Prioridad',required=True)
-    #id_bodega = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Bodega (FK)')
-    #id_origen = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Origen (FK)')
-
+    
     bodega_fk = forms.ModelChoiceField(queryset=Bodega.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa la Bodega"}), label='Bodega')
-    origen_fk = forms.ModelChoiceField(queryset=Bodega.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa el Origen"}), label='Origen')
+    origen_fk = forms.ModelChoiceField(queryset=Origen.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa el Origen"}), label='Origen')
     class Meta:
         model = Comat
         fields = [ 
@@ -116,18 +114,7 @@ class ComatForm(ModelForm):
 
 
         
-    def __init__(self, *args, **kwargs):
-        super(ComatForm, self).__init__(*args, **kwargs)
-        
-        self.fields['bodega_fk'].queryset = Bodega.objects.all()
-        # self.fields['id_bodega'].widget = forms.Select(attrs={'class': 'form-select'})
-
-
-        self.fields['origen_fk'].queryset = Origen.objects.all()
-        #self.fields['id_origen'].queryset = Origen.objects.all()
-
-
-        # self.fields['id_origen'].widget = forms.Select(attrs={'class': 'form-select'})
+   
 
 
 
