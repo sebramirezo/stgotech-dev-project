@@ -2,7 +2,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    # path('', views.index, name='index'),
+    path('', views.redirect_login, name='redirect_login'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('index/', views.index, name='index'),
+    path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
     path('comat/', views.comat, name='comat'),
     path('incoming/', views.incoming, name='incoming'),
     path('consumos/', views.consumos, name='consumos'),
@@ -20,10 +24,4 @@ urlpatterns = [
     path('detalle_incoming/<str:sn_batch_pk>/', views.detalle_incoming, name='detalle_incoming'),
     path('detalle_consumos/<int:consumo_pk>/', views.detalle_consumos, name='detalle_consumos'),
     path('detalle_inicio/<int:stdf_pk>/', views.detalle_inicio, name='detalle_inicio'),
-    
-    
-    
-    
-    
-
 ]
