@@ -6,6 +6,12 @@ from django.db.models import Q , Sum
 from django.http.response import JsonResponse
 import json
 from django.core import serializers
+from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+
+
+
 
 #VISTAS DE INICIO
 
@@ -136,36 +142,38 @@ def detalle_inicio(request, sn_batch_pk):
 
     return render(request,'detalle_inicio.html' , {'detalle_inicio':detalle_inicio, 'comat_data' : comat_data, 'consumos_data':consumos_data })
 
-
-@login_required 
+@login_required
 def comat(request):
     get_form_comat = Comat.objects.all()
     total_cif = 0
+
     if request.method == 'POST':
         form_comat = ComatForm(request.POST)
         if form_comat.is_valid():
-            # Obtén el objeto Comat sin guardarlo aún
-            comat = form_comat.save(commit=False)
-            
-            comat.usuario = request.user
+            if request.user.is_authenticated:
+                # Obtén el objeto Comat sin guardarlo aún
+                comat = form_comat.save(commit=False)
+                comat.usuario = request.user  
 
-            # Realiza la suma de fob, flete y seguro
-            total_cif= comat.fob + comat.flete + comat.seguro
-            
-            # Guarda el objeto Comat con la cif actualizada
-            comat.sum_cif = total_cif
-            comat.save()
-            
-            return redirect('/comat')
+                # Realiza la suma de fob, flete y seguro
+                total_cif = comat.fob + comat.flete + comat.seguro
+
+                # Guarda el objeto Comat con la cif actualizada
+                comat.sum_cif = total_cif
+                comat.save()
+
+                return redirect('/comat')
+            else:
+                # Manejo del caso en el que el usuario no está autenticado
+                return HttpResponse("Debes iniciar sesión para realizar esta acción.")
     else:
         form_comat = ComatForm()
 
     context = {
-        'form_comat':form_comat,
-        'get_form_comat':get_form_comat,
+        'form_comat': form_comat,
+        'get_form_comat': get_form_comat,
     }
     return render(request, 'comat.html', context)
-
 
 #BUSCADOR DE COMAT
 def buscar_productos(request):
@@ -236,6 +244,7 @@ def obtener_datos_comat(request):
             "num_manifiesto":comat.num_manifiesto,
             "sum_cif":comat.sum_cif,
             "bodega_fk":comat.bodega_fk.name_bodega,
+            "usuario": comat.usuario.username,
             
         })
     
@@ -267,24 +276,26 @@ def detalle_comat(request, stdf_pk):
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
     total_unit_cost = 0
-
     if request.method == 'POST':
         form_incoming = IncomingForm(request.POST)
         if form_incoming.is_valid():
-            # Guarda el formulario de Incoming
-            incoming = form_incoming.save(commit=False)
+                if request.user.is_authenticated:
+                    # Guarda el formulario de Incoming
+                    incoming = form_incoming.save(commit=False)
 
-            incoming.usuario = request.user
+                    incoming.usuario = request.user
 
-            total_unit_cost =  incoming.qty * incoming.u_purchase_cost 
-            # Copia el valor de cantidad_extraida a la columna saldo
+                    total_unit_cost =  incoming.qty * incoming.u_purchase_cost 
+                    # Copia el valor de cantidad_extraida a la columna saldo
+                    incoming.total_u_purchase_cost = total_unit_cost
+                    incoming.saldo = incoming.qty
+                    incoming.save()
 
-            incoming.total_u_purchase_cost = total_unit_cost
-            incoming.saldo = incoming.qty
-            incoming.save()
 
-            return redirect('/incoming')
-    
+                    return redirect('/incoming')
+                else:
+                # Manejo del caso en el que el usuario no está autenticado
+                    return HttpResponse("Debes iniciar sesión para realizar esta acción.")
     else:
         form_incoming = IncomingForm()
 
@@ -336,6 +347,7 @@ def obtener_datos_incoming(request):
             "descripcion": incoming.descripcion,
             "qty":incoming.qty,
             "f_vencimiento":incoming.f_vencimiento,
+            "usuario": incoming.usuario.username,
             "saldo":incoming.saldo,
         })
     
@@ -362,31 +374,36 @@ def detalle_incoming(request, sn_batch_pk):
 #VISTAS DE CONSUMO
 
 #VISTA DE CONSUMO QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA VISTA DE CONSUMOS
-@login_required 
 def consumos(request):
     form_consumos = ConsumosForm()
     if request.method == 'POST':
         form_consumos = ConsumosForm(request.POST)
         if form_consumos.is_valid():
-            consumo = form_consumos.save()  # Guardar el formulario de Consumos
+            if request.user.is_authenticated:
+                consumo = form_consumos.save(commit=False)  # Guardar el formulario de Consumos sin guardarlo en la base de datos
 
-            consumo.usuario = request.user
-            # Obtener el registro correspondiente en Incoming
-            incoming = consumo.incoming_fk
+                consumo.usuario = request.user
 
-            incoming.saldo -=consumo.qty_extraida
-            
+                # Obtener el registro correspondiente en Incoming
+                incoming = consumo.incoming_fk
 
-            # Actualizar el valor de saldo en el registro de Incoming
-            incoming.save()
+                incoming.saldo -=consumo.qty_extraida
 
-            return redirect('/consumos')
+                # Actualizar el valor de saldo en el registro de Incoming
+                incoming.save()
+
+                # Guardar el registro de Consumos en la base de datos
+                consumo.save()
+
+                return redirect('/consumos')
+            else:
+                # Manejo del caso en el que el usuario no está autenticado
+                return HttpResponse("Debes iniciar sesión para realizar esta acción.")  
 
     context = {
         'form_consumos': form_consumos,
     }
     return render(request, 'consumos.html', context)
-
 
 
 
@@ -428,6 +445,7 @@ def obtener_datos_consumos(request):
             "matricula_aeronave": consumo.matricula_aeronave,
             "orden_consumo": consumo.orden_consumo,
             "qty_extraida": consumo.qty_extraida,
+            "usuario": consumo.usuario.username,
         })
 
     if search_value:
