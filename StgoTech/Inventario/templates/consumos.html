@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h1>Buscador Serial Number</h1>
+            <h5>Buscador Serial Number</h5>
             <form action="{% url 'buscar_productos_consumos' %}" method="GET">
                 <input class="form-control" type="text" name="t" placeholder="Ingrese Serial Number">
                 <input class="btn btn-primary m-2" type="submit" value="Buscar">
@@ -15,7 +15,7 @@
 <!-- {% include 'mostrar_comat.html' %} -->
 <hr> 
 <div class="container m-2">
-    <h1>Formulario de Consumos</h1>
+    <h5>Formulario de Consumos</h5>
     <form action="" method="post">
         {% csrf_token %}
         <div class="row p-2">

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from .choices import *
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -150,9 +151,12 @@ class Comat(models.Model):
     seguro = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=2, default="0")
     sum_cif = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=2, default="0")
     observaciones = models.CharField(blank=True, null=True, max_length=250)
+    prioridad = models.CharField(choices=Prioridad, null=True)
     #Claves Foraneas
     bodega_fk = models.ForeignKey(Bodega , on_delete=models.SET_NULL, null=True)
     origen_fk = models.ForeignKey(Origen, on_delete=models.SET_NULL, null=True)
+    estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True , default=1)
+    usuario_fk = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
 
     class Meta:
         db_table = 'comat'
@@ -182,6 +186,7 @@ class Incoming(models.Model):
     condicion_fk = models.ForeignKey(Condicion,on_delete=models.SET_NULL, null=True)
     ficha_fk = models.ForeignKey(Ficha, on_delete=models.SET_NULL, null=True)
     stdf_fk = models.ForeignKey(Comat, on_delete=models.CASCADE)
+    usuario_fk = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
 
     class Meta:
         db_table = 'incoming'
@@ -199,7 +204,8 @@ class Consumos(models.Model):
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)
     observaciones = models.CharField(blank=True, null=True, max_length=250)
     incoming_fk = models.ForeignKey(Incoming, null=True, blank=True,on_delete=models.CASCADE)
-    estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True)
+    usuario_fk = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
+    
 
 
     class Meta:

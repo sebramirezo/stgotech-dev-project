@@ -5,7 +5,6 @@ from .models import *
 from django import forms
 from django.contrib.auth.models import Permission
 
-
 class CategoriaForm(ModelForm):
 
     class Meta:
@@ -76,7 +75,7 @@ class ComatForm(ModelForm):
     pcs = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad de Piezas"}),label='Piezas')
     peso = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el Peso"}),label='Peso')
 
-    f_control = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local'}), required=False, label='Fecha de Control')
+    f_control = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local', 'id':'id_f_control'}), required=False, label='Fecha de Control')
     f_manifiesto = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local'}), required=False, label='Fecha de Manifiesto')
     f_recepcion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local'}), required=False, label='Fecha de Recepción')
     f_stdf = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha del STDF')
@@ -85,6 +84,7 @@ class ComatForm(ModelForm):
     flete = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Flete - Utilice coma para separar  00,00","step":"1"}),label='Flete')
     seguro = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Seguro - Utilice coma para separar  00,00","step":"1"}),label='Seguro')
     observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa la observación"}),label='Observaciones' , required=False)
+    prioridad = forms.ChoiceField(choices=Prioridad,widget=forms.Select(attrs={"class": "form-control", "placeholder": "Ingresa la Prioridad"}),label='Prioridad',required=True)
     #id_bodega = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Bodega (FK)')
     #id_origen = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), label='Origen (FK)')
 
@@ -110,6 +110,7 @@ class ComatForm(ModelForm):
         'bodega_fk',
         'origen_fk',
         'observaciones',
+        'prioridad',
         ]
         #widget = AutocompleteSelect(Comat._meta.get_field('id_bodega').remote_field,admin.site,attrs={'placeholder': 'seleccionar...'},)
 
@@ -135,7 +136,7 @@ class IncomingForm(ModelForm):
     sn_batch_pk = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Serial Number"}),label='Serial Number')
     part_number = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Part Number"}),label='Part Number')
     f_incoming = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Ingreso Incoming')
-    po = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa AWB"}),label='Producto Order')
+    po = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Product Order"}),label='Orden del Repuesto')
     qty = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad"}),label='Quantity')
     u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Unit Purchase Cost"}),label='Unit Purchase Cost')
     f_vencimiento = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Vencimiento')
@@ -148,13 +149,15 @@ class IncomingForm(ModelForm):
     owner_fk = forms.ModelChoiceField(queryset=Owner.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingreso Owner"}), label='Owner')
     condicion_fk = forms.ModelChoiceField(queryset=Condicion.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa Condicion"}), label='Condicion')
     ficha_fk = forms.ModelChoiceField(queryset=Ficha.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingreso N° Ficha"}), label='N° Ficha')
-    stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
-    # stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+
+    #stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+    stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
 
     class Meta:
         model = Incoming
         fields = [
         'sn_batch_pk',
+        'categoria_fk',
         'part_number',
         'f_incoming',
         'po',
@@ -162,7 +165,6 @@ class IncomingForm(ModelForm):
         'u_purchase_cost',
         'f_vencimiento',
         'descripcion',
-        'categoria_fk',
         'clasificacion_fk', 
         'ubicacion_fk', 
         'uom_fk' , 
@@ -193,6 +195,6 @@ class ConsumosForm(ModelForm):
         'f_transaccion',
         'incoming_fk',
         'observaciones',
-        'estado_fk',
+        
         
         ]

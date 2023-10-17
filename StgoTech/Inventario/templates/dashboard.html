@@ -2,14 +2,14 @@
 
 {% block body %}
 <div class="dashboard">
-    <h1>Inventario Stgo Tech</h1>
-
+    <h5>Bienvenido {{user}}</h5>
+    <hr>
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <h4>Buscador </h4>
+                <h5>Buscador Inicio</h5>
                 <form action="{% url 'buscar_productos_inicio' %}" method="GET">
-                    <input class="form-control" type="text" name="n" placeholder="Part Number">
+                    <input class="form-control" type="text" name="n" placeholder="Ingresa un Part Number o STDF">
                     <input class="btn btn-primary m-2" type="submit" value="Buscar">
                 </form>
             </div>
@@ -18,10 +18,44 @@
     </div>
 
 
-    <div class="container px-4 py-5" id="featured-3">
+    <div class="container justify-content-center px-4 py-5" id="featured-3">
         <h2 class="pb-2 border-bottom">Accesos Directos</h2>
-        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-          <div class="feature col">
+        <div class="row g-3 py-5 row-cols-1 row-cols-lg-3">
+            <div class="col card m-1 p-4 text-bg-light mb-1" style="width: 400px;">
+                <div class="feature-icon bg-success bg-gradient">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+                  </div>
+                <div class="card-body">
+                  <h5 class="card-title">Comat</h5>
+                  <p class="card-text">Formulario de ingreso de productos del comercio exterior al deposito franco.</p>
+                  <a href="/comat" class="btn btn-success">Ir a Comat</a>
+                </div>
+              </div>
+              
+              <div class="col card m-1 p-4 text-bg-light mb-1" style="width: 400px;">
+                <div class="feature-icon bg-warning bg-gradient">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+                  </div>
+                <div class="card-body">
+                  <h5 class="card-title">Incoming</h5>
+                  <p class="card-text">Formulario de ingreso de productos al almacen.</p>
+                  <hr>
+                  <a href="/incoming" class="btn btn-warning">Ir a Incoming</a>
+                </div>
+              </div>
+
+              <div class="col card m-1 p-4 text-bg-light mb-1" style="width: 400px;">
+                <div class="feature-icon bg-primary bg-gradient">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+                  </div>
+                <div class="card-body">
+                  <h5 class="card-title">Consumos</h5>
+                  <p class="card-text">Formulario de productos consumidos.</p>
+                  <hr>
+                  <a href="/consumos" class="btn btn-primary">Ir a Consumos</a>
+                </div>
+              </div>
+          <!-- <div class="feature col">
             <div class="feature-icon bg-primary bg-gradient">
               <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
             </div>
@@ -53,220 +87,70 @@
                 Ir a Consumos
               <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
             </a>
-          </div>
+          </div> -->
         </div>
       </div>
 </div>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="x-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, ininital-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <!-- Charts Js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>}
-    <!-- -->
-    
-</head>
-
-<body>
-    <div class="container">
-        <h1>Dashboar <h1>
-        <div class="d-flex">
-            <div class="col-3 card mx-3">
-                <h5 class="card-title text-primary">Tabla1</h5>
-                <h6 class="card-subtitle mb-2 text-muted">STDF</h6>
-                <div> 
-                    <canvas id="tablita-1"></canvas>
-                </div>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="dashboard">
+                <h1>Dashboard</h1>
             </div>
-            <div class="col-3 card mx-3">
-                <h5 class="card-title text-primary">Tabla2</h5>
-                <h6 class="card-subtitle mb-2 text-muted">AWB</h6>
-                <div> 
-                    <canvas id="tablita-2"></canvas>
-                </div>
-            </div>
-            <div class="col-3 card mx-3">
-                <h5 class="card-title text-primary">Tabla3</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Serial number</h6>
-                <div> 
-                    <canvas id="tablita-3"></canvas>
+        </div>
+        <div class="col-9">
+            <div class="dashboard">
+                <h1>Inventario Stgo Tech</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <h5 class="card-title">Top Productos</h5>
+                            <div class="card-body">
+                                <table id="productos-table" class="display">
+                                    <thead>
+                                        <tr>
+                                            <th>ID STDF</th>
+                                            <th>AWB</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for comat_item in comat_data %}
+                                        <tr>
+                                            <td>{{ comat_item.id_stdf }}</td>
+                                            <td>{{ comat_item.awb }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Bodegas</h5>
+                                <table id="bodegas-table" class="display">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Bodega</th>
+                                            <th>Nombre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for bodega_item in bodega_data %}
+                                        <tr>
+                                            <td>{{ bodega_item.id_bodega }}</td>
+                                            <td>{{ bodega_item.name_bodega }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
-
-<script>
-  const ctx = document.getElementById('tablita-1');
-
-  new Chart(ctx, {
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [
-        {
-          type: 'bar',
-          label: 'STDF',
-          data: [12, 19, 3, 5, 2, 3],
-          borderWidth: 1,
-          backgroundColor: [
-           'rgba(255, 99, 132, 0.2)',
-           'rgba(255, 159, 64, 0.2)',
-           'rgba(255, 205, 86, 0.2)',
-           'rgba(75, 192, 192, 0.2)',
-           'rgba(54, 162, 235, 0.2)',
-           'rgba(153, 102, 255, 0.2)',
-           'rgba(201, 203, 207, 0.2)'
-          ],
-          borderColor: [
-           'rgb(255, 99, 132)',
-           'rgb(255, 159, 64)',
-           'rgb(255, 205, 86)',
-           'rgb(75, 192, 192)',
-           'rgb(54, 162, 235)',
-           'rgb(153, 102, 255)',
-           'rgb(201, 203, 207)'
-          ],
-        },
-        {
-        type: 'bar',
-        label: 'Parth number',
-        data: [10, 7, 1, 1, 4, 8],
-        borderWidth: 1,
-        backgroundColor: [
-         'rgba(255, 99, 132, 0.6)',
-         'rgba(255, 159, 64, 0.6)',
-         'rgba(255, 205, 86, 0.6)',
-         'rgba(75, 192, 192, 0.6)',
-         'rgba(54, 162, 235, 0.6)',
-         'rgba(153, 102, 255, 0.6)',
-         'rgba(201, 203, 207, 0.6)'
-        ],
-        borderColor: [
-         'rgb(255, 99, 132)',
-         'rgb(255, 159, 64)',
-         'rgb(255, 205, 86)',
-         'rgb(75, 192, 192)',
-         'rgb(54, 162, 235)',
-         'rgb(153, 102, 255)',
-         'rgb(201, 203, 207)'
-        ],
-      },
-      ],
-    },
-    options: {
-        indexAxis: 'y'
-    }
-  });
-</script>
-
-<script>
-    const txc = document.getElementById('tablita-2');
-  
-    new Chart(txc, {
-      data: {
-        labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],
-        datasets: [
-          {
-            type: 'line',
-            label: 'AWB',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1,
-           
-            backgroundColor: [
-             'rgba(255, 99, 132, 0.2)',
-             'rgba(255, 159, 64, 0.2)',
-             'rgba(255, 205, 86, 0.2)',
-             'rgba(75, 192, 192, 0.2)',
-             'rgba(54, 162, 235, 0.2)',
-             'rgba(153, 102, 255, 0.2)',
-             'rgba(201, 203, 207, 0.2)'
-            ],
-            borderColor: [
-             'rgb(255, 99, 132)',
-             'rgb(255, 159, 64)',
-             'rgb(255, 205, 86)',
-             'rgb(75, 192, 192)',
-             'rgb(54, 162, 235)',
-             'rgb(153, 102, 255)',
-             'rgb(201, 203, 207)'
-            ],
-          },
-          {
-          type: 'bar',
-          label: 'STDF',
-          data: [10, 7, 1, 1, 4, 8],
-          borderWidth: 1,
-          backgroundColor: [
-           'rgba(255, 99, 132, 0.6)',
-           'rgba(255, 159, 64, 0.6)',
-           'rgba(255, 205, 86, 0.6)',
-           'rgba(75, 192, 192, 0.6)',
-           'rgba(54, 162, 235, 0.6)',
-           'rgba(153, 102, 255, 0.6)',
-           'rgba(201, 203, 207, 0.6)'
-          ],
-          borderColor: [
-           'rgb(255, 99, 132)',
-           'rgb(255, 159, 64)',
-           'rgb(255, 205, 86)',
-           'rgb(75, 192, 192)',
-           'rgb(54, 162, 235)',
-           'rgb(153, 102, 255)',
-           'rgb(201, 203, 207)'
-          ],
-        },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  </script>
-
-  <script>
-    const trx = document.getElementById('tablita-3');
-  
-    new Chart(trx, {
-      type: 'polarArea',
-      data: {
-        labels: ['01', '02', '03', '04', '05', '06'],
-        datasets: [
-          {
-            label: 'Serial Number',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1,
-            backgroundColor: [
-             'rgba(255, 99, 132, 0.2)',
-             'rgba(255, 159, 64, 0.2)',
-             'rgba(255, 205, 86, 0.2)',
-             'rgba(75, 192, 192, 0.2)',
-             'rgba(54, 162, 235, 0.2)',
-             'rgba(153, 102, 255, 0.2)',
-             'rgba(201, 203, 207, 0.2)'
-            ],
-            borderColor: [
-             'rgb(255, 99, 132)',
-             'rgb(255, 159, 64)',
-             'rgb(255, 205, 86)',
-             'rgb(75, 192, 192)',
-             'rgb(54, 162, 235)',
-             'rgb(153, 102, 255)',
-             'rgb(201, 203, 207)'
-            ],
-          },
-        ],
-      },
-    });
-  </script>
-
-
 {% endblock %}

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h1>Buscador Part Number , Serial Number o STDF</h1>
+            <h5>Buscador Part Number , Serial Number o STDF</h5>
             <form action="{% url 'buscar_productos_incoming' %}" method="GET">
                 <input class="form-control" type="text" name="e" placeholder="Ingrese STDF">
                 <input class="btn btn-primary m-2" type="submit" value="Buscar">
@@ -15,13 +15,15 @@
 <!-- {% include 'mostrar_comat.html' %} -->
 <hr> 
 <div class="container m-2">
-    <h1>Formulario de Ingreso de Productos al Almacen - Incoming Inspection</h1>
+    <h5>Formulario de Ingreso de Productos al Almacen - Incoming Inspection</h5>
     <form id="incoming_form" action="" method="post">
         {% csrf_token %}
         <div class="row p-2">
             {% for incoming in form_incoming %}
             <div class="col-6 p-2">
                 <label>{{incoming.label}}</label>
+
+                
                 {{incoming}}
             </div>
             {% endfor %}
