@@ -4,6 +4,7 @@ from django.forms import ModelForm, ValidationError
 from .models import *
 from django import forms
 from django.contrib.auth.models import Permission
+from django.contrib.admin.widgets import AdminDateWidget
 
 class CategoriaForm(ModelForm):
 
@@ -76,6 +77,7 @@ class ComatForm(ModelForm):
     peso = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el Peso"}),label='Peso')
 
     f_control = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local', 'id':'id_f_control'}), required=False, label='Fecha de Control')
+    # f_control = forms.DateTimeField(widget=AdminDateWidget())
     f_manifiesto = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local'}), required=False, label='Fecha de Manifiesto')
     f_recepcion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local'}), required=False, label='Fecha de Recepción')
     f_stdf = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha del STDF')

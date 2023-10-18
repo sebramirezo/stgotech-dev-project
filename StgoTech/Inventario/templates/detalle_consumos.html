@@ -5,41 +5,52 @@
 <div class="row p-2">
     <div class="col-md-6 p-2">
         <h2>Detalles Consumos</h2>
-        <br> 
-        <dl class="row">
-            <dt class="col-sm-4">Serial / Number:</dt>
-            <dd class="col-sm-8">{{detalle_consumos.incoming_fk}}</dd>
-
-            <dt class="col-sm-4">Categoria:</dt>
-            <dd class="col-sm-8">{{incoming_data.categoria_fk }}</dd>
-
-            <dt class="col-sm-4">Part Number:</dt>
-            <dd class="col-sm-8">{{incoming_data.part_number }}</dd>
-
-            <dt class="col-sm-4">Fecha de Transaccion:</dt>
-            <dd class="col-sm-8">{{detalle_consumos.f_transaccion}}</dd>
-
-            <dt class="col-sm-4">QTY :</dt>
-            <dd class="col-sm-8">{{incoming_data.qty}}</dd>
-
-            <dt class="col-sm-4">QTY Extraida:</dt>
-            <dd class="col-sm-8">{{detalle_consumos.qty_extraida}}</dd>
-
-            <dt class="col-sm-4">Saldo:</dt>
-            <dd class="col-sm-8">{{incoming_data.saldo}}</dd>
-
-            <dt class="col-sm-4">Matricula Aeronave:</dt>
-            <dd class="col-sm-8">{{detalle_consumos.matricula_aeronave}}</dd>
-
-            <dt class="col-sm-4">Ubicación:</dt>
-            <dd class="col-sm-8">{{incoming_data.ubicacion_fk}}</dd>
-
-            <dt class="col-sm-4">Observaciones:</dt>
-            <dd class="col-sm-8">{{detalle_consumos.observaciones}}</dd>
-
-        </dl>
+        <br>
+        <table class="table table-striped table-sm">
+            <tr>
+                <th class="col-sm-4">Serial / Number:</th>
+                <td class="col-sm-8">{{detalle_consumos.incoming_fk}}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Categoria:</th>
+                <td class="col-sm-8">{{incoming_data.categoria_fk }}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Part Number:</th>
+                <td class="col-sm-8">{{incoming_data.part_number }}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Fecha de Transaccion:</th>
+                <td class="col-sm-8">{{detalle_consumos.f_transaccion}}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">QTY :</th>
+                <td class="col-sm-8">{{incoming_data.qty}}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">QTY Extraida:</th>
+                <td class="col-sm-8">{{detalle_consumos.qty_extraida}}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Saldo:</th>
+                <td class="col-sm-8">{{incoming_data.saldo}}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Matricula Aeronave:</th>
+                <td class="col-sm-8">{{detalle_consumos.matricula_aeronave}}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Ubicación:</th>
+                <td class="col-sm-8">{{incoming_data.ubicacion_fk}}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Observaciones:</th>
+                <td class="col-sm-8">{{detalle_consumos.observaciones}}</td>
+            </tr>
+        </table>
     </div>
 </div>
+
 
 
 
