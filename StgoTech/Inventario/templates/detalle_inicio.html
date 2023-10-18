@@ -9,52 +9,87 @@
 
 <div class="row p-2">
     <div class="col-md-6">
-        <dl class="row">
-            <dt>STDF:</dt>
-            <dd>{{comat_data.stdf_pk}}</dd>
-            <dt>AWB:</dt>
-            <dd>{{comat_data.awb}}</dd>
-            <dt>HAWB:</dt>
-            <dd>{{comat_data.hawb}}</dd>
-            <dt>N° MANIFIESTO:</dt>
-            <dd>{{comat_data.num_manifiesto}}</dd>
-            <dt>CORRELATIVO INTERNO:</dt>
-            <dd>{{comat_data.corr_interno}}</dd>
-            <dt>PIEZAS:</dt>
-            <dd>{{comat_data.pcs}}</dd>
-            <dt>PESO:</dt>
-            <dd>{{comat_data.peso}}</dd>
-            <dt>FECHA DE CONTROL:</dt>
-            <dd>{{comat_data.f_control}}</dd>
-            <dt>FECHA DE MANIFIESTO:</dt>
-            <dd>{{comat_data.f_manifiesto}}</dd>
-        </dl>
+        <table class="table table-striped">
+            <tr>
+                <th>STDF:</th>
+                <td>{{comat_data.stdf_pk}}</td>
+            </tr>
+            <tr>
+                <th>AWB:</th>
+                <td>{{comat_data.awb}}</td>
+            </tr>
+            <tr>
+                <th>HAWB:</th>
+                <td>{{comat_data.hawb}}</td>
+            </tr>
+            <tr>
+                <th>N° MANIFIESTO:</th>
+                <td>{{comat_data.num_manifiesto}}</td>
+            </tr>
+            <tr>
+                <th>CORRELATIVO INTERNO:</th>
+                <td>{{comat_data.corr_interno}}</td>
+            </tr>
+            <tr>
+                <th>PIEZAS:</th>
+                <td>{{comat_data.pcs}}</td>
+            </tr>
+            <tr>
+                <th>PESO:</th>
+                <td>{{comat_data.peso}}</td>
+            </tr>
+            <tr>
+                <th>FECHA DE CONTROL:</th>
+                <td>{{comat_data.f_control}}</td>
+            </tr>
+            <tr>
+                <th>FECHA DE MANIFIESTO:</th>
+                <td>{{comat_data.f_manifiesto}}</td>
+            </tr>
+        </table>
     </div>
     <div class="col-md-6">
-        <dl class="row">
-                <dt>FECHA DE RECEPCION:</dt>
-                <dd>{{comat_data.f_recepcion}}</dd>
-                <dt>FECHA DE STDF:</dt>
-                <dd>{{comat_data.f_stdf}}</dd>
-                <dt>BODEGA:</dt>
-                <dd>{{comat_data.bodega_fk}}</dd>
-                <dt>FOB:</dt>
-                <dd>{{comat_data.fob}}</dd>
-                <dt>FLETE:</dt>
-                <dd>{{comat_data.flete}}</dd>
-                <dt>SEGURO:</dt>
-                <dd>{{comat_data.seguro}}</dd>
-                <dt>CIF:</dt>
-                <dd>{{comat_data.sum_cif}}</dd>
-                <dt>ORIGEN:</dt>
-                <dd>{{comat_data.origen_fk}}</dd>
-                <dt>OBSERVACION:</dt>
-                <dd>{{comat_data.observaciones}}</dd>
-
-                
-        </dl>
+        <table class="table table-striped">
+            <tr>
+                <th>FECHA DE RECEPCION:</th>
+                <td>{{comat_data.f_recepcion}}</td>
+            </tr>
+            <tr>
+                <th>FECHA DE STDF:</th>
+                <td>{{comat_data.f_stdf}}</td>
+            </tr>
+            <tr>
+                <th>BODEGA:</th>
+                <td>{{comat_data.bodega_fk}}</td>
+            </tr>
+            <tr>
+                <th>FOB:</th>
+                <td>{{comat_data.fob}}</td>
+            </tr>
+            <tr>
+                <th>FLETE:</th>
+                <td>{{comat_data.flete}}</td>
+            </tr>
+            <tr>
+                <th>SEGURO:</th>
+                <td>{{comat_data.seguro}}</td>
+            </tr>
+            <tr>
+                <th>CIF:</th>
+                <td>{{comat_data.sum_cif}}</td>
+            </tr>
+            <tr>
+                <th>ORIGEN:</th>
+                <td>{{comat_data.origen_fk}}</td>
+            </tr>
+            <tr>
+                <th>OBSERVACION:</th>
+                <td>{{comat_data.observaciones}}</td>
+            </tr>
+        </table>
     </div>
 </div>
+
 
 
 <h3>INCOMINGS</h3>
@@ -67,22 +102,22 @@
             <tr>
                 <th>SN</th>
                 <th>PN</th>
-                <th>F INCOMING</th>
-                <th>descripcion</th>
-                <th>po</th>
+                <th>FEC INCOMING</th>
+                <th>Descripción</th>
+                <th>P.O</th>
                 <th>QTY</th>
                 <th>UPC</th>
                 <th>TUPC</th>
-                <th>F VEN</th>
-                <th>saldo</th>
-                <th>categoria</th>
-                <th>clasificacion</th>
-                <th>ubicacion</th>
-                <th>uom</th>
-                <th>owner</th>
-                <th>condicion</th>
-                <th>ficha</th>
-                <th>observaciones</th>
+                <th>FEC VEN</th>
+                <th>Saldo</th>
+                <th>Categoria</th>
+                <th>Clasificación</th>
+                <th>Ubicación</th>
+                <th>UOM</th>
+                <th>Owner</th>
+                <th>Condición</th>
+                <th>Ficha</th>
+                <th>Observaciones</th>
                 
             </tr>
         </thead>
