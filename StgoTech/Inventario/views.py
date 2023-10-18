@@ -1,20 +1,18 @@
 from django.shortcuts import redirect, render , get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView
 from .forms import *
 from django.db.models import Q , Sum
 from django.http.response import JsonResponse
-import json
-from django.core import serializers
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
 
 from django.http import HttpResponse
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
 from openpyxl import Workbook
 from openpyxl.styles import Alignment , Font , Border, Side
+from openpyxl.drawing.image import Image
+from PIL import Image
+from openpyxl.drawing.image import Image as ExcelImage
 
 
 # Vistas relacionadas al inicio y cierre de sesión
@@ -596,8 +594,50 @@ def exportar_excel_incoming(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="datos.xlsx"'
 
+    imagen_path = 'staticfiles\\img\\Imagen1.png'
+    image = Image.open(imagen_path)
+
+    nuevo_ancho = 122
+    nueva_altura = 97
+
+# Redimensiona la imagen
+    image = image.resize((nuevo_ancho, nueva_altura))
+
     wk = Workbook()
     ws = wk.active
+
+    # Crea una instancia de la imagen
+
+    
+    # Crea una instancia de la imagen
+
+    image.save('temp_image.png')
+
+# Carga la imagen desde el archivo temporal en OpenPyXL
+    excel_image = ExcelImage('temp_image.png')
+
+# Inserta la imagen en la hoja de trabajo
+    ws.add_image(excel_image, 'A1')
+
+    negrita = Font(bold=True)
+
+    # Definir las coordenadas de las celdas a las que deseas aplicar negrita
+    coordenadas_negrita = ['R1', 'H5', 'A8','H8','P8','T8','A13','A15','E13',
+                        'E15','I13','I15','M13','Q15','U13','A17','Q17','A19',
+                        'Q19','A21','Q21','A23','A25','O25','A27','B27','T27',
+                        'W27','A29','B29','A30','B30','A31','B31','A32','B32',
+                        'A33','B33','A34','B34','A35','B35','A36','B36','B37',
+                        'A38','B38','A39','B39','A40','B40','A41' ,'B41','O41',
+                        'A42','B42','A43','B43','K43','A44','B44','K44','A45',
+                        'B45','K45','A46','B46','F46','I46','L46','P46','A47',
+                        'B47','A48','B48','A49','B49','A50','B50','J50','A52',
+                        'A58','A59','A60','A61','A62','A63','A65','E65','I65',
+                        'A67','I67','Q67','A69','A72']
+
+    # Aplicar el formato en negrita a las celdas con un ciclo for
+
+
+
 
 
 
@@ -610,24 +650,23 @@ def exportar_excel_incoming(request):
 
     filas_altura_6 = [3 ,6 ,12 , 16 , 18 , 20 , 22 , 24, 28 , 68]  # Cambia estos valores a las filas que desees
 
+    filas_altura_10_20 = [72]
+
     # Define la altura predeterminada para las demás filas (12 en este caso)
-    altura_predeterminada = 12
+    altura_predeterminada = 12.60
 
     # Recorre todas las filas de la hoja
     for fila in ws.iter_rows(min_row=1, max_row=73):
         numero_fila = fila[0].row  # Obtiene el número de fila de la primera celda de la fila
         if numero_fila in filas_altura_6:
             ws.row_dimensions[numero_fila].height = 6
+        elif numero_fila in filas_altura_10_20:
+            ws.row_dimensions[numero_fila].height = 10.20
         else:
             ws.row_dimensions[numero_fila].height = altura_predeterminada
 
 
 
-    formato_fuente = Font(name='tahoma', size=8) 
-
-    for fila in ws.iter_rows(min_row=1, max_row=74, min_col=1, max_col=25):  # 25 es la columna Y
-        for celda in fila:
-            celda.font = formato_fuente
 
 
     border = Border(
@@ -825,10 +864,10 @@ def exportar_excel_incoming(request):
     ws.merge_cells('W40:Y40')
 
     ws['A41'] = '13'
-    ws.merge_cells('B41:M41')
+    ws.merge_cells('B41:N41')
     ws['B41'] = 'Certificado de Calibracion en laboratorio reconocido por el estado local'
-    ws['N41'] = 'N°'
-    ws.merge_cells('O41:S41')
+    ws['O41'] = 'N°'
+    ws.merge_cells('P41:S41')
     ws.merge_cells('T41:V41')
     ws.merge_cells('W41:Y41')
 
@@ -949,9 +988,10 @@ def exportar_excel_incoming(request):
     ws['I65'] = 'NO'
     ws.merge_cells('K65:L65')
 
+    ws.merge_cells('M65:Y65')
 
     ws.merge_cells('A67:H67')
-    ws['I65'] = 'Nombre'
+    ws['A67'] = 'Nombre'
 
     ws.merge_cells('I67:P67')
     ws['I67'] = 'N° Licencia'
@@ -963,39 +1003,41 @@ def exportar_excel_incoming(request):
     ws['A69'] = '' #NOMBRE DE USUARIO
     
     ws.merge_cells('I69:P71')
-    ws['I67'] = 'INCOMING INSPECTION'
+
 
     ws.merge_cells('Q69:Y71') #FIRMA DEL USUARIO 
 
-
-
-
-
-
-
-
-
-
-
-
+    ws.merge_cells('A72:J72')
+    ws['A72'] = 'FORM CMA-005 REV.1'
 
     #ws.merge_cells('')
     #ws['']  = ''
     #ws.merge_cells(':') #Campo Relleno de BBDD 
 
-
+    coordenadas_excepciones = ['A13:C13']
     coordenadas_combinadas = ws.merged_cells.ranges
     for rango in coordenadas_combinadas:
         for row in ws.iter_rows(min_row=rango.min_row, max_row=rango.max_row,
-                                    min_col=rango.min_col, max_col=rango.max_col):
+                            min_col=rango.min_col, max_col=rango.max_col):
             for cell in row:
-                if cell.coordinate not in coordenadas_excepciones:
-                    cell.border = border
+                if any(coord in cell.coordinate for coord in coordenadas_excepciones):
+                    continue  # Salta las celdas en coordenadas_excepciones
+                cell.border = border
 
 
+    coordenadas_a_quitar_borde = [('R1', 'T2'),('H5', 'Q5'),('A13', 'C13'), ('E13', 'G13'), ('I13', 'K13'), ('M13', 'P13'), ('A15', 'C15'), ('E15', 'G15'), ('I15', 'K15')]
 
+    # Iterar sobre las coordenadas y quitar el borde
+    for coord in coordenadas_a_quitar_borde:
+        min_coord, max_coord = coord
 
+        # Convertir las coordenadas en números enteros
+        min_row, min_col = int(min_coord[1:]), ord(min_coord[0]) - ord('A') + 1
+        max_row, max_col = int(max_coord[1:]), ord(max_coord[0]) - ord('A') + 1
 
+        for row in ws.iter_rows(min_row=min_row, max_row=max_row, min_col=min_col, max_col=max_col):
+            for cell in row:
+                cell.border = None
 
     for fila in ws.iter_rows(min_row=1, max_row=72, min_col=1, max_col=25):
         for cell in fila:
@@ -1012,58 +1054,54 @@ def exportar_excel_incoming(request):
     ws.page_margins.top = 0.25  # Márgen superior
     ws.page_margins.bottom = 0.25  # Márgen inferior
 
-    
+
+
+    rango_inicio = 'B29'
+    rango_fin = 'S50'
+
+    # Crear un objeto Alignment para alinear a la izquierda
+    alineacion_izquierda = Alignment(horizontal='left')
+
+    # Aplicar la alineación a todas las celdas en el rango
+    for row in ws.iter_rows(min_row=29, max_row=50, min_col=2, max_col=19):  # Columna B a S
+        for cell in row:
+            cell.alignment = alineacion_izquierda
+
+
+
+    for row in ws.iter_rows(min_row=13, max_row=15, min_col=1, max_col=16):  # Columna A a P
+        for cell in row:
+            if cell.row == 13 or cell.row == 15 or cell.column == 'A' or cell.column == 'P':
+                cell.border = border
+
+    # Eliminar los bordes en las celdas del interior del rango
+    for row in ws.iter_rows(min_row=14, max_row=14, min_col=2, max_col=15):  # Excluye las celdas del perímetro
+        for cell in row:
+            cell.border = None
+
+
+    coordenadas_a_bordear = ['A27','A29','A30','A31','A32','A33','A34','A35','A36','A37','A38','A39','A40','A41','A42',
+                            'A43','A44','A45','A46','A47','A48','A49','A50']
+    # Aplicar el borde a las celdas con un ciclo for
+    for coord in coordenadas_a_bordear:
+        celda = ws[coord]
+        celda.border = border
+
+    formato_fuente = Font(name='tahoma', size=9) 
+
+    for fila in ws.iter_rows(min_row=1, max_row=74, min_col=1, max_col=25):  # 25 es la columna Y
+        for celda in fila:
+            celda.font = formato_fuente
+
+    for coord in coordenadas_negrita:
+        celda = ws[coord]
+        celda.font = negrita
+
+
+        
 
     wk.save(response)
     return response
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ## Test
 # def obtener_datos_stdf_incoming(request):
@@ -1079,10 +1117,6 @@ def exportar_excel_incoming(request):
 #     stdf_json = [{'stdf_pk': item['stdf_pk']} for item in stdf_list]
     
 #     return JsonResponse({'stdf_data': stdf_json}, safe=False)
-
-
-
-
 
 #VISTA DASHBOARD
 def dashboard(request):
