@@ -24,8 +24,8 @@ admin.site.register(Comat )
 admin.site.register(Incoming)
 admin.site.register(Consumos)
 admin.site.register(Categotia_incoming)
-admin.site.unregister(User)  # Desregistra el modelo User de la administración predeterminada
-admin.site.register(User, CustomUserAdmin)
+# admin.site.unregister(User)  # Desregistra el modelo User de la administración predeterminada
+# admin.site.register(User, CustomUserAdmin)
 
 
 
