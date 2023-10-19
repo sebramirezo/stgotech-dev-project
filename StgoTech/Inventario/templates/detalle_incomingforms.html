@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <button id="toggleFormButton">Mostrar Formulario</button>
+    <div id="formContainer" style="display: none;">
+        <form method="post">
+            {% csrf_token %}
+            {{ form1.as_p }}
+            
+            {{ form2.as_p }}
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
+<style>
+
+#formContainer {
+    display: none;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+
+
+</style>
+
+
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var formContainer = document.getElementById("formContainer");
+            var toggleFormButton = document.getElementById("toggleFormButton");
+
+            toggleFormButton.addEventListener("click", function () {
+                if (formContainer.style.display === "none") {
+                    formContainer.style.display = "block";
+                    toggleFormButton.textContent = "Ocultar Formulario";
+                } else {
+                    formContainer.style.display = "none";
+                    toggleFormButton.textContent = "Mostrar Formulario";
+                }
+            });
+        });
+</script>
+
+
+
+
+

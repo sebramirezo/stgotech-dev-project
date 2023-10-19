@@ -4,6 +4,104 @@ from django import forms
 from django.contrib.auth.models import Permission
 from django.contrib.admin.widgets import AdminDateWidget
 
+
+
+class ItemForm(ModelForm):
+    item1 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}), label='1) Producto conforme a lo indicado en la lista de Embarque (Packing List)', required=False)
+    item2 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}), label='2) Factura del Proveedor conforme a la orden de compra o solicitud de trabajo (Invoice)', required=False)
+    item3 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='3) Cartilla/Orden de Trabajo, Cartilla de prueba, Si corresponde, del taller que repara', required=False)
+    item4 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='4) Producto sin daños visibles (Inspeccion Visual)', required=False)
+    item5 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='5) Producto protegido en embalaje apropiado', required=False)
+    item6 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='6) Placa de identificacion del componente', required=False)
+    item7 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='7) Documentacion Técnica completa requerida por reglamentacion (Trazabilidad)', required=False)
+    item8 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='8) Formulario FAA 8130-3', required=False)
+    item9 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='9) Formulario EASA Form One o JAA Form One o CAA Form One', required=False)
+    item10 =  forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='10) Formulario DGAC Chile 8130-3', required=False)
+    item11 =  forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='11) Formulario ANAC Argentina 8130-3', required=False)
+    item12 =  forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='12) Placa o Etiqueta para Herramientas o equipos con calibracion', required=False)
+    item13 =  forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='13) Certificado de Calibración en laboratorio reconocido por el estado local', required=False)
+    n_item13  = forms.IntegerField(widget=forms.NumberInput(attrs={"class": "form-control"}),label='13.5) N° de Certificado de Calibración', required=False)
+    item14 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='14) Materiales con vida limite (Verificacion de Shelf life data y MSDS)', required=False)
+    item15 =  forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='15) Certificado de flamabilidad, si corresponde', required=False)
+    n_item15 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='15.5) N° de Certificado de Flamabilidad', required=False)
+    item16 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='16) Certificado de conformidad  y/o Analisis', required=False)
+    n_item16 = forms.IntegerField(widget=forms.NumberInput(attrs={"class": "form-control"}),label='16.5) N° Certificado de conformidad y/o Analisis', required=False)
+    item17 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='17) Numero de lote de fabricacion, si corresponde', required=False)
+    n_item17 = forms.IntegerField(widget=forms.TextInput( attrs={"class": "form-control"}),label='17.5)Numero de lote de Fabricacion  ', required=False)
+    item18 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='18) TSO / TSN (Si Aplica)', required=False)
+    item_18tsn = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='18.5) Especifique Numero de TSN/TSO/CSN/SCO', required=False)
+    item19 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='19) Material Safety Data Sheet', required=False)
+    item20 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='', required=False)
+    item21 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='', required=False)
+    item22 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='', required=False)
+    n_item22 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='', required=False)
+
+    class Meta:
+        model = Item
+        fields = [
+            'item1',
+            'item2',
+            'item3',
+            'item4',
+            'item5',
+            'item6',
+            'item7',
+            'item8',
+            'item9',
+            'item10',
+            'item11',
+            'item12',
+            'item13',
+            'n_item13',
+            'item14',
+            'item15',
+            'n_item15',
+            'item16',
+            'n_item16',
+            'item17',
+            'n_item17',
+            'item18',
+            'item_18tsn',
+            'item19',
+            'item20',
+            'item21',
+            'item22',
+            'n_item22',
+
+        ]
+
+class DetalleForm(ModelForm):
+    modelo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Modelo"}),label='Modelo', required=False)
+    Proveedor = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Proveedor del Producto"}),label='Proveedor del Producto', required=False)
+    taller_reparadora = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Taller/Cia. Reparadora"}),label='Taller/Cia. Reparadora', required=False)
+    trabajo_solicitado = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Trabajo Solicitado"}),label='Trabajo Solicitado', required=False)
+    propiedad = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Propiedad de"}),label='Propiedad de', required=False)
+    check_periodica = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Check Periodica (Si Aplica)"}),label='Check Periodica (Si Aplica)', required=False)
+    ro_n = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "RO N°"}),label='RO N°', required=False)
+    wo_n = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "WO N°"}),label='WO N°', required=False)
+    aceptado = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "¿Aceptado?"}),label='¿Aceptado?', required=False)
+    licencia = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "N° Licencia"}),label='N° Licencia', required=False)
+    estado_repuesto_fk = forms.ModelChoiceField(queryset=Estado_Repuesto.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa el Estado del Repuesto"}), label='Estado del Repuesto', required=False)
+
+    class Meta:
+        model = Detalle_Incoming
+        fields = [
+            'modelo',
+            'Proveedor',
+            'taller_reparadora',
+            'trabajo_solicitado',
+            'propiedad',
+            'check_periodica',
+            'ro_n',
+            'wo_n',
+            'aceptado',
+            'licencia',
+            'estado_repuesto_fk',
+        ]
+
+
+
+
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 class ComatForm(ModelForm):
     stdf_pk = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa STDF"}),label='STDF')

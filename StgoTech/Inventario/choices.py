@@ -6,6 +6,32 @@ Prioridad = [
 
 ]
 
+Estado_Repuesto = [
+
+    ('Overhaul', 'Overhaul'),
+    ('Chequeado', 'Chequeado'),
+    ('Reparado', 'Reparado'),
+    ('Testeado', 'Testeado'),
+    ('Calibracion', 'Calibracion'),
+    ('Nuevo', 'Nuevo'),
+    ('Otro', 'Otro'),
+
+]
+
+True_False = [
+    ('1', 'NO'),
+    ('0', 'SI'),
+    ('N/A', 'N/A'),
+]
+
+TSN = [
+
+    ('TSN', 'TSN'),
+    ('TSO', 'TSO'),
+    ('CSN', 'CSN'),
+    ('CSO', 'CSO'),
+]
+
 
 BODEGA = [
 
