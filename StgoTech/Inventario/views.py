@@ -7,6 +7,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
+from django.db.models import Count
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 # Vistas relacionadas al inicio y cierre de sesión
@@ -30,15 +31,29 @@ def index(request):
 
 #VISTA DASHBOARD
 def dashboard(request):
-    comat_data = Comat.objects.all().order_by()[:10]
-    incoming_data = Incoming.objects.all()
-    context = {
-        'comat_data':comat_data,
-        'incoming_data':incoming_data,
+    return render(request, 'dashboard.html')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+def get_chart_data(request):
+    priority_order = ['Alta', 'Media', 'Baja']
+    data = Comat.objects.values('prioridad').annotate(count=Count('prioridad'))
+
+    data = sorted(data, key=lambda item: priority_order.index(item['prioridad']))
+    # Asigna colores según la prioridad
+    color_mapping = {
+        'Alta': 'rgba(255, 0, 0, 0.6)',    # Rojo
+        'Media': 'rgba(255, 255, 0, 0.6)', # Amarillo
+        'Baja': 'rgba(0, 128, 0, 0.6)'     # Verde
     }
+    for item in data:
+        item['color'] = color_mapping.get(item['prioridad'], 'rgba(0, 0, 0, 0.6)')  # Por defecto, negro
 
-    return render(request, 'dashboard.html', context)
+    return JsonResponse(list(data), safe=False)
 
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+def get_pks_by_priority(request, priority):
+    stdf_pk = Comat.objects.filter(prioridad=priority).values_list('stdf_pk', flat=True)
+    return JsonResponse({'stdf_pk': list(stdf_pk)}, safe=False)
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
 #BUSCADOR DE LA PAGINA DE INICIO, REDIRIGE AL RESULTADO DE BUSQUEDA DE LA PAGINA DE INICIO

@@ -334,4 +334,61 @@ $(document).ready(function () {
     });
 
 });
+var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart;
+
+    // Realiza la petición AJAX para obtener los datos
+    fetch('/get_chart_data/')  // Cambia la URL según tu configuración
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.map(item => item.prioridad);
+            const counts = data.map(item => item.count);
+            const colors = data.map(item => item.color);
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(item => item.prioridad),
+                    datasets: [{
+                        label: 'Cuenta Total de Prioridad por STDF',
+                        data: counts,
+                        backgroundColor: colors, // Personaliza según tus necesidades
+                        borderColor: 'rgba(75, 192, 192, 1)', // Personaliza según tus necesidades
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    // Otras opciones de configuración
+                    // Configuración del gráfico
+                    onClick: function (event, elements) {
+                        if (elements[0]) {
+                            const clickedLabel = labels[elements[0].index];
+                            const modal = document.getElementById('myModal');
+                            const modalContent = document.getElementById('modal-content');
+                            // Agrega un controlador de eventos para cerrar la ventana emergente
+                            const closeBtn = document.querySelector('.close');
+                            closeBtn.addEventListener('click', function () {
+                                modal.style.display = 'none';
+                            });
+                            // Consulta los pk de elementos relacionados con la prioridad
+                            fetch(`/get_pks_by_priority/${clickedLabel}/`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    const pkList = data.map(item => item.stdf_pk);
+                                    modalContent.innerHTML = `Claves primarias relacionadas con ${clickedLabel}: ${pkList.join(', ')}`;
+                                })
+                                .catch(error => {
+                                    console.error('Error al obtener los pk:', error);
+                                });
+
+                            // Cargar contenido relacionado con la prioridad en la ventana emergente
+                            modalContent.innerHTML = 'Contenido relacionado con ' + clickedLabel;
+
+                            // Mostrar la ventana emergente
+                            modal.style.display = 'block';
+                        }
+                    }
+                }
+            });
+        });
+
 </script>

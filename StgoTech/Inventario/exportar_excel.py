@@ -36,29 +36,7 @@ def exportar_excel_incoming(request):
 # Inserta la imagen en la hoja de trabajo
     ws.add_image(excel_image, 'A1')
 
-    negrita = Font(bold=True)
-
-    # Definir las coordenadas de las celdas a las que deseas aplicar negrita
-    coordenadas_negrita = ['R1', 'H5', 'A8','H8','P8','T8','A13','A15','E13',
-                        'E15','I13','I15','M13','Q15','U13','A17','Q17','A19',
-                        'Q19','A21','Q21','A23','A25','O25','A27','B27','T27',
-                        'W27','A29','B29','A30','B30','A31','B31','A32','B32',
-                        'A33','B33','A34','B34','A35','B35','A36','B36','B37',
-                        'A38','B38','A39','B39','A40','B40','A41' ,'B41','O41',
-                        'A42','B42','A43','B43','K43','A44','B44','K44','A45',
-                        'B45','K45','A46','B46','F46','I46','L46','P46','A47',
-                        'B47','A48','B48','A49','B49','A50','B50','J50','A52',
-                        'A58','A59','A60','A61','A62','A63','A65','E65','I65',
-                        'A67','I67','Q67','A69','A72']
-
-    # Aplicar el formato en negrita a las celdas con un ciclo for
-
-
-
-
-
-
-    ancho_columna = 3.55
+    ancho_columna = 4.7
 
     for columna in range(1, 26):
         # Establece el ancho de la columna
@@ -145,7 +123,9 @@ def exportar_excel_incoming(request):
     ws.merge_cells('I15:K15')
     ws['I15']  = 'Nuevo'
 
-    ws.merge_cells('M13:P13')
+    ws.merge_cells('M15:P15')#merge para quitar borde del centro
+
+    ws.merge_cells('M13:O13')
     ws['M13']  = 'Calibración'
 
     ws.merge_cells('Q13:T14')#Campo Relleno de BBDD 
@@ -194,7 +174,7 @@ def exportar_excel_incoming(request):
 
 
     ws.merge_cells('O25:R25')
-    ws['O25']  = 'Shel life Due'
+    ws['O25']  = 'Shel Life Due'
     ws.merge_cells('S25:Y25') #Campo Relleno de BBDD 
 
     #ENCABEZADO DE LA TABLA
@@ -296,44 +276,44 @@ def exportar_excel_incoming(request):
     ws.merge_cells('W42:Y42')
 
     ws['A43'] = '15'
-    ws.merge_cells('B43:J43')
+    ws.merge_cells('B43:K43')
     ws['B43'] = 'Certificado de flamabilidad, si corresponde'
-    ws.merge_cells('L43:S43')#CAMPO LLENADO POR BBDD
-    ws['K43'] = 'N°'
+    ws.merge_cells('M43:S43')#CAMPO LLENADO POR BBDD
+    ws['L43'] = 'N°'
     ws.merge_cells('T43:V43')
     ws.merge_cells('W43:Y43')
 
     ws['A44'] = '16'
-    ws.merge_cells('B44:J44')
+    ws.merge_cells('B44:K44')
     ws['B44'] = 'Certificado de conformidad  y/o Analisis'
-    ws.merge_cells('L44:S44')#CAMPO LLENADO POR BBDD
-    ws['K44'] = 'N°'
+    ws.merge_cells('M44:S44')#CAMPO LLENADO POR BBDD
+    ws['l44'] = 'N°'
     ws.merge_cells('T44:V44')
     ws.merge_cells('W44:Y44')
 
     ws['A45'] = '17'
-    ws.merge_cells('B45:J45')
+    ws.merge_cells('B45:K45')
     ws['B45'] = 'Numero de lote de fabricacion, si corresponde'
-    ws.merge_cells('L45:S45')#CAMPO LLENADO POR BBDD
-    ws['K45'] = 'N°'
+    ws.merge_cells('M45:S45')#CAMPO LLENADO POR BBDD
+    ws['L45'] = 'N°'
     ws.merge_cells('T45:V45')
     ws.merge_cells('W45:Y45')
 
     ws['A46'] = '18'
-    ws.merge_cells('B46:E46')
+    ws.merge_cells('B46:G46')
     ws['B46'] = 'TSO / TSN (Si Aplica)'
 
-    ws.merge_cells('G45:H45')#CAMPO LLENADO POR BBDD
-    ws['F46'] = 'TSN'
+    ws.merge_cells('I46:J46')#CAMPO LLENADO POR BBDD
+    ws['H46'] = 'TSN'
 
-    ws.merge_cells('I46:K46')
-    ws['I46'] = 'TSO'
+    ws.merge_cells('L46:M46')
+    ws['K46'] = 'TSO'
 
-    ws.merge_cells('M46:O46')
-    ws['L46'] = 'CSN'
+    ws.merge_cells('O46:P46')
+    ws['N46'] = 'CSN'
 
-    ws.merge_cells('Q46:S46')
-    ws['P46'] = 'CSO'
+    ws.merge_cells('R46:S46')
+    ws['Q46'] = 'CSO'
 
     ws.merge_cells('T46:V46')
     ws.merge_cells('W46:Y46')
@@ -357,11 +337,11 @@ def exportar_excel_incoming(request):
     ws.merge_cells('W49:Y49')
 
     ws['A50'] = '22'
-    ws.merge_cells('B50:I50')
+    ws.merge_cells('B50:K50')
     ws['B50'] = 'Cartilla Mantencion CMA Autorizado'
 
-    ws.merge_cells('K50:S50')
-    ws['J50'] = 'N°'
+    ws.merge_cells('M50:S50')
+    ws['L50'] = 'N°'
 
     ws.merge_cells('T50:V50')
     ws.merge_cells('W50:Y50')
@@ -407,6 +387,7 @@ def exportar_excel_incoming(request):
 
     ws.merge_cells('M65:Y65')
 
+
     ws.merge_cells('A67:H67')
     ws['A67'] = 'Nombre'
 
@@ -427,6 +408,18 @@ def exportar_excel_incoming(request):
     ws.merge_cells('A72:J72')
     ws['A72'] = 'FORM CMA-005 REV.1'
 
+
+
+
+
+
+
+
+
+
+
+
+
     #ws.merge_cells('')
     #ws['']  = ''
     #ws.merge_cells(':') #Campo Relleno de BBDD 
@@ -442,7 +435,7 @@ def exportar_excel_incoming(request):
                 cell.border = border
 
 
-    coordenadas_a_quitar_borde = [('R1', 'T2'),('H5', 'Q5'),('A13', 'C13'), ('E13', 'G13'), ('I13', 'K13'), ('M13', 'P13'), ('A15', 'C15'), ('E15', 'G15'), ('I15', 'K15')]
+    coordenadas_a_quitar_borde = [('A72','J72'),('R1', 'T2'),('H5', 'Q5'),('A13', 'C13'), ('E13', 'G13'), ('I13', 'K13'), ('M13', 'P13'), ('A15', 'C15'), ('E15', 'G15'), ('I15', 'K15')]
 
     # Iterar sobre las coordenadas y quitar el borde
     for coord in coordenadas_a_quitar_borde:
@@ -455,6 +448,16 @@ def exportar_excel_incoming(request):
         for row in ws.iter_rows(min_row=min_row, max_row=max_row, min_col=min_col, max_col=max_col):
             for cell in row:
                 cell.border = None
+
+
+
+
+
+
+
+
+
+
 
     for fila in ws.iter_rows(min_row=1, max_row=72, min_col=1, max_col=25):
         for cell in fila:
@@ -504,18 +507,117 @@ def exportar_excel_incoming(request):
         celda = ws[coord]
         celda.border = border
 
-    formato_fuente = Font(name='tahoma', size=9) 
 
-    for fila in ws.iter_rows(min_row=1, max_row=74, min_col=1, max_col=25):  # 25 es la columna Y
+
+    # Define el formato de fuente para las demás filas
+    formato_fuente = Font(name='Tahoma', size=9 , bold=True)
+
+    # Define el formato de fuente para la fila 72
+    formato_fuente_fila_72 = Font(name='Tahoma', size=7, bold=True)
+    alineacion_izquierda = Alignment(horizontal='left')
+
+    # Itera a través de las filas
+    for fila in ws.iter_rows(min_row=1, max_row=74, min_col=1, max_col=25):
         for celda in fila:
+            # Aplica el formato de fuente para todas las celdas
             celda.font = formato_fuente
 
-    for coord in coordenadas_negrita:
-        celda = ws[coord]
-        celda.font = negrita
+    # Aplica negrita a todas las celdas, incluyendo la fila 72
+    for celda in ws[72]:
+        celda.font = formato_fuente_fila_72
+        celda.alignment = alineacion_izquierda
+
+    borde_sin_superior = Border(top=Side(style=None))
+
+    # Celda combinada 'M15:P15'
+    celda_combinada = ws['M15:P15']
+
+    # Aplica el estilo de borde sin borde superior a la celda combinada
+    for fila in celda_combinada:
+        for celda in fila:
+            celda.border = borde_sin_superior
 
 
-        
+    borde_izquierdo = Border(left=Side(style='thin'),
+                            top=Side(style=None),
+                            right=Side(style=None),
+                            bottom=Side(style=None))
+
+    # Aplica el estilo de borde izquierdo a la celda A14
+    celda_a14 = ws['A14']
+    celda_a14.border = borde_izquierdo
+
+
+    borde_abajo = Border(left=Side(style=None),
+                        top=Side(style='thin'),
+                        right=Side(style=None),
+                        bottom=Side(style=None))
+
+    # Celdas combinadas
+    celdas_combinadas1 = ws['I13:K13']
+    celdas_combinadas2 = ws['A13:C13']
+    celdas_combinadas3 = ws['E13:G13']
+    celdas_combinadas4 = ws['M13:P13']
+
+    # Lista de celdas combinadas
+    celdas_combinadas = [celdas_combinadas2, celdas_combinadas3, celdas_combinadas4, celdas_combinadas1]
+
+    # Aplica el estilo de borde inferior a todas las celdas combinadas
+    for rango_celdas in celdas_combinadas:
+        for fila in rango_celdas:
+            for celda in fila:
+                celda.border = borde_abajo
+
+
+
+
+    borde_arriba = Border(left=Side(style=None),
+                        top=Side(style=None),
+                        right=Side(style=None),
+                        bottom=Side(style='thin'))
+
+    # Celdas combinadas
+    celdas_combi1 = ws['A15:C15']
+    celdas_combi2 = ws['E15:G15']
+    celdas_combi3 = ws['I15:K15']
+    celdas_combi4 = ws['M15:P15']
+
+
+    # Lista de celdas combinadas
+    celdas_combi = [celdas_combi1, celdas_combi2, celdas_combi3,celdas_combi4]
+
+    # Aplica el estilo de borde inferior a todas las celdas combinadas
+    for i in celdas_combi:
+        for a in i:
+            for celda in a:
+                celda.border = borde_arriba
+
+    borde_izquierdo_abajo = Border(left=Side(style='thin'),
+                            top=Side(style='thin'),
+                            right=Side(style=None),
+                            bottom=Side(style='thin'))
+
+    # Aplica el estilo de borde izquierdo a la celda A14
+    celda_P13 = ws['P13']
+    celda_P13.border = borde_izquierdo_abajo
+
+    alineacion_izquierda = Alignment(horizontal='left')
+
+    # Celdas combinadas
+    celdas_combinadas1 = ws['E59:Y59']
+    celdas_combinadas2 = ws['E60:Y60']
+    celdas_combinadas3 = ws['E61:Y61']
+    celdas_combinadas4 = ws['E62:Y62']
+    celdas_combinadas5 = ws['E63:Y64']
+
+    # Lista de celdas combinadas que se alinearán a la izquierda
+    celdas_combinadas_izquierda = [celdas_combinadas1, celdas_combinadas2, celdas_combinadas3, celdas_combinadas4, celdas_combinadas5]
+
+    # Aplica la alineación a la izquierda a todas las celdas combinadas
+    for rango_celdas in celdas_combinadas_izquierda:
+        for fila in rango_celdas:
+            for celda in fila:
+                celda.alignment = alineacion_izquierda
 
     wk.save(response)
     return response
