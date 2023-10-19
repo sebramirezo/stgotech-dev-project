@@ -1,2 +1,6 @@
-# stgotech-dev-project
- Proyecto de Inventario Stgo Technik Gruppe
+# Sistema de Inventario Stgo Technik Gruppe
+
+Proyecto de Inventario Desarrollado en Django y PostgreSQL
+
+** Utilización de Django ORM
+** Utilización de AJAX en Datatables
