@@ -3,7 +3,6 @@ from django.core.validators import MinValueValidator
 from .choices import *
 from django.contrib.auth.models import User
 
-
 # Create your models here.
 #TABLA CATEGORIA INCOMING
 class Categotia_incoming(models.Model):
@@ -119,8 +118,6 @@ class Origen(models.Model):
 
     def __str__(self):
         return self.name_origen
-    
-
 
 #Tabla Comat 
 class Comat(models.Model):
@@ -183,8 +180,7 @@ class Incoming(models.Model):
     def __str__(self):
         return self.sn_batch_pk
 
-
-
+#Tabla Consumos
 class Consumos(models.Model):
     consumo_pk = models.AutoField(primary_key=True, unique=True , validators=[MinValueValidator(1)])
     orden_consumo = models.CharField(blank=True, null=True, max_length=50)
@@ -195,8 +191,6 @@ class Consumos(models.Model):
     incoming_fk = models.ForeignKey(Incoming, null=True, blank=True,on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
     
-
-
     class Meta:
         db_table = "consumos"
 
