@@ -243,8 +243,9 @@ def incoming(request):
                     incoming.saldo = incoming.qty
                     incoming.save()
 
+                    request.session['incoming_fk'] = incoming.sn_batch_pk
 
-                    return redirect('/incoming')
+                    return redirect('/detalle_form')
                 else:
                 # Manejo del caso en el que el usuario no está autenticado
                     return HttpResponse("Debes iniciar sesión para realizar esta acción.")
@@ -515,10 +516,9 @@ def detalle_inicio(request, stdf_pk):
             "consumos_recordsFiltered": consumos_records_filtered,
         })
     
-def IncomingForm(request):
+def detalle_form(request):
     form1 = DetalleForm(prefix='form1')
     form2 = ItemForm(prefix='form2')
-
     if request.method == 'POST':
         form1 = DetalleForm(request.POST, prefix='form1')
         form2 = ItemForm(request.POST, prefix='form2')
@@ -532,6 +532,8 @@ def IncomingForm(request):
 
             modelo2 = Item(**datos_form2)
             modelo2.save()
+
+            return redirect('/incoming')
     
     # Renderiza los formularios en tu plantilla HTML
     return render(request, 'detalle_incomingforms.html', {'form1': form1, 'form2': form2})

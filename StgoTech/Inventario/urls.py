@@ -26,6 +26,7 @@ urlpatterns = [
     path('detalle_consumos/<int:consumo_pk>/', views.detalle_consumos, name='detalle_consumos'),
     path('detalle_inicio/<int:stdf_pk>/', views.detalle_inicio, name='detalle_inicio'),
     path('exportar_excel_incoming/<str:sn_batch_pk>/', exportar_excel.exportar_excel_incoming, name='exportar_excel_incoming'),
-    path('IncomingForm/', views.IncomingForm, name='IncomingForm'),
+    path('detalle_form/', views.detalle_form, name='detalle_form'),
+    
 
 ]

@@ -219,6 +219,7 @@ class Item(models.Model):
     n_item17 = models.IntegerField(blank=True, null=True)
     item18 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
     item_18tsn = models.CharField(choices=TSN, blank=True, null=True, max_length=50)
+    n_item18tsn = models.IntegerField(blank=True, null=True)
     item19 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
     item20 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
     item21 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
@@ -245,6 +246,7 @@ class Detalle_Incoming(models.Model):
     licencia = models.CharField(blank=True, null=True, max_length=50)
     item_fk = models.ForeignKey(Item, on_delete=models.SET_NULL , null=True , blank=True)
     estado_repuesto_fk = models.ForeignKey(Estado_Repuesto, on_delete=models.SET_NULL , null=True , blank=True)
+    incoming_fk = models.ForeignKey(Incoming, on_delete=models.SET_NULL , null=True , blank=True)
 
     class Meta:
         db_table = "detalle"

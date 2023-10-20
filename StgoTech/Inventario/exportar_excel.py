@@ -666,7 +666,6 @@ def exportar_excel_incoming(request, sn_batch_pk):
     for celda in ws[72]:
         celda.font = formato_fuente_fila_72
         celda.alignment = alineacion_izquierda
-
-
+    
     wk.save(response)
     return response

@@ -23,18 +23,19 @@ class ItemForm(ModelForm):
     n_item13  = forms.IntegerField(widget=forms.NumberInput(attrs={"class": "form-control"}),label='13.5) N° de Certificado de Calibración', required=False)
     item14 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='14) Materiales con vida limite (Verificacion de Shelf life data y MSDS)', required=False)
     item15 =  forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='15) Certificado de flamabilidad, si corresponde', required=False)
-    n_item15 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='15.5) N° de Certificado de Flamabilidad', required=False)
+    n_item15 = forms.IntegerField(widget=forms.NumberInput(attrs={"class": "form-control"}),label='15.5) N° de Certificado de Flamabilidad', required=False)
     item16 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='16) Certificado de conformidad  y/o Analisis', required=False)
     n_item16 = forms.IntegerField(widget=forms.NumberInput(attrs={"class": "form-control"}),label='16.5) N° Certificado de conformidad y/o Analisis', required=False)
     item17 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='17) Numero de lote de fabricacion, si corresponde', required=False)
-    n_item17 = forms.IntegerField(widget=forms.TextInput( attrs={"class": "form-control"}),label='17.5)Numero de lote de Fabricacion  ', required=False)
+    n_item17 = forms.IntegerField(widget=forms.TextInput( attrs={"class": "form-control"}),label='17.5)Numero de lote de Fabricacion', required=False)
     item18 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='18) TSO / TSN (Si Aplica)', required=False)
-    item_18tsn = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='18.5) Especifique Numero de TSN/TSO/CSN/SCO', required=False)
+    item_18tsn = forms.CharField(widget=forms.Select(choices=TSN, attrs={"class": "form-control"}),label='18.5) TSN/TSO/CSN/SCO', required=False)
+    n_item18tsn = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='18.5.1) Especifique Numero de TSN/TSO/CSN/SCO', required=False)
     item19 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='19) Material Safety Data Sheet', required=False)
-    item20 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='', required=False)
-    item21 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='', required=False)
-    item22 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='', required=False)
-    n_item22 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='', required=False)
+    item20 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='20) Material con restriccion bajo el programa ESD', required=False)
+    item21 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='21) Material con restriccion de almacenamiento (Hielo Seco)', required=False)
+    item22 = forms.CharField(widget=forms.Select(choices=True_False, attrs={"class": "form-control"}),label='22) Cartilla Mantencion CMA Autorizado', required=False)
+    n_item22 = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='22.5) N° de Catilla Mantencion CMA Autorizado', required=False)
 
     class Meta:
         model = Item
@@ -62,6 +63,7 @@ class ItemForm(ModelForm):
             'n_item17',
             'item18',
             'item_18tsn',
+            'n_item18tsn',
             'item19',
             'item20',
             'item21',
@@ -79,13 +81,14 @@ class DetalleForm(ModelForm):
     check_periodica = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Check Periodica (Si Aplica)"}),label='Check Periodica (Si Aplica)', required=False)
     ro_n = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "RO N°"}),label='RO N°', required=False)
     wo_n = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "WO N°"}),label='WO N°', required=False)
-    aceptado = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "¿Aceptado?"}),label='¿Aceptado?', required=False)
+    aceptado = forms.CharField(widget=forms.Select(choices=ACEPTADO, attrs={"class": "form-control"}),label='¿Aceptado?', required=False)
     licencia = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "N° Licencia"}),label='N° Licencia', required=False)
     estado_repuesto_fk = forms.ModelChoiceField(queryset=Estado_Repuesto.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa el Estado del Repuesto"}), label='Estado del Repuesto', required=False)
-
+    incoming_fk = forms.ModelChoiceField(queryset=Incoming.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa el SN O BN"}), label='Serial Number o Batch Number')
     class Meta:
         model = Detalle_Incoming
         fields = [
+            'incoming_fk',
             'modelo',
             'Proveedor',
             'taller_reparadora',

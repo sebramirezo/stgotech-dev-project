@@ -19,13 +19,21 @@ Estado_Repuesto = [
 ]
 
 True_False = [
-    ('1', 'NO'),
+    ('', ''),
     ('0', 'SI'),
+    ('1', 'NO'),
     ('N/A', 'N/A'),
 ]
 
-TSN = [
+ACEPTADO = [
 
+    ('0', 'SI'),
+    ('1', 'NO'),
+
+]
+
+TSN = [
+    ('', ''),
     ('TSN', 'TSN'),
     ('TSO', 'TSO'),
     ('CSN', 'CSN'),
