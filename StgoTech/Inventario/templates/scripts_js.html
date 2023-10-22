@@ -347,6 +347,13 @@ $(document).ready(function () {
     });
 
 });
+// Agrega un controlador de eventos para cerrar la ventana emergente cuando se hace clic en cualquier parte del documento
+document.addEventListener('click', function (event) {
+    const modal = document.getElementById('myModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
 var ctx = document.getElementById('myChart').getContext('2d');
     var myChart;
 
