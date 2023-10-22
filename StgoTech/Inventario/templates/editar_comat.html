@@ -1,0 +1,22 @@
+{% extends './base.html' %}
+
+{% block body %}
+<body>
+    <h1>Editar Comat</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="row p-2">
+            {% for field in form %}
+            <div class="col-6 p-2">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+            {% endfor %}
+        </div>
+        <input class="btn btn-primary" type="submit" value="Guardar">
+    </form>
+
+
+</body>
+{% endblock %}

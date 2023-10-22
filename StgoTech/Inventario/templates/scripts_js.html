@@ -1,4 +1,5 @@
 <script>
+
 $(document).ready(function() {
     var goTopButton = $("#goTopButton");
 
@@ -7,26 +8,38 @@ $(document).ready(function() {
 
     // Mostrar el botón cuando el usuario desplaza hacia abajo 200px
     $(window).scroll(function() {
-        if ($(this).scrollTop() > 200) {
-            goTopButton.fadeIn(300); // Animación de desvanecimiento en 300ms
+        if ($(this).scrollTop() > 100) {
+            goTopButton.fadeIn(100); // Animación de desvanecimiento en 300ms
         } else {
-            goTopButton.fadeOut(300); // Animación de desvanecimiento en 300ms
+            goTopButton.fadeOut(100); // Animación de desvanecimiento en 300ms
         }
     });
 
     // Volver arriba cuando se hace clic en el botón
     goTopButton.click(function() {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
+        $("html, body").animate({ scrollTop: 0 }, "fast");
     });
 });
+
+
 
 
 // $(".selector").flatpickr(optional_config);
 
 flatpickr("input[type=datetime-local]", {
-enableTime: true,
-dateFormat: "Y-m-d H:i"
+    enableTime: true,
+    allowInput: true,
+    ariaDateFormat: 'd-m-Y H:i',
+    dateFormat: "Y-m-d H:i",
+    time_24hr: true,
 });
+
+flatpickr("input[type=date]", {
+    allowInput: true,
+    altFormat: 'd-m-Y',
+    dateFormat: "Y-m-d",
+});
+
 
 $(document).ready(function () {
   var dataTable = $('#tabla-incoming').DataTable({
@@ -96,7 +109,7 @@ $(document).ready(function () {
                 var url = "/detalle_comat/" + stdf_pk + "/";
                 return '<a href="' + url + '" class="ver-detalles" data-stdf_pk="' + stdf_pk + '">Ver Detalles</a>';
             }
-          }
+        },
       ]
   });
 });
@@ -373,15 +386,19 @@ var ctx = document.getElementById('myChart').getContext('2d');
                             fetch(`/get_pks_by_priority/${clickedLabel}/`)
                                 .then(response => response.json())
                                 .then(data => {
-                                    const pkList = data.map(item => item.stdf_pk);
-                                    modalContent.innerHTML = `Claves primarias relacionadas con ${clickedLabel}: ${pkList.join(', ')}`;
+                                    const stdfPkList = data.stdf_pk;
+
+                                    // Personaliza el mensaje de la ventana emergente
+                                    let message = `Los elementos con prioridad ${clickedLabel} tienen los siguientes stdf_pk en fila:<br>`;
+                                    for (const stdfPk of stdfPkList) {
+                                        message += `${stdfPk}, `;
+                                    }
+                                    message = message.slice(0, -2); // Eliminar la coma final
+                                    modalContent.innerHTML = message;
                                 })
                                 .catch(error => {
-                                    console.error('Error al obtener los pk:', error);
+                                    console.error('Error al obtener los stdf_pk:', error);
                                 });
-
-                            // Cargar contenido relacionado con la prioridad en la ventana emergente
-                            modalContent.innerHTML = 'Contenido relacionado con ' + clickedLabel;
 
                             // Mostrar la ventana emergente
                             modal.style.display = 'block';
@@ -390,5 +407,4 @@ var ctx = document.getElementById('myChart').getContext('2d');
                 }
             });
         });
-
 </script>

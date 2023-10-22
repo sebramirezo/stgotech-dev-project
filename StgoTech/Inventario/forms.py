@@ -14,11 +14,11 @@ class ComatForm(ModelForm):
     pcs = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad de Piezas"}),label='Piezas')
     peso = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el Peso"}),label='Peso')
 
-    f_control = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local', 'id':'id_f_control'}), required=False, label='Fecha de Control')
+    f_control = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha', 'id':'id_f_control'}), required=False, label='Fecha de Control')
     # f_control = forms.DateTimeField(widget=AdminDateWidget())
-    f_manifiesto = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local'}), required=False, label='Fecha de Manifiesto')
-    f_recepcion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local'}), required=False, label='Fecha de Recepción')
-    f_stdf = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha del STDF')
+    f_manifiesto = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha'}), required=False, label='Fecha de Manifiesto')
+    f_recepcion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha'}), required=False, label='Fecha de Recepción')
+    f_stdf = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control", 'type': 'date', 'placeholder':'Selecciona la fecha'}), required=False, label='Fecha del STDF')
 
     fob = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del FOB Formato - Utilice coma para separar  00,00"}),label='FOB')
     flete = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa el valor del Flete - Utilice coma para separar  00,00"}),label='Flete')
@@ -56,11 +56,11 @@ class IncomingForm(ModelForm):
 
     sn_batch_pk = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Serial Number"}),label='Serial Number')
     part_number = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Part Number"}),label='Part Number')
-    f_incoming = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Ingreso Incoming')
+    f_incoming = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date', 'placeholder':'Selecciona la fecha'}), required=False, label='Fecha Ingreso Incoming')
     po = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Product Order"}),label='Orden del Repuesto')
     qty = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad"}),label='Quantity')
     u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder": "Ingresa Unit Purchase Cost"}),label='Unit Purchase Cost')
-    f_vencimiento = forms.DateField(widget=forms.DateTimeInput(attrs={"class":"form-control", 'type': 'date'}), required=False, label='Fecha Vencimiento')
+    f_vencimiento = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control", 'type': 'date', "placeholder":'Seleccione fecha'}), required=False, label='Fecha Vencimiento')
     descripcion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Descripción"}),label='Descripción')
     observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=False)
     categoria_fk = forms.ModelChoiceField(queryset=Categotia_incoming.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa la Categoria SN o BN"}), label='Categoria')
@@ -103,7 +103,7 @@ class ConsumosForm(ModelForm):
     qty_extraida = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Cantidad Extraida"}),label='Cantidad Extraida')
     matricula_aeronave = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Matricula"}),label='Matricula Aeronave')
     observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=False)
-    f_transaccion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control",'type': 'date'}), required=False, label='Fecha de Transacción')
+    f_transaccion = forms.DateTimeField(widget=forms.DateInput(attrs={"class":"form-control",'type': 'date', "placeholder": "Seleccione fecha"}), required=False, label='Fecha de Transacción')
     incoming_fk = forms.ModelChoiceField(queryset=Incoming.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa Serial Number o Batch Number"}), label='Serial Number o Batch Number')
     
     # incoming_id = forms.CharField(widget=forms.ChoiceField(attrs={"class":"form-control"}),label='Serial Number')
