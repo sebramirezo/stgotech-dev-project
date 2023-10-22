@@ -514,3 +514,73 @@ def detalle_inicio(request, stdf_pk):
             "consumos_recordsTotal": consumos_records_total,
             "consumos_recordsFiltered": consumos_records_filtered,
         })
+
+##################################
+### Vista de Mantenedor Comat ####
+##################################
+
+def editar_comat(request, stdf_pk):
+    comat = Comat.objects.get(pk=stdf_pk)
+
+    if request.method == 'POST':
+        form = ComatForm(request.POST, instance=comat)
+        if form.is_valid():
+            form.save()
+            return redirect('/detalle_comat/'+str(stdf_pk))  # Redirige a la página deseada después de la edición.
+    else:
+        form = ComatForm(instance=comat)
+
+    return render(request, 'editar_comat.html', {'form': form, 'comat': comat})
+
+
+def eliminar_comat(request, stdf_pk):
+    comats = Comat.objects.get(pk=stdf_pk)
+    comats.delete()
+    return redirect('/buscar')
+
+
+##################################
+# Vista de Mantenedor Incoming   #
+##################################
+
+def editar_incoming(request, sn_batch_pk):
+    incoming = Incoming.objects.get(pk=sn_batch_pk)
+
+    if request.method == 'POST':
+        form = IncomingForm(request.POST, instance=incoming)
+        if form.is_valid():
+            form.save()
+            return redirect('/detalle_incoming/'+str(sn_batch_pk))  # Redirige a la página deseada después de la edición.
+    else:
+        form = IncomingForm(instance=incoming)
+
+    return render(request, 'editar_incoming.html', {'form': form, 'incoming': incoming})
+
+
+def eliminar_incoming(request, sn_batch_pk):
+    incomings = Incoming.objects.get(pk=sn_batch_pk)
+    incomings.delete()
+    return redirect('/buscar_incoming')
+
+##################################
+# Vista de Mantenedor Consumo   #
+##################################
+
+def editar_consumo(request, incoming_fk):
+    consumo = Consumos.objects.get(incoming_fk=incoming_fk)
+
+    if request.method == 'POST':
+        form = ConsumosForm(request.POST, instance=consumo)
+        if form.is_valid():
+            form.save()
+            return redirect('/detalle_consumos/'+str(incoming_fk))  # Redirige a la página deseada después de la edición.
+    else:
+        form = ConsumosForm(instance=consumo)
+
+    return render(request, 'editar_consumo.html', {'form': form, 'consumo': consumo})
+
+
+def eliminar_consumo(request, incoming_fk):
+    consumos = Consumos.objects.get(incoming_fk=incoming_fk)
+    consumos.delete()
+    return redirect('/buscar_consumos')
