@@ -184,7 +184,7 @@ class Incoming(models.Model):
     
 class Estado_Repuesto(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] ) 
-    name_estado = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    name_estado = models.CharField(choices=Estado_Repuesto, blank=True, null=True, max_length=50)
     otro = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:

@@ -187,8 +187,6 @@ def obtener_datos_comat(request):
     if search_value:
         comat_data = comat_data.filter(Q(stdf_pk__icontains=search_value) | Q(awb__icontains=search_value)| Q(hawb__icontains=search_value))
         
-
-
     # Realizar la consulta teniendo en cuenta la paginación
     comat_data = comat_data[start:start + length]
 

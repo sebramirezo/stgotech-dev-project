@@ -91,6 +91,7 @@
 
 <h3>INCOMINGS</h3>
 <div class="tabla-responsive">
+    <!-- <input id="input1" oninput="sincronizarInputs(this, 'input2')" type="search" class="" placeholder="" aria-controls="tabla-detalle-incoming"> -->
     <table id="tabla-detalle-incoming" class="display" id="search-incoming">
         <thead>
             <tr>
@@ -121,6 +122,7 @@
 
 <h3>CONSUMOS</h3>
 <div class="tabla-responsive">
+    <!-- <input id="input2" oninput="sincronizarInputs(this, 'input1')" type="search" class="" placeholder="" aria-controls="tabla-detalle-consumos"> -->
     <table id="tabla-detalle-consumos" class="display">
         <thead>
             <tr>
@@ -135,6 +137,14 @@
         <tbody></tbody>
     </table>
 </div>
+
+<script>
+    function sincronizarInputs(input, targetId) {
+        var valorInput = input.value;
+        var targetInput = document.getElementById(targetId);
+        targetInput.value = valorInput;
+    }
+</script>
 
 
 
