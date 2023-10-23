@@ -1,0 +1,65 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block body %}
+<div class="container m-2">
+    <h5>Formulario de Ingreso de Productos al Almacén - Incoming Inspection</h5>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form1.as_p }}
+                <div>
+                    <h4>Instrucciones de uso:</h4>
+                    <p>En el Incoming Inspection Form, las 2 columnas de la derecha corresponden a: </p>
+                    <img src="{%static 'img/materia.webp'%}" style="height: 300px; width: 600px; ;" alt="">
+                    <hr>
+                    <P>Por ejemplo si en el formulario ingresamos NO</P>
+                    <img src="{%static 'img/NO.webp'%}"   alt="">
+                    <hr>
+                    <p>El formulario quedaria de esta manera:</p>
+                    <img src="{%static 'img/ejemplo.webp'%}" style="height: 50px; width: 600px; ;" alt="">
+                    
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="custom-form2">
+                    <div class="row">
+                        {% for field in form2 %}
+                            <div class="col-md-6">
+                                <div class="custom-form-group d-flex flex-column align-items-center">
+                                    <div class="m-4">
+                                        {{ field.label_tag }}
+                                    </div>
+                                    {{ field }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input class="btn btn-primary m-2" type="submit" value="Guardar">
+    </form>
+</div>
+
+<style>
+    .custom-form2 {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .custom-form-group {
+        width: 100%; /* Cambiamos el ancho a 100% */
+        box-sizing: border-box;
+        text-align: left;
+    }
+
+    /* Establecer el tamaño deseado para los labels */
+    .custom-form-group label {
+        width: 252px;
+        height: 72px;
+        display: inline-block;
+    }
+</style>
+{% endblock %}

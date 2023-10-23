@@ -21,7 +21,134 @@ $(document).ready(function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+        var item18 = document.getElementById('id_form2-item18');
+        var item18tsn = document.getElementById('id_form2-item_18tsn');
+        var n_item18tsn = document.getElementById('id_form2-n_item18tsn');
 
+        function disableField(field) {
+            field.disabled = true;
+            field.parentNode.style.display = 'none';
+        }
+
+        function enableField(field) {
+            field.disabled = false;
+            field.parentNode.style.display = 'block';
+        }
+
+        item18.addEventListener('change', function () {
+            if (item18.value === '1' || item18.value === '' || item18.value === 'N/A') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                disableField(item18tsn);
+                disableField(n_item18tsn);
+            } else {
+                enableField(item18tsn);
+                enableField(n_item18tsn);
+            }
+        });
+
+        // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item18 es "NO"
+        if (item18.value === '1' || item18.value === '' || item18.value === 'N/A') {
+            disableField(item18tsn);
+            disableField(n_item18tsn);
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var item13 = document.getElementById('id_form2-item13');
+        var n_item13 = document.getElementById('id_form2-n_item13');
+
+
+        function disableField(field) {
+            field.disabled = true;
+            field.parentNode.style.display = 'none';
+        }
+
+        function enableField(field) {
+            field.disabled = false;
+            field.parentNode.style.display = 'block';
+        }
+
+        item13.addEventListener('change', function () {
+            if (item13.value === '1' || item13.value === '' || item13.value === 'N/A') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                disableField(n_item13);
+
+            } else {
+                enableField(n_item13);
+
+            }
+        });
+
+        // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
+        if (item13.value === '1' || item13.value === '' || item13.value === 'N/A') {
+            disableField(n_item13);
+
+        }
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var item15 = document.getElementById('id_form2-item15');
+        var n_item15 = document.getElementById('id_form2-n_item15');
+
+
+        function disableField(field) {
+            field.disabled = true;
+            field.parentNode.style.display = 'none';
+        }
+
+        function enableField(field) {
+            field.disabled = false;
+            field.parentNode.style.display = 'block';
+        }
+
+        item15.addEventListener('change', function () {
+            if (item15.value === '1' || item15.value === '' || item15.value === 'N/A') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                disableField(n_item15);
+
+            } else {
+                enableField(n_item15);
+
+            }
+        });
+
+        // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
+        if (item15.value === '1' || item15.value === '' || item15.value === 'N/A') {
+            disableField(n_item15);
+
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var item22 = document.getElementById('id_form2-item22');
+        var n_item22 = document.getElementById('id_form2-n_item22');
+
+
+        function disableField(field) {
+            field.disabled = true;
+            field.parentNode.style.display = 'none';
+        }
+
+        function enableField(field) {
+            field.disabled = false;
+            field.parentNode.style.display = 'block';
+        }
+
+        item22.addEventListener('change', function () {
+            if (item22.value === '1' || item22.value === '' || item22.value === 'N/A') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                disableField(n_item22);
+
+            } else {
+                enableField(n_item22);
+
+            }
+        });
+
+        // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
+        if (item22.value === '1' || item22.value === '' || item22.value === 'N/A') {
+            disableField(n_item22);
+
+        }
+    });
 
 
 // $(".selector").flatpickr(optional_config);
@@ -118,6 +245,7 @@ $(document).ready(function () {
      
 
 $(document).ready(function() {
+    $('#id_form1-incoming_fk').select2({ 'placeholder': 'Seleccione Serial Number o Batch Number' });
     $('#id_bodega_fk').select2({'placeholder':'Seleccione Bodega'});
     $('#id_origen_fk').select2({'placeholder':'Seleccione Origen'});
     $('#id_ubicacion_fk').select2({'placeholder':'Seleccione Ubicación'});
