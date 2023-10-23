@@ -179,6 +179,77 @@ class Incoming(models.Model):
     
     def __str__(self):
         return self.sn_batch_pk
+    
+class Estado_Repuesto(models.Model):
+    id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] ) 
+    name_estado = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    otro = models.CharField(blank=True, null=True, max_length=50)
+
+    class Meta:
+        db_table = "estado_repuesto"
+    
+    def __str__(self):
+        return self.name_estado
+
+class Item(models.Model):
+    id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] )
+    item1 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item2 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item3 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item4 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item5 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item6 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item7 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item8 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item9 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item10 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item11 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item12 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item13 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    n_item13 = models.IntegerField(blank=True, null=True)
+    item14 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item15 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    n_item15 = models.IntegerField(blank=True, null=True)
+    item16 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    n_item16 = models.IntegerField(blank=True, null=True)
+    item17 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    n_item17 = models.IntegerField(blank=True, null=True)
+    item18 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item_18tsn = models.CharField(choices=TSN, blank=True, null=True, max_length=50)
+    n_item18tsn = models.IntegerField(blank=True, null=True)
+    item19 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item20 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item21 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    item22 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    n_item22 = models.IntegerField(blank=True, null=True)
+    
+    class Meta:
+        db_table = "item"
+    
+    def __int__(self):
+        return self.id
+
+class Detalle_Incoming(models.Model):
+    id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] )
+    modelo = models.CharField(blank=True, null=True , max_length=50)
+    Proveedor = models.CharField(blank=True, null=True, max_length=50)
+    taller_reparadora = models.CharField(blank=True, null=True, max_length=50)
+    trabajo_solicitado = models.CharField(blank=True, null=True, max_length=50)
+    propiedad = models.CharField(blank=True, null=True, max_length=50)
+    check_periodica = models.CharField(blank=True, null=True, max_length=50)
+    ro_n = models.CharField(blank=True, null=True, max_length=50)
+    wo_n = models.CharField(blank=True, null=True, max_length=50)
+    aceptado = models.CharField(blank=True, null=True, max_length=50)
+    licencia = models.CharField(blank=True, null=True, max_length=50)
+    item_fk = models.ForeignKey(Item, on_delete=models.SET_NULL , null=True , blank=True)
+    estado_repuesto_fk = models.ForeignKey(Estado_Repuesto, on_delete=models.SET_NULL , null=True , blank=True)
+    incoming_fk = models.ForeignKey(Incoming, on_delete=models.SET_NULL , null=True , blank=True)
+
+    class Meta:
+        db_table = "detalle"
+        
+    def __int__(self):
+        return self.id
 
 #Tabla Consumos
 class Consumos(models.Model):

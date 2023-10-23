@@ -7,7 +7,7 @@ from PIL import Image
 from openpyxl.drawing.image import Image as ExcelImage
 
 
-def exportar_excel_incoming(request):
+def exportar_excel_incoming(request, sn_batch_pk):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="datos.xlsx"'
 
@@ -23,7 +23,10 @@ def exportar_excel_incoming(request):
     wk = Workbook()
     ws = wk.active
 
-    # Crea una instancia de la imagen
+    #Obtener Datos de la base de datos
+    datos = Incoming.objects.get(sn_batch_pk = sn_batch_pk)
+
+
 
     
     # Crea una instancia de la imagen
@@ -89,19 +92,31 @@ def exportar_excel_incoming(request):
     ws.merge_cells('A8:G8')
     ws['A8']  = 'Descripcion'
     ws.merge_cells('A9:G11')#Campo Relleno de BBDD 
+    ws['A9'] = datos.descripcion
 
 
     ws.merge_cells('H8:O8')
     ws['H8']  = 'N° de Parte/PN'
-    ws.merge_cells('H9:O11')#Campo Relleno de BBDD 
+    ws.merge_cells('H9:O11')#Campo Relleno de BBDD
+    ws['H9'] = datos.part_number 
 
     ws.merge_cells('P8:S8')
     ws['P8']  = 'Modelo'
     ws.merge_cells('P9:S11')#Campo Relleno de BBDD 
 
+
     ws.merge_cells('T8:Y8')
     ws['T8']  = 'N° de Serie/SN'
-    ws.merge_cells('T9:Y11')#Campo Relleno de BBDD 
+    ws.merge_cells('T9:Y11')#Campo Relleno de BBDD
+    
+    #PASA EL VALOR SN_BATCH A LA CELDA DEPENDIENDO SI ES SERIAL NUMBER O BATCH NUMBER
+    if datos.categoria_fk.categoria_pk == 1:
+        ws['T9'] = datos.sn_batch_pk
+    elif datos.categoria_fk.categoria_pk == 2:
+        ws['E60'] = datos.sn_batch_pk
+
+    
+    
 
     #FALTA CAMBIAR ESPACIO FILA 12
 
@@ -131,11 +146,15 @@ def exportar_excel_incoming(request):
     ws.merge_cells('Q13:T14')#Campo Relleno de BBDD 
     ws.merge_cells('Q15:T15')
     ws['Q15']  = 'Fecha Recepción'
+    ws['Q13'] = datos.f_incoming
+    
 
 
     ws.merge_cells('U13:W15')
     ws['U13']  = 'Cantidad'
-    ws.merge_cells('X13:Y15')#Campo Relleno de BBDD 
+    ws.merge_cells('X13:Y15')#Campo Relleno de BBDD
+    ws['X13'] = datos.qty 
+    
 
     ws.merge_cells('A17:G17')
     ws['A17']  = 'Proveedor del Producto'
@@ -145,6 +164,8 @@ def exportar_excel_incoming(request):
     ws.merge_cells('Q17:S17')
     ws['Q17']  = 'OC / PO N°'
     ws.merge_cells('T17:Y17') #Campo Relleno de BBDD 
+    ws['T17'] = datos.po 
+
 
     ws.merge_cells('A19:G19')
     ws['A19']  = 'Taller/Cia. Reparadora'
@@ -176,6 +197,7 @@ def exportar_excel_incoming(request):
     ws.merge_cells('O25:R25')
     ws['O25']  = 'Shel Life Due'
     ws.merge_cells('S25:Y25') #Campo Relleno de BBDD 
+    ws['S25'] = datos.f_vencimiento 
 
     #ENCABEZADO DE LA TABLA
     ws['A27'] = 'Item'
@@ -356,6 +378,7 @@ def exportar_excel_incoming(request):
     ws.merge_cells('A59:D59')
     ws['A59'] = 'OC, PO OR RO N°'
     ws.merge_cells('E59:Y59')
+    ws['E59'] = datos.po
 
 
     ws.merge_cells('A60:D60')
@@ -365,14 +388,18 @@ def exportar_excel_incoming(request):
     ws.merge_cells('A61:D61')
     ws['A61'] = 'STDF'
     ws.merge_cells('E61:Y61')
+    ws['E61'] = datos.stdf_fk.stdf_pk 
 
     ws.merge_cells('A62:D62')
     ws['A62'] = 'AWB'
     ws.merge_cells('E62:Y62')
+    ws['E62'] = datos.stdf_fk.awb 
 
     ws.merge_cells('A63:D64')
     ws['A63'] = 'UBICACION'
     ws.merge_cells('E63:Y64')
+    ws['E63'] = datos.ubicacion_fk.name_ubicacion 
+    
 
     ws.merge_cells('A65:D65')
     ws['A65'] = 'ACEPTADO'
@@ -398,7 +425,7 @@ def exportar_excel_incoming(request):
     ws['Q67'] = 'Firma'
 
     ws.merge_cells('A69:H71')
-    ws['A69'] = '' #NOMBRE DE USUARIO
+    ws['A69'] = datos.usuario.username
     
     ws.merge_cells('I69:P71')
 
@@ -454,11 +481,6 @@ def exportar_excel_incoming(request):
 
 
 
-
-
-
-
-
     for fila in ws.iter_rows(min_row=1, max_row=72, min_col=1, max_col=25):
         for cell in fila:
             cell.alignment = alineacion
@@ -476,17 +498,7 @@ def exportar_excel_incoming(request):
 
 
 
-    rango_inicio = 'B29'
-    rango_fin = 'S50'
-
-    # Crear un objeto Alignment para alinear a la izquierda
-    alineacion_izquierda = Alignment(horizontal='left')
-
-    # Aplicar la alineación a todas las celdas en el rango
-    for row in ws.iter_rows(min_row=29, max_row=50, min_col=2, max_col=19):  # Columna B a S
-        for cell in row:
-            cell.alignment = alineacion_izquierda
-
+   
 
 
     for row in ws.iter_rows(min_row=13, max_row=15, min_col=1, max_col=16):  # Columna A a P
@@ -510,22 +522,7 @@ def exportar_excel_incoming(request):
 
 
     # Define el formato de fuente para las demás filas
-    formato_fuente = Font(name='Tahoma', size=9 , bold=True)
-
-    # Define el formato de fuente para la fila 72
-    formato_fuente_fila_72 = Font(name='Tahoma', size=7, bold=True)
-    alineacion_izquierda = Alignment(horizontal='left')
-
-    # Itera a través de las filas
-    for fila in ws.iter_rows(min_row=1, max_row=74, min_col=1, max_col=25):
-        for celda in fila:
-            # Aplica el formato de fuente para todas las celdas
-            celda.font = formato_fuente
-
-    # Aplica negrita a todas las celdas, incluyendo la fila 72
-    for celda in ws[72]:
-        celda.font = formato_fuente_fila_72
-        celda.alignment = alineacion_izquierda
+   
 
     borde_sin_superior = Border(top=Side(style=None))
 
@@ -611,6 +608,29 @@ def exportar_excel_incoming(request):
     celdas_combinadas5 = ws['E63:Y64']
 
     # Lista de celdas combinadas que se alinearán a la izquierda
+  
+
+    inicio_fila = 1
+    final_fila = 72
+    columnas = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'  # Columnas de la A a la Z
+
+    # Crear un estilo con alineación vertical al centro
+    
+    centrar_vertical = Alignment(wrapText=True, vertical='center',horizontal='center')
+
+    # Iterar a través de las celdas y ajustar el texto y la alineación vertical
+    for fila in range(inicio_fila, final_fila + 1):
+        for columna in columnas:
+            celda = ws[columna + str(fila)]
+            celda.alignment = centrar_vertical
+            
+
+    celdas_combinadas1 = ws['E59:Y59']
+    celdas_combinadas2 = ws['E60:Y60']
+    celdas_combinadas3 = ws['E61:Y61']
+    celdas_combinadas4 = ws['E62:Y62']
+    celdas_combinadas5 = ws['E63:Y64']
+
     celdas_combinadas_izquierda = [celdas_combinadas1, celdas_combinadas2, celdas_combinadas3, celdas_combinadas4, celdas_combinadas5]
 
     # Aplica la alineación a la izquierda a todas las celdas combinadas
@@ -618,6 +638,33 @@ def exportar_excel_incoming(request):
         for fila in rango_celdas:
             for celda in fila:
                 celda.alignment = alineacion_izquierda
+    rango_inicio = 'B29'
+    rango_fin = 'S50'
 
+    # Crear un objeto Alignment para alinear a la izquierda
+    alineacion_izquierda = Alignment(horizontal='left')
+
+    # Aplicar la alineación a todas las celdas en el rango
+    for row in ws.iter_rows(min_row=29, max_row=50, min_col=2, max_col=19):  # Columna B a S
+        for cell in row:
+            cell.alignment = alineacion_izquierda
+    
+    formato_fuente = Font(name='Tahoma', size=9 , bold=True)
+
+    # Define el formato de fuente para la fila 72
+    formato_fuente_fila_72 = Font(name='Tahoma', size=7, bold=True)
+    alineacion_izquierda = Alignment(horizontal='left')
+
+    # Itera a través de las filas
+    for fila in ws.iter_rows(min_row=1, max_row=74, min_col=1, max_col=25):
+        for celda in fila:
+            # Aplica el formato de fuente para todas las celdas
+            celda.font = formato_fuente
+
+    # Aplica negrita a todas las celdas, incluyendo la fila 72
+    for celda in ws[72]:
+        celda.font = formato_fuente_fila_72
+        celda.alignment = alineacion_izquierda
+    
     wk.save(response)
     return response

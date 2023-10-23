@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark" style="background-color: #0d2a44;">
   <div class="container">
     <a class="navbar-brand" href="/dashboard">
       <img src="{% static 'img/iconostgo.webp' %}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top" style="border-radius: 20px;">
@@ -12,9 +12,9 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+    <div class="offcanvas offcanvas-end" style="background-color: #0d2a44;" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu Desplegable</h5>
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel" style="color: #f1f8fe;">Menu Desplegable</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
@@ -45,10 +45,6 @@
             <a class="nav-link" href="/admin">Administración</a>
           </li>
         </ul>
-        <form class="d-flex mt-3" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-          <button class="btn btn-success" type="submit">Buscar</button>
-        </form>
         </div>
       </div>
     </div>

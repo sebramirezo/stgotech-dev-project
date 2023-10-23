@@ -19,8 +19,7 @@
   bottom: 20px;
   right: 20px;
   z-index: 99;
-  background-color: #007BFF;
-  color: #fff;
+  color: #f1f8fe;
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -61,5 +60,3 @@
   max-width: 330px;
   padding: 1rem;
 }
-
-

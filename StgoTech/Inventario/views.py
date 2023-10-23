@@ -40,10 +40,15 @@ def get_chart_data(request):
 
     data = sorted(data, key=lambda item: priority_order.index(item['prioridad']))
     # Asigna colores según la prioridad
+    # color_mapping = {
+    #     'Alta': 'rgba(255, 0, 0, 0.5)',    # Rojo
+    #     'Media': 'rgba(255, 255, 0, 0.5)', # Amarillo
+    #     'Baja': 'rgba(0, 128, 0, 0.5)'     # Verde
+    # }
     color_mapping = {
-        'Alta': 'rgba(255, 0, 0, 0.6)',    # Rojo
-        'Media': 'rgba(255, 255, 0, 0.6)', # Amarillo
-        'Baja': 'rgba(0, 128, 0, 0.6)'     # Verde
+        'Alta': 'rgba(20, 66, 102, 0.8)',    # Rojo
+        'Media': 'rgba(32, 144, 215, 0.8)', # Amarillo
+        'Baja': 'rgba(192, 224, 247, 0.8)'     # Verde
     }
     for item in data:
         item['color'] = color_mapping.get(item['prioridad'], 'rgba(0, 0, 0, 0.6)')  # Por defecto, negro
@@ -243,8 +248,9 @@ def incoming(request):
                     incoming.saldo = incoming.qty
                     incoming.save()
 
+                    request.session['incoming_fk'] = incoming.sn_batch_pk
 
-                    return redirect('/incoming')
+                    return redirect('/detalle_form')
                 else:
                 # Manejo del caso en el que el usuario no está autenticado
                     return HttpResponse("Debes iniciar sesión para realizar esta acción.")
@@ -514,6 +520,29 @@ def detalle_inicio(request, stdf_pk):
             "consumos_recordsTotal": consumos_records_total,
             "consumos_recordsFiltered": consumos_records_filtered,
         })
+    
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+def detalle_form(request):
+    form1 = DetalleForm(prefix='form1')
+    form2 = ItemForm(prefix='form2')
+    if request.method == 'POST':
+        form1 = DetalleForm(request.POST, prefix='form1')
+        form2 = ItemForm(request.POST, prefix='form2')
+        if form1.is_valid() and form2.is_valid():
+            datos_form1 = form1.cleaned_data
+            datos_form2 = form2.cleaned_data
+
+            # Guarda los datos en la base de datos utilizando los modelos asociados
+            modelo1 = Detalle_Incoming(datos_form1)
+            modelo1.save()
+
+            modelo2 = Item(datos_form2)
+            modelo2.save()
+
+            return redirect('/incoming')
+        
+    return render(request, 'detalle_incomingforms.html', {'form1': form1, 'form2': form2})
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
 ##################################
 ### Vista de Mantenedor Comat ####
