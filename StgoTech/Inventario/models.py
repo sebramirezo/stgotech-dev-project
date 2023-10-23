@@ -193,7 +193,6 @@ class Estado_Repuesto(models.Model):
     def __str__(self):
         return self.name_estado
 
-    
 class Item(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] )
     item1 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
@@ -231,7 +230,7 @@ class Item(models.Model):
     
     def __int__(self):
         return self.id
-    
+
 class Detalle_Incoming(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] )
     modelo = models.CharField(blank=True, null=True , max_length=50)
@@ -253,7 +252,6 @@ class Detalle_Incoming(models.Model):
         
     def __int__(self):
         return self.id
-
 
 #Tabla Consumos
 class Consumos(models.Model):

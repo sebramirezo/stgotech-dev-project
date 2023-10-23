@@ -7,10 +7,10 @@
             <h5>Buscador Part Number , Serial Number o STDF</h5>
             <form action="{% url 'buscar_productos_incoming' %}" method="GET">
                 <input class="form-control" type="text" name="e" placeholder="Ingrese Part Number, Serial Number o STDF">
-                <input class="btn btn-primary m-2" type="submit" value="Buscar">
+                <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
             </form>
         </div>
-    
+
     </div>
 </div>
 <!-- {% include 'mostrar_comat.html' %} -->
@@ -29,8 +29,10 @@
             </div>
             {% endfor %}
         </div>
-        <input class="btn btn-primary m-2" type="submit" value="Guardar">
         
+
+        <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
+
     </form>
 </div>
     
