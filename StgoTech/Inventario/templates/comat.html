@@ -8,18 +8,16 @@
             <h5>Buscador STDF</h5>
             <form action="{% url 'buscar_stdf' %}" method="GET">
                 <input class="form-control" type="text" name="c" placeholder="Ingrese STDF, AWB O HAWB">
-                <input class="btn btn-primary m-2" type="submit" value="Buscar">
+                <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
             </form>
         </div>
         
     </div>
 </div>
-
-
-<hr> 
+<hr>
 <div class="container m-2">
     <h5>Formulario de Comat</h5>
-    <form action="" method="post">
+    <form id="formulario_comat" action="" method="post">
         {% csrf_token %}
         <div class="row p-2">
             {% for comat in form_comat %}
@@ -31,7 +29,7 @@
         </div>
 
     </div>
-    <input class="btn btn-primary m-2" type="submit" value="Guardar">
+    <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
 
 </div>
     

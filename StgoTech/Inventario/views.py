@@ -40,10 +40,15 @@ def get_chart_data(request):
 
     data = sorted(data, key=lambda item: priority_order.index(item['prioridad']))
     # Asigna colores según la prioridad
+    # color_mapping = {
+    #     'Alta': 'rgba(255, 0, 0, 0.5)',    # Rojo
+    #     'Media': 'rgba(255, 255, 0, 0.5)', # Amarillo
+    #     'Baja': 'rgba(0, 128, 0, 0.5)'     # Verde
+    # }
     color_mapping = {
-        'Alta': 'rgba(255, 0, 0, 0.6)',    # Rojo
-        'Media': 'rgba(255, 255, 0, 0.6)', # Amarillo
-        'Baja': 'rgba(0, 128, 0, 0.6)'     # Verde
+        'Alta': 'rgba(20, 66, 102, 0.8)',    # Rojo
+        'Media': 'rgba(32, 144, 215, 0.8)', # Amarillo
+        'Baja': 'rgba(192, 224, 247, 0.8)'     # Verde
     }
     for item in data:
         item['color'] = color_mapping.get(item['prioridad'], 'rgba(0, 0, 0, 0.6)')  # Por defecto, negro
@@ -516,6 +521,7 @@ def detalle_inicio(request, stdf_pk):
             "consumos_recordsFiltered": consumos_records_filtered,
         })
     
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def detalle_form(request):
     form1 = DetalleForm(prefix='form1')
     form2 = ItemForm(prefix='form2')
@@ -527,13 +533,83 @@ def detalle_form(request):
             datos_form2 = form2.cleaned_data
 
             # Guarda los datos en la base de datos utilizando los modelos asociados
-            modelo1 = Detalle_Incoming(**datos_form1)
+            modelo1 = Detalle_Incoming(datos_form1)
             modelo1.save()
 
-            modelo2 = Item(**datos_form2)
+            modelo2 = Item(datos_form2)
             modelo2.save()
 
             return redirect('/incoming')
-    
-    # Renderiza los formularios en tu plantilla HTML
+        
     return render(request, 'detalle_incomingforms.html', {'form1': form1, 'form2': form2})
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+##################################
+### Vista de Mantenedor Comat ####
+##################################
+
+def editar_comat(request, stdf_pk):
+    comat = Comat.objects.get(pk=stdf_pk)
+
+    if request.method == 'POST':
+        form = ComatForm(request.POST, instance=comat)
+        if form.is_valid():
+            form.save()
+            return redirect('/detalle_comat/'+str(stdf_pk))  # Redirige a la página deseada después de la edición.
+    else:
+        form = ComatForm(instance=comat)
+
+    return render(request, 'editar_comat.html', {'form': form, 'comat': comat})
+
+
+def eliminar_comat(request, stdf_pk):
+    comats = Comat.objects.get(pk=stdf_pk)
+    comats.delete()
+    return redirect('/buscar')
+
+
+##################################
+# Vista de Mantenedor Incoming   #
+##################################
+
+def editar_incoming(request, sn_batch_pk):
+    incoming = Incoming.objects.get(pk=sn_batch_pk)
+
+    if request.method == 'POST':
+        form = IncomingForm(request.POST, instance=incoming)
+        if form.is_valid():
+            form.save()
+            return redirect('/detalle_incoming/'+str(sn_batch_pk))  # Redirige a la página deseada después de la edición.
+    else:
+        form = IncomingForm(instance=incoming)
+
+    return render(request, 'editar_incoming.html', {'form': form, 'incoming': incoming})
+
+
+def eliminar_incoming(request, sn_batch_pk):
+    incomings = Incoming.objects.get(pk=sn_batch_pk)
+    incomings.delete()
+    return redirect('/buscar_incoming')
+
+##################################
+# Vista de Mantenedor Consumo   #
+##################################
+
+def editar_consumo(request, incoming_fk):
+    consumo = Consumos.objects.get(incoming_fk=incoming_fk)
+
+    if request.method == 'POST':
+        form = ConsumosForm(request.POST, instance=consumo)
+        if form.is_valid():
+            form.save()
+            return redirect('/detalle_consumos/'+str(incoming_fk))  # Redirige a la página deseada después de la edición.
+    else:
+        form = ConsumosForm(instance=consumo)
+
+    return render(request, 'editar_consumo.html', {'form': form, 'consumo': consumo})
+
+
+def eliminar_consumo(request, incoming_fk):
+    consumos = Consumos.objects.get(incoming_fk=incoming_fk)
+    consumos.delete()
+    return redirect('/buscar_consumos')

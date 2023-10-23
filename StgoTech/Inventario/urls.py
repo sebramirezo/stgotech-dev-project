@@ -27,6 +27,14 @@ urlpatterns = [
     path('detalle_inicio/<int:stdf_pk>/', views.detalle_inicio, name='detalle_inicio'),
     path('exportar_excel_incoming/<str:sn_batch_pk>/', exportar_excel.exportar_excel_incoming, name='exportar_excel_incoming'),
     path('detalle_form/', views.detalle_form, name='detalle_form'),
-    
+    #mantenedores comat
+    path('editar_comat/<int:stdf_pk>/', views.editar_comat, name='editar_comat'),
+    path('eliminar_comat/<int:stdf_pk>/', views.eliminar_comat, name='eliminar_comat'),
+    #mantenedores incoming
+    path('editar_incoming/<str:sn_batch_pk>/', views.editar_incoming, name='editar_incoming'),
+    path('eliminar_incoming/<str:sn_batch_pk>/', views.eliminar_incoming, name='eliminar_incoming'),
+    #mantenedores consumo
+    path('editar_consumo/<str:incoming_fk>/', views.editar_consumo, name='editar_consumo'),
+    path('eliminar_consumo/<str:incoming_fk>/', views.eliminar_consumo, name='eliminar_consumo'),
 
 ]
