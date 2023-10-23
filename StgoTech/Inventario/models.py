@@ -118,6 +118,8 @@ class Origen(models.Model):
 
     def __str__(self):
         return self.name_origen
+    
+
 
 #Tabla Comat 
 class Comat(models.Model):
@@ -182,7 +184,7 @@ class Incoming(models.Model):
     
 class Estado_Repuesto(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] ) 
-    name_estado = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
+    name_estado = models.CharField(choices=Estado_Repuesto, blank=True, null=True, max_length=50)
     otro = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
@@ -190,6 +192,7 @@ class Estado_Repuesto(models.Model):
     
     def __str__(self):
         return self.name_estado
+
 
 class Item(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] )
@@ -251,6 +254,7 @@ class Detalle_Incoming(models.Model):
     def __int__(self):
         return self.id
 
+
 #Tabla Consumos
 class Consumos(models.Model):
     consumo_pk = models.AutoField(primary_key=True, unique=True , validators=[MinValueValidator(1)])
@@ -267,3 +271,8 @@ class Consumos(models.Model):
 
     def __str__(self):
         return str(self.incoming_fk)
+    
+
+
+
+
