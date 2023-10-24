@@ -187,8 +187,6 @@ def obtener_datos_comat(request):
     if search_value:
         comat_data = comat_data.filter(Q(stdf_pk__icontains=search_value) | Q(awb__icontains=search_value)| Q(hawb__icontains=search_value))
         
-
-
     # Realizar la consulta teniendo en cuenta la paginación
     comat_data = comat_data[start:start + length]
 
@@ -521,7 +519,7 @@ def detalle_inicio(request, stdf_pk):
             "consumos_recordsFiltered": consumos_records_filtered,
         })
     
-
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def detalle_form(request):
     form1 = DetalleForm(prefix='form1')
     form2 = ItemForm(prefix='form2')
@@ -532,7 +530,6 @@ def detalle_form(request):
             datos_form1 = form1.cleaned_data
             datos_form2 = form2.cleaned_data
 
-            # Guarda los datos en la base de datos utilizando los modelos asociados
             modelo1 = Detalle_Incoming(**datos_form1)
             modelo1.save()
 
@@ -543,6 +540,7 @@ def detalle_form(request):
     
     # Renderiza los formularios en tu plantilla HTML
     return render(request, 'detalle_incomingforms.html', {'form1': form1, 'form2': form2})
+
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 

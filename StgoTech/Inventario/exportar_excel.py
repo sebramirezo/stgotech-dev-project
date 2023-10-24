@@ -26,7 +26,9 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     #Obtener Datos de la base de datos
     datos = Incoming.objects.get(sn_batch_pk = sn_batch_pk)
+    detallesform = Detalle_Incoming.objects.get(incoming_fk=sn_batch_pk)
 
+    
 
 
     
@@ -104,6 +106,7 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.merge_cells('P8:S8')
     ws['P8']  = 'Modelo'
     ws.merge_cells('P9:S11')#Campo Relleno de BBDD 
+    ws['P9'] = detallesform.modelo
 
 
     ws.merge_cells('T8:Y8')
@@ -144,6 +147,25 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.merge_cells('M13:O13')
     ws['M13']  = 'Calibración'
 
+    if detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
+        ws['D13'] = "X"
+    elif detallesform.estado_repuesto_fk.id == 2:#REPARADO
+        ws['D15'] = "X"
+    elif detallesform.estado_repuesto_fk.id == 3:#CHEQUEADO
+        ws['H13'] = "X"
+    elif detallesform.estado_repuesto_fk.id == 4:#TESTEADO
+        ws['H15'] = "X"
+    elif detallesform.estado_repuesto_fk.id == 5:#NUEVO
+        ws['L15'] = "X"
+    elif detallesform.estado_repuesto_fk.id == 6:#CALIBRACION
+        ws['P13'] = "X"
+    elif detallesform.estado_repuesto_fk.id == 7:#OTRO
+        ws['L13'] = "X"
+    
+    print(detallesform.estado_repuesto_fk.id)
+
+
+
     ws.merge_cells('Q13:T14')#Campo Relleno de BBDD 
     ws.merge_cells('Q15:T15')
     ws['Q15']  = 'Fecha Recepción'
@@ -160,7 +182,7 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.merge_cells('A17:G17')
     ws['A17']  = 'Proveedor del Producto'
     ws.merge_cells('H17:P17') #Campo Relleno de BBDD 
-
+    ws['H17'] = detallesform.Proveedor
 
     ws.merge_cells('Q17:S17')
     ws['Q17']  = 'OC / PO N°'
@@ -171,28 +193,32 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.merge_cells('A19:G19')
     ws['A19']  = 'Taller/Cia. Reparadora'
     ws.merge_cells('H19:P19') #Campo Relleno de BBDD 
+    ws['H19'] = detallesform.taller_reparadora
 
     ws.merge_cells('Q19:S19')
     ws['Q19']  = 'RO N°'
     ws.merge_cells('T19:Y19') #Campo Relleno de BBDD 
+    ws['T19'] = detallesform.ro_n
 
     ws.merge_cells('A21:G21')
     ws['A21']  = 'Trabajo Solicitado'
     ws.merge_cells('H21:P21') #Campo Relleno de BBDD 
+    ws['H21'] = detallesform.trabajo_solicitado
 
     ws.merge_cells('Q21:S21')
     ws['Q21']  = 'WO N°'
     ws.merge_cells('T21:Y21') #Campo Relleno de BBDD 
-
+    ws['T21'] = detallesform.wo_n
 
     ws.merge_cells('A23:G23')
     ws['A23']  = 'Propiedad de'
     ws.merge_cells('H23:Y23') #Campo Relleno de BBDD 
+    ws['H23'] = detallesform.propiedad
 
     ws.merge_cells('A25:G25')
     ws['A25']  = 'Check Periodica (Si Aplica)'
     ws.merge_cells('H25:N25') #Campo Relleno de BBDD 
-
+    ws['H25'] = detallesform.check_periodica
 
 
     ws.merge_cells('O25:R25')
