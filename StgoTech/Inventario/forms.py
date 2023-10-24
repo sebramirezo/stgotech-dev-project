@@ -85,6 +85,8 @@ class DetalleForm(ModelForm):
     licencia = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "N° Licencia"}),label='N° Licencia', required=False)
     estado_repuesto_fk = forms.ModelChoiceField(queryset=Estado_Repuesto.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa el Estado del Repuesto"}), label='Estado del Repuesto', required=False)
     incoming_fk = forms.ModelChoiceField(queryset=Incoming.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa el SN O BN"}), label='Serial Number o Batch Number')
+    item_fk = forms.ModelChoiceField(queryset=Item.objects.all(), widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa el Serial Number O Batch Number"}), label='SN Number o SN Number')
+
     class Meta:
         model = Detalle_Incoming
         fields = [
@@ -95,11 +97,14 @@ class DetalleForm(ModelForm):
             'trabajo_solicitado',
             'propiedad',
             'check_periodica',
+
             'ro_n',
             'wo_n',
             'aceptado',
             'licencia',
             'estado_repuesto_fk',
+            'item_fk',
+            
         ]
 
 

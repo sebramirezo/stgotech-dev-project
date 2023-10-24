@@ -195,7 +195,7 @@ class Estado_Repuesto(models.Model):
 
 
 class Item(models.Model):
-    id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] )
+    id = models.CharField(primary_key=True, unique=True )
     item1 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
     item2 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
     item3 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)

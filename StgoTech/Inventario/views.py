@@ -520,6 +520,7 @@ def detalle_inicio(request, stdf_pk):
         })
     
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 def detalle_form(request):
     form1 = DetalleForm(prefix='form1')
     form2 = ItemForm(prefix='form2')
@@ -530,16 +531,27 @@ def detalle_form(request):
             datos_form1 = form1.cleaned_data
             datos_form2 = form2.cleaned_data
 
+            # Crea una instancia de Detalle_Incoming y guárdala
             modelo1 = Detalle_Incoming(**datos_form1)
             modelo1.save()
 
+            # Obtén el ID del modelo1 (Detalle_Incoming)
+            detalle_incoming_fk = modelo1.incoming_fk
+
+            # Crea una instancia de Item y establece el incoming_fk
             modelo2 = Item(**datos_form2)
+            modelo2.id = detalle_incoming_fk
             modelo2.save()
 
             return redirect('/incoming')
     
     # Renderiza los formularios en tu plantilla HTML
     return render(request, 'detalle_incomingforms.html', {'form1': form1, 'form2': form2})
+
+
+
+
+
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #

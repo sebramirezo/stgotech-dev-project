@@ -11,10 +11,10 @@ Estado_Repuesto = [
 ]
 
 True_False = [
-    ('', ''),
-    ('0', 'SI'),
-    ('1', 'NO'),
-    ('N/A', 'N/A'),
+
+    ('0', 'NO'),
+    ('1', 'SI'),
+    
 ]
 
 ACEPTADO = [
