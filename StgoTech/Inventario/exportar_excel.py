@@ -1,4 +1,3 @@
-import openpyxl
 from .forms import *
 from django.http import HttpResponse
 from openpyxl import Workbook
@@ -6,6 +5,8 @@ from openpyxl.styles import Alignment , Font , Border, Side
 from openpyxl.drawing.image import Image
 from PIL import Image
 from openpyxl.drawing.image import Image as ExcelImage
+
+
 
 
 def exportar_excel_incoming(request, sn_batch_pk):
@@ -28,10 +29,7 @@ def exportar_excel_incoming(request, sn_batch_pk):
     datos = Incoming.objects.get(sn_batch_pk = sn_batch_pk)
     detallesform = Detalle_Incoming.objects.get(incoming_fk=sn_batch_pk)
 
-    
 
-
-    
     # Crea una instancia de la imagen
 
     image.save('temp_image.png')
@@ -86,6 +84,8 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     ws.merge_cells('R1:T2')
     ws['R1']  = 'RCV N°'
+    ws['U1'] = detallesform.rcv_n
+
 
     ws.merge_cells('U1:Y2')
 
@@ -161,8 +161,9 @@ def exportar_excel_incoming(request, sn_batch_pk):
         ws['P13'] = "X"
     elif detallesform.estado_repuesto_fk.id == 7:#OTRO
         ws['L13'] = "X"
+    else: 
+        ws['L13'] = ""
     
-    print(detallesform.estado_repuesto_fk.id)
 
 
 
@@ -234,6 +235,136 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws['T27']  = 'SI'
     ws.merge_cells('W27:Y27') 
     ws['W27']  = 'NO'
+
+
+    if detallesform.item1 == '0':
+        ws['W29'] = "X"
+    elif detallesform.item1 == '1':
+        ws['T29'] = "X"
+
+
+    if detallesform.item2 == '0': #NO
+        ws['W30'] = "X"
+    elif detallesform.item2 == '1':#SI
+        ws['T30'] = "X"
+
+    if detallesform.item3 == '0': #NO
+        ws['W31'] = "X"
+    elif detallesform.item3 == '1':#SI
+        ws['T31'] = "X"
+
+    if detallesform.item4 == '0': #NO
+        ws['W32'] = "X"
+    elif detallesform.item4 == '1':#SI
+        ws['T32'] = "X"
+
+    if detallesform.item5 == '0': #NO
+        ws['W33'] = "X"
+    elif detallesform.item5 == '1':#SI
+        ws['T33'] = "X"
+
+    if detallesform.item6 == '0': #NO
+        ws['W34'] = "X"
+    elif detallesform.item6 == '1':#SI
+        ws['T34'] = "X"
+    
+    if detallesform.item7 == '0': #NO
+        ws['W35'] = "X"
+    elif detallesform.item7 == '1':#SI
+        ws['T35'] = "X"
+
+    if detallesform.item8 == '0': #NO
+        ws['W36'] = "X"
+    elif detallesform.item8 == '1':#SI
+        ws['T36'] = "X"
+
+    if detallesform.item9 == '0': #NO
+        ws['W37'] = "X"
+    elif detallesform.item9 == '1':#SI
+        ws['T37'] = "X"
+    
+    if detallesform.item10 == '0': #NO
+        ws['W38'] = "X"
+    elif detallesform.item10 == '1':#SI
+        ws['T38'] = "X"
+
+    if detallesform.item11 == '0': #NO
+        ws['W39'] = "X"
+    elif detallesform.item11 == '1':#SI
+        ws['T39'] = "X"
+
+    if detallesform.item12 == '0': #NO
+        ws['W40'] = "X"
+    elif detallesform.item12 == '1':#SI
+        ws['T40'] = "X"
+
+    if detallesform.item13 == '0': #NO
+        ws['W41'] = "X"
+    elif detallesform.item13 == '1':#SI
+        ws['T41'] = "X"
+        ws['P41'] = detallesform.n_item13
+
+    if detallesform.item14 == '0': #NO
+        ws['W42'] = "X"
+    elif detallesform.item14 == '1':#SI
+        ws['T42'] = "X"
+
+    if detallesform.item15 == '0': #NO
+        ws['W43'] = "X"
+    elif detallesform.item15 == '1':#SI
+        ws['T43'] = "X"
+        ws['M43'] = detallesform.n_item15
+    
+    if detallesform.item16 == '0': #NO
+        ws['W44'] = "X"
+    elif detallesform.item16 == '1':#SI
+        ws['T44'] = "X"
+        ws['M44'] = detallesform.n_item16
+
+    if detallesform.item17 == '0': #NO
+        ws['W45'] = "X"
+    elif detallesform.item17 == '1':#SI
+        ws['T45'] = "X"
+        ws['M45'] = detallesform.n_item17
+
+    if detallesform.item18 == '0': #NO
+        ws['W46'] = "X"
+    elif detallesform.item18 == '1':#SI
+        ws['T46'] = "X"
+        if detallesform.item_18tsn == "TSN":
+            ws['I46'] = detallesform.n_item18tsn
+        elif detallesform.item_18tsn == "TSO":
+            ws['L46'] = detallesform.n_item18tsn
+        elif detallesform.item_18tsn == "CSN":
+            ws['O46'] = detallesform.n_item18tsn
+        elif detallesform.item_18tsn == "CS8":
+            ws['R46'] = detallesform.n_item18tsn
+
+
+    if detallesform.item19 == '0': #NO
+        ws['W47'] = "X"
+    elif detallesform.item19 == '1':#SI
+        ws['T47'] = "X"
+    
+    
+    if detallesform.item20 == '0': #NO
+        ws['W48'] = "X"
+    elif detallesform.item20 == '1':#SI
+        ws['T48'] = "X"
+
+    if detallesform.item21 == '0': #NO
+        ws['W49'] = "X"
+    elif detallesform.item21 == '1':#SI
+        ws['T49'] = "X"
+
+    if detallesform.item22 == '0': #NO
+        ws['W50'] = "X"
+    elif detallesform.item22 == '1':#SI
+        ws['T50'] = "X"
+        ws['M50'] = detallesform.n_item22
+
+
+
 
     #CUERPO DE LA TABLA
     ws['A29'] = '1'
@@ -398,6 +529,7 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.merge_cells('A52:Y52')
     ws['A52'] = 'Observaciones'
     ws.merge_cells('A53:Y56')
+    ws['A53'] = datos.observaciones
 
     ws.merge_cells('A58:Y58')
     ws['A58'] = 'Observaciones del Producto Recepcionado'
@@ -431,6 +563,8 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.merge_cells('A65:D65')
     ws['A65'] = 'ACEPTADO'
 
+    
+
     ws.merge_cells('E65:F65')
     ws['E65'] = 'SI'
     ws.merge_cells('G65:H65')
@@ -441,12 +575,18 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     ws.merge_cells('M65:Y65')
 
+    if detallesform.aceptado == 0:
+        ws['K65'] = 'X'
+    elif detallesform.aceptado == 1:
+        ws['G65'] = 'X'
+
 
     ws.merge_cells('A67:H67')
     ws['A67'] = 'Nombre'
 
     ws.merge_cells('I67:P67')
     ws['I67'] = 'N° Licencia'
+    ws['I69'] = detallesform.licencia
 
     ws.merge_cells('Q67:Y67')
     ws['Q67'] = 'Firma'
@@ -461,12 +601,6 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     ws.merge_cells('A72:J72')
     ws['A72'] = 'FORM CMA-005 REV.1'
-
-
-
-
-
-
 
 
 
@@ -693,5 +827,22 @@ def exportar_excel_incoming(request, sn_batch_pk):
         celda.font = formato_fuente_fila_72
         celda.alignment = alineacion_izquierda
     
+
     wk.save(response)
     return response
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+    

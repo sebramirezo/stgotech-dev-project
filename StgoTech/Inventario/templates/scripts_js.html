@@ -22,9 +22,9 @@
     });
     
     document.addEventListener('DOMContentLoaded', function () {
-            var item18 = document.getElementById('id_form2-item18');
-            var item18tsn = document.getElementById('id_form2-item_18tsn');
-            var n_item18tsn = document.getElementById('id_form2-n_item18tsn');
+            var item18 = document.getElementById('id_form1-item18');
+            var item18tsn = document.getElementById('id_form1-item_18tsn');
+            var n_item18tsn = document.getElementById('id_form1-n_item18tsn');
     
             function disableField(field) {
                 field.disabled = true;
@@ -37,7 +37,7 @@
             }
     
             item18.addEventListener('change', function () {
-                if (item18.value === '1' || item18.value === '' || item18.value === 'N/A') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                if (item18.value === '0' || item18.value === '2') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
                     disableField(item18tsn);
                     disableField(n_item18tsn);
                 } else {
@@ -47,15 +47,15 @@
             });
     
             // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item18 es "NO"
-            if (item18.value === '1' || item18.value === '' || item18.value === 'N/A') {
+            if (item18.value === '0' || item18.value === '2') {
                 disableField(item18tsn);
                 disableField(n_item18tsn);
             }
         });
     
         document.addEventListener('DOMContentLoaded', function () {
-            var item13 = document.getElementById('id_form2-item13');
-            var n_item13 = document.getElementById('id_form2-n_item13');
+            var item13 = document.getElementById('id_form1-item13');
+            var n_item13 = document.getElementById('id_form1-n_item13');
     
     
             function disableField(field) {
@@ -69,7 +69,7 @@
             }
     
             item13.addEventListener('change', function () {
-                if (item13.value === '1' || item13.value === '' || item13.value === 'N/A') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                if (item13.value === '0' || item13.value === '2') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
                     disableField(n_item13);
     
                 } else {
@@ -79,16 +79,15 @@
             });
     
             // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
-            if (item13.value === '1' || item13.value === '' || item13.value === 'N/A') {
+            if (item13.value === '0' || item13.value === '2' ) {
                 disableField(n_item13);
     
             }
         });
     
-    
         document.addEventListener('DOMContentLoaded', function () {
-            var item15 = document.getElementById('id_form2-item15');
-            var n_item15 = document.getElementById('id_form2-n_item15');
+            var item15 = document.getElementById('id_form1-item15');
+            var n_item15 = document.getElementById('id_form1-n_item15');
     
     
             function disableField(field) {
@@ -102,7 +101,7 @@
             }
     
             item15.addEventListener('change', function () {
-                if (item15.value === '1' || item15.value === '' || item15.value === 'N/A') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                if (item15.value === '0' || item15.value === '2') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
                     disableField(n_item15);
     
                 } else {
@@ -112,15 +111,80 @@
             });
     
             // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
-            if (item15.value === '1' || item15.value === '' || item15.value === 'N/A') {
+            if (item15.value === '0' || item15.value === '2' ) {
                 disableField(n_item15);
     
             }
         });
-    
+
         document.addEventListener('DOMContentLoaded', function () {
-            var item22 = document.getElementById('id_form2-item22');
-            var n_item22 = document.getElementById('id_form2-n_item22');
+            var item16 = document.getElementById('id_form1-item16');
+            var n_item16 = document.getElementById('id_form1-n_item16');
+    
+    
+            function disableField(field) {
+                field.disabled = true;
+                field.parentNode.style.display = 'none';
+            }
+    
+            function enableField(field) {
+                field.disabled = false;
+                field.parentNode.style.display = 'block';
+            }
+    
+            item16.addEventListener('change', function () {
+                if (item16.value === '0' || item16.value === '2') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                    disableField(n_item16);
+    
+                } else {
+                    enableField(n_item16);
+    
+                }
+            });
+    
+            // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
+            if (item16.value === '0' || item16.value === '2' ) {
+                disableField(n_item16);
+    
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            var item17 = document.getElementById('id_form1-item17');
+            var n_item17 = document.getElementById('id_form1-n_item17');
+    
+    
+            function disableField(field) {
+                field.disabled = true;
+                field.parentNode.style.display = 'none';
+            }
+    
+            function enableField(field) {
+                field.disabled = false;
+                field.parentNode.style.display = 'block';
+            }
+    
+            item17.addEventListener('change', function () {
+                if (item17.value === '0' || item17.value === '2') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                    disableField(n_item17);
+    
+                } else {
+                    enableField(n_item17);
+    
+                }
+            });
+    
+            // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
+            if (item17.value === '0' || item17.value === '2' ) {
+                disableField(n_item17);
+    
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var item22 = document.getElementById('id_form1-item22');
+            var n_item22 = document.getElementById('id_form1-n_item22');
     
     
             function disableField(field) {
@@ -134,7 +198,7 @@
             }
     
             item22.addEventListener('change', function () {
-                if (item22.value === '1' || item22.value === '' || item22.value === 'N/A') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                if (item22.value === '0' || item22.value === '2') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
                     disableField(n_item22);
     
                 } else {
@@ -144,7 +208,7 @@
             });
     
             // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
-            if (item22.value === '1' || item22.value === '' || item22.value === 'N/A') {
+            if (item22.value === '0' || item22.value === '2' ) {
                 disableField(n_item22);
     
             }
@@ -245,6 +309,7 @@
          
     
     $(document).ready(function() {
+        $('#id_form1-item_fk').select2({ 'placeholder': 'Seleccione Serial Number o Batch Number' });
         $('#id_form1-incoming_fk').select2({ 'placeholder': 'Seleccione Serial Number o Batch Number' });
         $('#id_bodega_fk').select2({'placeholder':'Seleccione Bodega'});
         $('#id_origen_fk').select2({'placeholder':'Seleccione Origen'});
@@ -257,7 +322,8 @@
         $('#id_incoming_fk').select2({'placeholder':'Seleccione Serial/Batch Number'});
         $('#id_owner_fk').select2({'placeholder':'Seleccione Owner'});
         $('#id_categoria_fk').select2({'placeholder':'Seleccione Categoria'});
-      
+        $('#id_consumidor_fk').select2({'placeholder':'Seleccione Consumidor'});
+
     });
     
     $(document).ready(function () {

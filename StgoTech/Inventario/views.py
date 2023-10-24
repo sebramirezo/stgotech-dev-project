@@ -520,26 +520,30 @@ def detalle_inicio(request, stdf_pk):
         })
     
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 def detalle_form(request):
     form1 = DetalleForm(prefix='form1')
-    form2 = ItemForm(prefix='form2')
     if request.method == 'POST':
         form1 = DetalleForm(request.POST, prefix='form1')
-        form2 = ItemForm(request.POST, prefix='form2')
-        if form1.is_valid() and form2.is_valid():
+        if form1.is_valid():
             datos_form1 = form1.cleaned_data
-            datos_form2 = form2.cleaned_data
+            
 
-            # Guarda los datos en la base de datos utilizando los modelos asociados
-            modelo1 = Detalle_Incoming(datos_form1)
+            # Crea una instancia de Detalle_Incoming y guárdala
+            modelo1 = Detalle_Incoming(**datos_form1)
             modelo1.save()
 
-            modelo2 = Item(datos_form2)
-            modelo2.save()
-
             return redirect('/incoming')
-        
-    return render(request, 'detalle_incomingforms.html', {'form1': form1, 'form2': form2})
+    
+    # Renderiza los formularios en tu plantilla HTML
+    return render(request, 'detalle_incomingforms.html', {'form1': form1})
+
+
+
+
+
+
+
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
 ##################################
@@ -611,3 +615,4 @@ def eliminar_consumo(request, incoming_fk):
     consumos = Consumos.objects.get(incoming_fk=incoming_fk)
     consumos.delete()
     return redirect('/buscar_consumos')
+

@@ -10,14 +10,14 @@
                 <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
             </form>
         </div>
-    
+
     </div>
 </div>
 <!-- {% include 'mostrar_comat.html' %} -->
 <hr> 
 <div class="container m-2">
     <h5>Formulario de Ingreso de Productos al Almacen - Incoming Inspection</h5>
-    <form id="incoming_form" action="" method="post">
+    <form id="incoming_form" action="" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="row p-2">
             {% for incoming in form_incoming %}
@@ -29,6 +29,7 @@
             </div>
             {% endfor %}
         </div>
+
 
         <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
 
