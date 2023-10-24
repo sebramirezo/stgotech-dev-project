@@ -10,8 +10,10 @@ Estado_Repuesto = [
 
 ]
 
-True_False = [
 
+
+ITEMS = [
+    ( '2', ''),
     ('0', 'NO'),
     ('1', 'SI'),
     
@@ -19,8 +21,8 @@ True_False = [
 
 ACEPTADO = [
 
-    ('0', 'SI'),
-    ('1', 'NO'),
+    ('1', 'SI'),
+    ('0', 'NO'),
 
 ]
 
@@ -53,27 +55,7 @@ Estado_Repuesto = [
 
 ]
 
-True_False = [
-    ('', ''),
-    ('0', 'SI'),
-    ('1', 'NO'),
-    ('N/A', 'N/A'),
-]
 
-ACEPTADO = [
-
-    ('0', 'SI'),
-    ('1', 'NO'),
-
-]
-
-TSN = [
-    ('', ''),
-    ('TSN', 'TSN'),
-    ('TSO', 'TSO'),
-    ('CSN', 'CSN'),
-    ('CSO', 'CSO'),
-]
 
 
 BODEGA = [

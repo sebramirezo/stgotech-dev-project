@@ -1,5 +1,5 @@
 {% extends "./base.html" %}
-
+{% load static %}
 {% block body %}
 <div class="dashboard">
   <h5>Bienvenido <span style="color: #1272b7">{{user}}</span></h5>
@@ -13,6 +13,13 @@
           <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
         </form>
       </div>
+
+
+      <iframe src="{% static 'excel/tmp2vmj7o7g.xlsx' %}" width="100%" height="600"></iframe>
+
+      <embed type="image/jpg" src="pic_trulli.jpg" width="300" height="200">
+
+
       <div class="col-6">
         <h5>Anclaje</h5>
         <a name="" id="" style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" href="#dashboard" role="button">Vista del Dashboard</a>
@@ -92,6 +99,7 @@
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   </div>

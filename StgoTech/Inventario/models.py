@@ -3,6 +3,33 @@ from django.core.validators import MinValueValidator
 from .choices import *
 from django.contrib.auth.models import User
 
+
+class Cargo(models.Model):
+    id = models.AutoField
+    name_cargo = models.CharField(blank=True, null=True, max_length=50)
+
+    class Meta:
+        db_table = "cargo"
+    
+    def __str__(self):
+
+        return self.name_cargo
+
+class Consumidor(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    nombre = models.CharField(blank=True, null=True, max_length=50)
+    apellido = models.CharField(blank=True, null=True, max_length=50)
+    nombre_completo = models.CharField(blank=True, null=True, max_length=50)
+    email = models.CharField(blank=True , null=True , max_length=50)
+    cargo  = models.ForeignKey(Cargo, on_delete=models.SET_NULL , null=True , blank=True)
+
+    class Meta:
+        db_table = "consumidor"
+    
+    def __str__(self):
+
+        return self.nombre_completo
+
 # Create your models here.
 #TABLA CATEGORIA INCOMING
 class Categotia_incoming(models.Model):
@@ -194,46 +221,9 @@ class Estado_Repuesto(models.Model):
         return self.name_estado
 
 
-class Item(models.Model):
-    id = models.CharField(primary_key=True, unique=True )
-    item1 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item2 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item3 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item4 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item5 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item6 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item7 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item8 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item9 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item10 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item11 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item12 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item13 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    n_item13 = models.IntegerField(blank=True, null=True)
-    item14 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item15 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    n_item15 = models.IntegerField(blank=True, null=True)
-    item16 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    n_item16 = models.IntegerField(blank=True, null=True)
-    item17 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    n_item17 = models.IntegerField(blank=True, null=True)
-    item18 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item_18tsn = models.CharField(choices=TSN, blank=True, null=True, max_length=50)
-    n_item18tsn = models.IntegerField(blank=True, null=True)
-    item19 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item20 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item21 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    item22 = models.CharField(choices=True_False, blank=True, null=True, max_length=50)
-    n_item22 = models.IntegerField(blank=True, null=True)
-    
-    class Meta:
-        db_table = "item"
-    
-    def __int__(self):
-        return self.id
-
 class Detalle_Incoming(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] )
+    rcv_n = models.CharField(blank=True, null=True , max_length=50)
     modelo = models.CharField(blank=True, null=True , max_length=50)
     Proveedor = models.CharField(blank=True, null=True, max_length=50)
     taller_reparadora = models.CharField(blank=True, null=True, max_length=50)
@@ -244,7 +234,35 @@ class Detalle_Incoming(models.Model):
     wo_n = models.CharField(blank=True, null=True, max_length=50)
     aceptado = models.CharField(blank=True, null=True, max_length=50)
     licencia = models.CharField(blank=True, null=True, max_length=50)
-    item_fk = models.ForeignKey(Item, on_delete=models.SET_NULL , null=True , blank=True)
+    item1 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item2 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item3 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item4 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item5 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item6 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item7 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item8 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item9 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item10 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item11 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item12 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item13 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    n_item13 = models.IntegerField(blank=True, null=True)
+    item14 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item15 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    n_item15 = models.IntegerField(blank=True, null=True)
+    item16 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    n_item16 = models.IntegerField(blank=True, null=True)
+    item17 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    n_item17 = models.IntegerField(blank=True, null=True)
+    item18 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item_18tsn = models.CharField(choices=TSN, blank=True, null=True, max_length=50)
+    n_item18tsn = models.IntegerField(blank=True, null=True)
+    item19 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item20 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item21 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    item22 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
+    n_item22 = models.IntegerField(blank=True, null=True)
     estado_repuesto_fk = models.ForeignKey(Estado_Repuesto, on_delete=models.SET_NULL , null=True , blank=True)
     incoming_fk = models.ForeignKey(Incoming, on_delete=models.SET_NULL , null=True , blank=True)
 
@@ -264,12 +282,15 @@ class Consumos(models.Model):
     observaciones = models.CharField(blank=True, null=True, max_length=250)
     incoming_fk = models.ForeignKey(Incoming, null=True, blank=True,on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
+    consumidor_fk = models.ForeignKey(Consumidor, on_delete=models.SET_NULL , null=True , blank=True)
     
     class Meta:
         db_table = "consumos"
 
     def __str__(self):
         return str(self.incoming_fk)
+    
+    
     
 
 
