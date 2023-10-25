@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from . import exportar_excel
+from . import imprimir_excel
 
 urlpatterns = [
     path('', views.redirect_login, name='redirect_login'),
@@ -27,7 +28,9 @@ urlpatterns = [
     path('detalle_inicio/<int:stdf_pk>/', views.detalle_inicio, name='detalle_inicio'),
     path('exportar_excel_incoming/<str:sn_batch_pk>/', exportar_excel.exportar_excel_incoming, name='exportar_excel_incoming'),
     path('detalle_form/', views.detalle_form, name='detalle_form'),
-
+    path('imprimir_excel_incoming/<str:sn_batch_pk>/', imprimir_excel.imprimir_excel_incoming, name='imprimir_excel_incoming'),
+    # path('impresoras/', imprimir_excel.impresoras, name='impresoras'),
+    
     #mantenedores comat
     path('editar_comat/<int:stdf_pk>/', views.editar_comat, name='editar_comat'),
     path('eliminar_comat/<int:stdf_pk>/', views.eliminar_comat, name='eliminar_comat'),
