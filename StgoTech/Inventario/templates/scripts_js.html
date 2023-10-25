@@ -21,37 +21,37 @@
         });
     });
     
-    document.addEventListener('DOMContentLoaded', function () {
-            var item18 = document.getElementById('id_form1-item18');
-            var item18tsn = document.getElementById('id_form1-item_18tsn');
-            var n_item18tsn = document.getElementById('id_form1-n_item18tsn');
+    // document.addEventListener('DOMContentLoaded', function () {
+    //         var item18 = document.getElementById('id_form1-item18');
+    //         var item18tsn = document.getElementById('id_form1-item_18tsn');
+    //         var n_item18tsn = document.getElementById('id_form1-n_item18tsn');
     
-            function disableField(field) {
-                field.disabled = true;
-                field.parentNode.style.display = 'none';
-            }
+    //         function disableField(field) {
+    //             field.disabled = true;
+    //             field.parentNode.style.display = 'none';
+    //         }
     
-            function enableField(field) {
-                field.disabled = false;
-                field.parentNode.style.display = 'block';
-            }
+    //         function enableField(field) {
+    //             field.disabled = false;
+    //             field.parentNode.style.display = 'block';
+    //         }
     
-            item18.addEventListener('change', function () {
-                if (item18.value === '0' || item18.value === '2') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
-                    disableField(item18tsn);
-                    disableField(n_item18tsn);
-                } else {
-                    enableField(item18tsn);
-                    enableField(n_item18tsn);
-                }
-            });
+    //         item18.addEventListener('change', function () {
+    //             if (item18.value === '0' || item18.value === '2') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+    //                 disableField(item18tsn);
+    //                 disableField(n_item18tsn);
+    //             } else {
+    //                 enableField(item18tsn);
+    //                 enableField(n_item18tsn);
+    //             }
+    //         });
     
-            // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item18 es "NO"
-            if (item18.value === '0' || item18.value === '2') {
-                disableField(item18tsn);
-                disableField(n_item18tsn);
-            }
-        });
+    //         // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item18 es "NO"
+    //         if (item18.value === '0' || item18.value === '2') {
+    //             disableField(item18tsn);
+    //             disableField(n_item18tsn);
+    //         }
+    //     });
     
         document.addEventListener('DOMContentLoaded', function () {
             var item13 = document.getElementById('id_form1-item13');
@@ -309,7 +309,6 @@
          
     
     $(document).ready(function() {
-        $('#id_form1-item_fk').select2({ 'placeholder': 'Seleccione Serial Number o Batch Number' });
         $('#id_form1-incoming_fk').select2({ 'placeholder': 'Seleccione Serial Number o Batch Number' });
         $('#id_bodega_fk').select2({'placeholder':'Seleccione Bodega'});
         $('#id_origen_fk').select2({'placeholder':'Seleccione Origen'});

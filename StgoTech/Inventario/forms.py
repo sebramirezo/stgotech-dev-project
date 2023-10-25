@@ -219,8 +219,10 @@ class DetalleForm(ModelForm):
     item17 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class": "form-control"}),label='17) Numero de lote de fabricacion, si corresponde', required=False)
     n_item17 = forms.IntegerField(widget=forms.TextInput( attrs={"class": "form-control"}),label='17.5)Numero de lote de Fabricacion', required=False)
     item18 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class": "form-control"}),label='18) TSO / TSN (Si Aplica)', required=False)
-    item_18tsn = forms.CharField(widget=forms.Select(choices=TSN, attrs={"class": "form-control"}),label='18.5) TSN/TSO/CSN/SCO', required=False)
-    n_item18tsn = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='18.5.1) Especifique Numero de TSN/TSO/CSN/SCO', required=False)
+    n_item18tsn = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='18.5.1) Especifique Numero de TSN', required=False)
+    n_item18tso = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='18.5.1) Especifique Numero de TSO', required=False)
+    n_item18csn = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='18.5.1) Especifique Numero de CSN', required=False)
+    n_item18cso = forms.IntegerField(widget=forms.TextInput(attrs={"class": "form-control"}),label='18.5.1) Especifique Numero de TSN/TSO/CSN/CSO', required=False)
     item19 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class": "form-control"}),label='19) Material Safety Data Sheet', required=False)
     item20 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class": "form-control"}),label='20) Material con restriccion bajo el programa ESD', required=False)
     item21 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class": "form-control"}),label='21) Material con restriccion de almacenamiento (Hielo Seco)', required=False)
@@ -261,14 +263,16 @@ class DetalleForm(ModelForm):
             'n_item13',
             'item14',
             'item15',
-            'n_item15',
+            'n_item15',           
             'item16',
             'n_item16',
             'item17',
             'n_item17',
             'item18',
-            'item_18tsn',
             'n_item18tsn',
+            'n_item18tso',
+            'n_item18csn',
+            'n_item18cso',
             'item19',
             'item20',
             'item21',
