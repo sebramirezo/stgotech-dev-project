@@ -614,3 +614,52 @@ def eliminar_consumo(request, incoming_fk):
     consumos.delete()
     return redirect('/buscar_consumos')
 
+###########################################
+### Vista de Mantenedor Categotia_incoming ####
+###########################################
+
+def mantenedor_categoria_incoming(request):
+    get_categoria_incoming = Categotia_incoming.objects.all()
+
+    context = {
+        'get_categoria_incoming': get_categoria_incoming,
+    }
+    return render(request, 'mantenedores/mantenedor_categoria_incoming.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_categoria_incoming(request, categoria_pk):
+    categoria_incoming = Categotia_incoming.objects.get(categoria_pk=categoria_pk)
+
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST, instance=categoria_incoming)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_categoria_incoming/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = CategoriaForm(instance=categoria_incoming)
+
+    return render(request, 'mantenedores/editar_categoria_incoming.html', {'form': form, 'categoria_incoming': categoria_incoming})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+def registrar_categoria_incoming(request):
+    form_reg_categoria = CategoriaForm()
+
+    if request.method == 'POST':
+        form_reg_categoria = CategoriaForm(request.POST)
+        if form_reg_categoria.is_valid():
+            form_reg_categoria.save()
+            return redirect('/mantenedor_categoria_incoming')
+        
+    context = {
+        'form_reg_categoria':form_reg_categoria
+    }
+        
+    return render(request, 'mantenedores/registrar_categoria_incoming.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+def eliminar_categoria_incoming(request, categoria_pk):
+    categoria_incoming = Categotia_incoming.objects.get(categoria_pk=categoria_pk)
+    categoria_incoming.delete()
+
+    return redirect('/mantenedor_categoria_incoming')
