@@ -1,3 +1,4 @@
+import openpyxl
 from .forms import *
 from django.http import HttpResponse
 from openpyxl import Workbook
@@ -5,6 +6,7 @@ from openpyxl.styles import Alignment , Font , Border, Side
 from openpyxl.drawing.image import Image
 from PIL import Image
 from openpyxl.drawing.image import Image as ExcelImage
+import win32com.client as win32
 
 
 
@@ -830,6 +832,55 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     wk.save(response)
     return response
+
+
+import os  # Importa el módulo os
+
+# ...
+
+def crear_y_imprimir_excel_en_impresora(request):
+    try:
+        # Inicializar COM
+        win32.pythoncom.CoInitialize()
+
+        # Crear un nuevo libro de Excel con openpyxl
+        wb = openpyxl.Workbook()
+        ws = wb.active
+
+        # Agregar contenido al libro de Excel (opcional)
+        ws['A1'] = 'Hola, esto es un ejemplo'
+        # Puedes agregar más contenido según tus necesidades
+
+        # Ruta donde se guardará el archivo Excel temporal
+        temp_folder = os.path.join(os.getcwd(), "temp_excel_files")
+        os.makedirs(temp_folder, exist_ok=True)  # Crea la carpeta si no existe
+
+        # Nombre del archivo Excel temporal
+        excel_file = os.path.join(temp_folder, "temp_excel_file.xlsx")
+
+        # Guardar el libro de Excel en el archivo temporal
+        wb.save(excel_file)
+
+        # Iniciar Excel usando pywin32
+        excel = win32.gencache.EnsureDispatch('Excel.Application')
+
+        # Abrir el libro de Excel en Excel
+        workbook = excel.Workbooks.Open(excel_file)
+
+        # Imprimir el libro de Excel
+        workbook.PrintOut()
+
+        # Cerrar Excel
+        excel.Quit()
+
+        # Finalizar COM
+        win32.pythoncom.CoUninitialize()
+
+        return HttpResponse(f"Se creó y se imprimió el archivo Excel en la impresora predeterminada.")
+    except Exception as e:
+        return HttpResponse(f"Error al crear o imprimir el archivo Excel: {str(e)}")
+    
+
 
 
 

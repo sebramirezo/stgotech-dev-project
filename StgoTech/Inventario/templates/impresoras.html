@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <label for="nombre_impresora">Selecciona una impresora:</label>
+        <select name="nombre_impresora" id="nombre_impresora">
+          {% for impresora in impresoras_disponibles %}
+            <option value="{{ impresora }}">{{ impresora }}</option>
+          {% endfor %}
+        </select>
+        <input type="submit" value="Imprimir">
+      </form>
+</body>
+</html>
