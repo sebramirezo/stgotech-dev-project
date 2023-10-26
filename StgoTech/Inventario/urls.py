@@ -37,9 +37,6 @@ urlpatterns = [
     #mantenedores consumo
     path('editar_consumo/<str:incoming_fk>/', views.editar_consumo, name='editar_consumo'),
     path('eliminar_consumo/<str:incoming_fk>/', views.eliminar_consumo, name='eliminar_consumo'),
-    #mantenedores categoria incoming
-    path('mantenedor_categoria_incoming/', views.mantenedor_categoria_incoming, name='mantenedor_categoria_incoming'),
-    path('editar_categoria_incoming/<int:categoria_pk>/', views.editar_categoria_incoming, name='editar_categoria_incoming'),
-    path('registrar_categoria_incoming/', views.registrar_categoria_incoming, name='registrar_categoria_incoming'),
-    path('eliminar_categoria_incoming/<int:categoria_pk>', views.eliminar_categoria_incoming, name='eliminar_categoria_incoming'),
+
+
 ]

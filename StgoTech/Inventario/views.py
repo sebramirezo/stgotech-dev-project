@@ -718,4 +718,3 @@ def eliminar_estado(request, estado_pk):
 
     return redirect('/mantenedor_estado')
 
-# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
