@@ -15,16 +15,14 @@
 </div>
 <!-- {% include 'mostrar_comat.html' %} -->
 <hr> 
-<div class="container m-2">
+<div class="container m-2" >
     <h5>Formulario de Ingreso de Productos al Almacen - Incoming Inspection</h5>
     <form id="incoming_form" action="" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="row p-2">
             {% for incoming in form_incoming %}
-            <div class="col-6 p-2">
+            <div class="col-4 p-2">
                 <label>{{incoming.label}}</label>
-
-                
                 {{incoming}}
             </div>
             {% endfor %}
@@ -35,5 +33,34 @@
 
     </form>
 </div>
+
+
+<style>
+
+.reducido {
+    width: 60% ;
+}
+
+.select2-selection.select2-selection--single  {
+    width: 246.39px;
+    height: 38px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
+    
+}
+
+label {
+    display: flex;
+}
+
+
+</style>
     
 {% endblock %}
