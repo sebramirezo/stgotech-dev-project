@@ -6,16 +6,19 @@
         <div class="col-6">
             <h5>Buscador Part Number , Serial Number o STDF</h5>
             <form action="{% url 'buscar_productos_incoming' %}" method="GET">
-                <input class="form-control" type="text" name="e" placeholder="Ingrese Part Number, Serial Number o STDF">
-                <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
+                <input class="form-control" type="text" name="e"
+                    placeholder="Ingrese Part Number, Serial Number o STDF">
+                <input
+                    style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;"
+                    class="btn m-2" type="submit" value="Buscar">
             </form>
         </div>
 
     </div>
 </div>
 <!-- {% include 'mostrar_comat.html' %} -->
-<hr> 
-<div class="container m-2" >
+<hr>
+<div class="container m-2">
     <h5>Formulario de Ingreso de Productos al Almacen - Incoming Inspection</h5>
     <form id="incoming_form" action="" method="post" autocomplete="off">
         {% csrf_token %}
@@ -29,38 +32,75 @@
         </div>
 
 
-        <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
+        <input
+            style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;"
+            class="btn m-2" type="submit" value="Guardar">
 
     </form>
 </div>
 
 
 <style>
+    .reducido {
+        width: 60%;
+    }
 
-.reducido {
-    width: 60% ;
-}
+    .select2-selection.select2-selection--single {
+        width: 246.39px;
+        height: 38px;
+    }
 
-.select2-selection.select2-selection--single  {
-    width: 246.39px;
-    height: 38px;
-}
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
+    .form-group label {
+        margin-bottom: 5px;
+        /* Espacio entre la etiqueta y el input */
 
-.form-group label {
-    margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
-    
-}
+    }
 
-label {
-    display: flex;
-}
-
-
+    label {
+        display: flex;
+    }
 </style>
-    
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var categoria = document.getElementById('id_categoria_fk');
+        var batch = document.getElementById('id_batch_pk');
+
+
+        function disableField(field) {
+            field.disabled = true;
+            field.parentNode.style.display = 'none';
+        }
+
+        function enableField(field) {
+            field.disabled = false;
+            field.parentNode.style.display = 'block';
+        }
+
+        categoria.addEventListener('change', function () {
+            if (categoria.value === '1' || categoria.value === '2' || categoria.value === '') {
+                disableField(batch);
+
+            } else {
+                enableField(batch);
+
+            }
+        });
+
+        // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
+        if (categoria.value === '1' || categoria.value === '2' || categoria.value === '') {
+            disableField(batch);
+
+        }
+    });
+</script>
+
+
+
 {% endblock %}

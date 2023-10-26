@@ -70,7 +70,7 @@ class IncomingForm(ModelForm):
     descripcion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Descripción"}),label='Descripción')
     observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=False)
     categoria_fk = forms.ModelChoiceField(queryset=Categotia_incoming.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa la Categoria SN o BN"}), label='Categoria')
-    clasificacion_fk = forms.ModelChoiceField(queryset=Clasificacion.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa la Clasificación"}), label='Clasificación')
+    clasificacion_fk = forms.ModelChoiceField(queryset=Clasificacion.objects.all(), widget=forms.Select(attrs={"class": "form-control reducido","placeholder": "Ingresa la Clasificación"}), label='Clasificación')
     ubicacion_fk = forms.ModelChoiceField(queryset=Ubicacion.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa la Ubicacion"}), label='Ubicación')
     uom_fk = forms.ModelChoiceField(queryset=Uom.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingreso Uom"}), label='Uom')
     owner_fk = forms.ModelChoiceField(queryset=Owner.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingreso Owner"}), label='Owner')
@@ -83,8 +83,8 @@ class IncomingForm(ModelForm):
         model = Incoming
         fields = [
         'sn_batch_pk',
-        'batch_pk',
         'categoria_fk',
+        'batch_pk',
         'part_number',
         'f_incoming',
         'po',

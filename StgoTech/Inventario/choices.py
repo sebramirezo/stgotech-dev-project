@@ -190,11 +190,11 @@ ABONA_CANCELA = [
 ]
 
 CATEGORIA_INCOMING = [
-    ('None', 'N/A'),
-    ('SN','Serial Number'),
-    ('BN','Batch Number'),
-]
 
+    ('Serial Number','SN'),
+    ('Batch Number','BN '),
+    ('Serial/Bacth Number','SN/BN'),
+]
 
 
 UBICACIONES = [
