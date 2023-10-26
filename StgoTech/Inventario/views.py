@@ -31,7 +31,7 @@ def index(request):
 
 #VISTA DASHBOARD
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    return render(request, 'formularios/dashboard.html')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def get_chart_data(request):
@@ -66,7 +66,7 @@ def buscar_productos_inicio(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_inicio = request.GET.get('n', '')
 
-    return render(request, 'resultado_busqueda_inicio.html', {'query_inicio':query_inicio})
+    return render(request, 'resultados_busqueda/resultado_busqueda_inicio.html', {'query_inicio':query_inicio})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def buscar_datos_inicio(request):
@@ -129,7 +129,7 @@ def detalle_inicio(request, sn_batch_pk):
 
     consumos_data = detalle_inicio.consumos_set.all()
 
-    return render(request,'detalle_inicio.html' , {'detalle_inicio':detalle_inicio, 'comat_data' : comat_data, 'consumos_data':consumos_data })
+    return render(request,'tablas_detalle/detalle_inicio.html' , {'detalle_inicio':detalle_inicio, 'comat_data' : comat_data, 'consumos_data':consumos_data })
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 @login_required
@@ -163,7 +163,7 @@ def comat(request):
         'form_comat': form_comat,
         'get_form_comat': get_form_comat,
     }
-    return render(request, 'comat.html', context)
+    return render(request, 'formularios/comat.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #BUSCADOR DE COMAT
@@ -171,7 +171,7 @@ def buscar_productos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_comat = request.GET.get('c', '')
 
-    return render(request, 'resultado_busqueda_stdf.html', {'query_comat':query_comat})
+    return render(request, 'resultados_busqueda/resultado_busqueda_stdf.html', {'query_comat':query_comat})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS RESULTADOS CON MÁS RELACION QUE TIENE LA BUSQUEDA
@@ -222,7 +222,7 @@ def obtener_datos_comat(request):
 #OBTIENE LOS DATOS PARA REALIZAR EL DETALLE POR LA ID
 def detalle_comat(request, stdf_pk):
     detalle_comat = Comat.objects.get(stdf_pk=stdf_pk)    
-    return render(request,'detalle_comat.html' , {'detalle_comat':detalle_comat})
+    return render(request,'tablas_detalle/detalle_comat.html' , {'detalle_comat':detalle_comat})
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
@@ -259,7 +259,7 @@ def incoming(request):
         'form_incoming': form_incoming,
         'get_form_incoming': get_form_incoming, 
     }
-    return render(request, 'incoming.html', context)
+    return render(request, 'formularios/incoming.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #GUARDA EL VALOR QUE SE BUSCO Y REDIRIGE A LA PAGINA DE RESULTADOS
@@ -267,7 +267,7 @@ def buscar_productos_incoming(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_inco = request.GET.get('e', '')
     
-    return render(request, 'resultado_busqueda_incoming.html', {'query_inco':query_inco})
+    return render(request, 'resultados_busqueda/resultado_busqueda_incoming.html', {'query_inco':query_inco})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS RELACIONADOS A LA BUSQUEDA 
@@ -319,7 +319,7 @@ def obtener_datos_incoming(request):
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def detalle_incoming(request, sn_batch_pk):
     detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)    
-    return render(request,'detalle_incoming.html' , {'detalle_incoming':detalle_incoming})
+    return render(request,'tablas_detalle/detalle_incoming.html' , {'detalle_incoming':detalle_incoming})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #VISTA DE CONSUMO QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA VISTA DE CONSUMOS
@@ -352,7 +352,7 @@ def consumos(request):
     context = {
         'form_consumos': form_consumos,
     }
-    return render(request, 'consumos.html', context)
+    return render(request, 'formularios/consumos.html', context)
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
@@ -361,7 +361,7 @@ def buscar_productos_consumos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_consu = request.GET.get('t', '')
 
-    return render(request, 'resultado_busqueda_consumos.html', {'query_consu': query_consu})
+    return render(request, 'resultados_busqueda/resultado_busqueda_consumos.html', {'query_consu': query_consu})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS RELACIONADOS A LA BUSQUEDA DE CONSUMOS
@@ -416,7 +416,7 @@ def detalle_consumos(request, consumo_pk):
 
     incoming_data = detalle_consumos.incoming_fk
 
-    return render(request,'detalle_consumos.html' , {'detalle_consumos':detalle_consumos, 'incoming_data' : incoming_data })
+    return render(request,'tablas_detalle/detalle_consumos.html' , {'detalle_consumos':detalle_consumos, 'incoming_data' : incoming_data })
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
@@ -509,7 +509,7 @@ def detalle_inicio(request, stdf_pk):
         return JsonResponse(data)
     else:
         # Si no es una solicitud AJAX, renderiza una plantilla HTML
-        return render(request, 'detalle_inicio.html', {
+        return render(request, 'tablas_detalle/detalle_inicio.html', {
             "comat_data": comat_data,
             "incoming_data_list": incoming_data_list,
             "incoming_recordsTotal": incoming_records_total,
@@ -539,7 +539,7 @@ def detalle_form(request):
             return redirect('/incoming')
     
     # Renderiza los formularios en tu plantilla HTML
-    return render(request, 'detalle_incomingforms.html', {'form1': form1, 'form2': form2})
+    return render(request, 'tablas_detalle/detalle_incomingforms.html', {'form1': form1, 'form2': form2})
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
@@ -559,7 +559,7 @@ def editar_comat(request, stdf_pk):
     else:
         form = ComatForm(instance=comat)
 
-    return render(request, 'editar_comat.html', {'form': form, 'comat': comat})
+    return render(request, 'formularios/editar_comat.html', {'form': form, 'comat': comat})
 
 
 def eliminar_comat(request, stdf_pk):
@@ -583,7 +583,7 @@ def editar_incoming(request, sn_batch_pk):
     else:
         form = IncomingForm(instance=incoming)
 
-    return render(request, 'editar_incoming.html', {'form': form, 'incoming': incoming})
+    return render(request, 'formularios/editar_incoming.html', {'form': form, 'incoming': incoming})
 
 
 def eliminar_incoming(request, sn_batch_pk):
@@ -606,7 +606,7 @@ def editar_consumo(request, incoming_fk):
     else:
         form = ConsumosForm(instance=consumo)
 
-    return render(request, 'editar_consumo.html', {'form': form, 'consumo': consumo})
+    return render(request, 'formularios/editar_consumo.html', {'form': form, 'consumo': consumo})
 
 
 def eliminar_consumo(request, incoming_fk):
@@ -614,6 +614,7 @@ def eliminar_consumo(request, incoming_fk):
     consumos.delete()
     return redirect('/buscar_consumos')
 
+<<<<<<< HEAD
 ###########################################
 ### Vista de Mantenedor Categotia_incoming ####
 ###########################################
@@ -624,7 +625,7 @@ def mantenedor_categoria_incoming(request):
     context = {
         'get_categoria_incoming': get_categoria_incoming,
     }
-    return render(request, 'mantenedores/mantenedor_categoria_incoming.html', context)
+    return render(request, 'mantenedores/categoria_incoming/mantenedor_categoria_incoming.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -639,7 +640,7 @@ def editar_categoria_incoming(request, categoria_pk):
     else:
         form = CategoriaForm(instance=categoria_incoming)
 
-    return render(request, 'mantenedores/editar_categoria_incoming.html', {'form': form, 'categoria_incoming': categoria_incoming})
+    return render(request, 'mantenedores/categoria_incoming/editar_categoria_incoming.html', {'form': form, 'categoria_incoming': categoria_incoming})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def registrar_categoria_incoming(request):
@@ -655,7 +656,7 @@ def registrar_categoria_incoming(request):
         'form_reg_categoria':form_reg_categoria
     }
         
-    return render(request, 'mantenedores/registrar_categoria_incoming.html', context)
+    return render(request, 'mantenedores/categoria_incoming/registrar_categoria_incoming.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def eliminar_categoria_incoming(request, categoria_pk):
@@ -663,3 +664,61 @@ def eliminar_categoria_incoming(request, categoria_pk):
     categoria_incoming.delete()
 
     return redirect('/mantenedor_categoria_incoming')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor Estado         ####
+###########################################
+
+def mantenedor_estado(request):
+    get_estado = Estado.objects.all()
+
+    context = {
+        'get_estado': get_estado,
+    }
+    return render(request, 'mantenedores/mantenedor_estado.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_estado(request, estado_pk):
+    estados = Estado.objects.get(estado_pk=estado_pk)
+
+    if request.method == 'POST':
+        form = EstadoForm(request.POST, instance=estados)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_estado/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = EstadoForm(instance=estados)
+
+    return render(request, 'mantenedores/editar_estado.html', {'form': form, 'estados': estados})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_estado(request):
+    form_reg_estado = EstadoForm()
+
+    if request.method == 'POST':
+        form_reg_estado = EstadoForm(request.POST)
+        if form_reg_estado.is_valid():
+            form_reg_estado.save()
+            return redirect('/mantenedor_categoria_incoming')
+        
+    context = {
+        'form_reg_estado':form_reg_estado
+    }
+        
+    return render(request, 'mantenedores/registrar_estado.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_estado(request, estado_pk):
+    estados = Estado.objects.get(estado_pk=estado_pk)
+    estados.delete()
+
+    return redirect('/mantenedor_estado')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+=======
+>>>>>>> parent of 26d8cd9 (crud categoria incoming)
