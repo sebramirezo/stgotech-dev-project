@@ -8,6 +8,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.db.models import Count
+from django.db import connection
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 # Vistas relacionadas al inicio y cierre de sesión
@@ -390,7 +391,6 @@ def obtener_datos_consumos(request):
             "incoming_fk": consumo.incoming_fk.sn_batch_pk,
             "f_transaccion": consumo.f_transaccion,
             "matricula_aeronave": consumo.matricula_aeronave,
-            "orden_consumo": consumo.orden_consumo,
             "qty_extraida": consumo.qty_extraida,
             "usuario": consumo.usuario.username,
         })
@@ -467,7 +467,6 @@ def detalle_inicio(request, stdf_pk):
     for consumos_obj in consumos_objects_paginated:
         consumos_data_list.append({
                 "incoming_fk":consumos_obj.incoming_fk.sn_batch_pk,
-                "orden_consumo":consumos_obj.orden_consumo,
                 "f_transaccion":consumos_obj.f_transaccion,
                 "qty_extraida":consumos_obj.qty_extraida,
                 "matricula_aeronave":consumos_obj.matricula_aeronave,
@@ -616,3 +615,8 @@ def eliminar_consumo(request, incoming_fk):
     consumos.delete()
     return redirect('/buscar_consumos')
 
+def estadostdf(request):
+    with connection.cursor() as cursor:
+        cursor.execute('CALL abona_cancela()')
+    
+    return redirect('/dashboard')

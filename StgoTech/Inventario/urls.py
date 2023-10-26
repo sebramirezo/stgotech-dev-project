@@ -41,5 +41,6 @@ urlpatterns = [
     path('editar_consumo/<str:incoming_fk>/', views.editar_consumo, name='editar_consumo'),
     path('eliminar_consumo/<str:incoming_fk>/', views.eliminar_consumo, name='eliminar_consumo'),
 
+    path('estadostdf/', views.estadostdf, name='estadostdf'),
 
 ]
