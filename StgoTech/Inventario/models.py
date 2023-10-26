@@ -146,6 +146,17 @@ class Origen(models.Model):
     def __str__(self):
         return self.name_origen
     
+#TABLA COMPAÑIA
+class Compañia(models.Model):
+    cod_compañia = models.IntegerField(primary_key=True , unique=True)
+    nom_compañia = models.CharField(blank=True, null=True, max_length=50)
+
+    class Meta:
+        db_table = "compañia"
+
+    def __str__(self):
+        return self.nom_compañia
+    
 
 
 #Tabla Comat 
@@ -172,6 +183,7 @@ class Comat(models.Model):
     origen_fk = models.ForeignKey(Origen, on_delete=models.SET_NULL, null=True)
     estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True , default=1)
     usuario =  models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
+    compañia_fk = models.ForeignKey(Compañia, on_delete=models.SET_NULL, null=True , blank=True)
 
     class Meta:
         db_table = 'comat'
@@ -182,6 +194,7 @@ class Comat(models.Model):
 #Tabla Incoming
 class Incoming(models.Model):
     sn_batch_pk = models.CharField(primary_key=True, unique=True)
+    batch_pk = models.CharField(blank=True, null=True, max_length=50)
     part_number = models.CharField(blank=True, null=True, max_length=50)
     f_incoming = models.DateField(blank=True, null=True)
     descripcion = models.CharField(blank=True , null=True, max_length=250)
@@ -212,7 +225,6 @@ class Incoming(models.Model):
 class Estado_Repuesto(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] ) 
     name_estado = models.CharField(choices=Estado_Repuesto, blank=True, null=True, max_length=50)
-    otro = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "estado_repuesto"
@@ -277,7 +289,6 @@ class Detalle_Incoming(models.Model):
 #Tabla Consumos
 class Consumos(models.Model):
     consumo_pk = models.AutoField(primary_key=True, unique=True , validators=[MinValueValidator(1)])
-    orden_consumo = models.CharField(blank=True, null=True, max_length=50)
     f_transaccion = models.DateField(blank=True, null=True)
     qty_extraida = models.IntegerField(blank=True, null=True)
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)

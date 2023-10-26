@@ -7,7 +7,7 @@
         {% csrf_token %}
         <div class="row p-2">
             {% for form in form1 %}
-            <div class="col-6 p-2">
+            <div class="col-3 p-4">
                 <label for="">{{ form.label }}</label>
                 {{ form }}
             </div>
@@ -32,24 +32,50 @@
 
 
 <style>
-    .form1 {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
 
-    .form-control {
-        width: 100%; /* Cambiamos el ancho a 100% */
-        box-sizing: border-box;
-        text-align: left;
-    }
+.form1 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 
-    /* Establecer el tamaño deseado para los labels */
-    .form-control label {
-        width: 626px;
-        height: 48px;
-        display: inline-block;
-    }
+.form-control {
+    width: 100%; /* Cambiamos el ancho a 100% */
+    box-sizing: border-box;
+    text-align: left;
+}
+
+/* Establecer el tamaño deseado para los labels */
+.form-control .reducido label {
+    width: 626px;
+    height: 48px;
+    display: flex;
+}
+
+
+.reducido {
+    width: 100% ;
+}
+
+.select2-selection.select2-selection--single  {
+    width: 246.39px;
+    height: 38px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
+    
+}
+
+label {
+    display: flex;
+}
+
 </style>
 
 

@@ -21,7 +21,7 @@
         {% csrf_token %}
         <div class="row p-2">
             {% for comat in form_comat %}
-            <div class="col-6 p-2">
+            <div class="col-4 p-2">
                 <label>{{comat.label}}</label>
                 {{comat}}
             </div>
@@ -32,6 +32,34 @@
     <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
 
 </div>
+
+<style>
+
+.reducido {
+    width: 60% ;
+}
+
+.select2-selection.select2-selection--single  {
+    width: 246.39px;
+    height: 38px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
     
+}
+
+label {
+    display: flex;
+}
+
+
+</style>
+
 
 {% endblock %}
