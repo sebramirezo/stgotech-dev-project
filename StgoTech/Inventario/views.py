@@ -614,7 +614,6 @@ def eliminar_consumo(request, incoming_fk):
     consumos.delete()
     return redirect('/buscar_consumos')
 
-<<<<<<< HEAD
 ###########################################
 ### Vista de Mantenedor Categotia_incoming ####
 ###########################################
@@ -720,5 +719,3 @@ def eliminar_estado(request, estado_pk):
     return redirect('/mantenedor_estado')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-=======
->>>>>>> parent of 26d8cd9 (crud categoria incoming)
