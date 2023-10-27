@@ -2,30 +2,30 @@
 
 {% block body %}
 <div class="container">
-    <h1>Mantenedor Estado</h1>
+    <h1>Mantenedor Bodega</h1>
     <div class="mantenedor">
       <div class="table-responsive">
           <table class="table table-striped">
               <thead>
                   <tr>
-                      <th scope="col">Nombre Estado</th>
+                      <th scope="col">Nombre Bodega</th>
                       <th scope="col">Acciones</th>
                   </tr>
               </thead>
               <tbody>
-                  {% for estado in get_estado %}
+                  {% for bodega in get_bodega %}
                   <tr class="">
-                      <td>{{estado.estado}}</td>
+                      <td>{{bodega.name_bodega}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_estado/{{estado.estado_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" href="/eliminar_estado/{{estado.estado_pk}}" role="button">Eliminar</a>
+                          <a name="" id="" class="btn btn-primary" href="/editar_owner/{{bodega.bodega_pk}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="/eliminar_owner/{{bodega.bodega_pk}}" role="button">Eliminar</a>
                       </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
-            <a name="" id="" class="btn btn-primary" href="/registrar_estado/" role="button">Añadir Estado</a>
+            <a name="" id="" class="btn btn-primary" href="/registrar_bodega/" role="button">Añadir Bodega</a>
           </div>
       </div>
     </div>

@@ -391,7 +391,6 @@ def obtener_datos_consumos(request):
             "incoming_fk": consumo.incoming_fk.sn_batch_pk,
             "f_transaccion": consumo.f_transaccion,
             "matricula_aeronave": consumo.matricula_aeronave,
-            "orden_consumo": consumo.orden_consumo,
             "qty_extraida": consumo.qty_extraida,
             "usuario": consumo.usuario.username,
         })
@@ -587,24 +586,32 @@ def eliminar_incoming(request, sn_batch_pk):
 # Vista de Mantenedor Consumo   #
 ##################################
 
-def editar_consumo(request, incoming_fk):
-    consumo = Consumos.objects.get(incoming_fk=incoming_fk)
+def editar_consumo(request, consumo_pk):
+    consumo = Consumos.objects.get(consumo_pk=consumo_pk)
 
     if request.method == 'POST':
         form = ConsumosForm(request.POST, instance=consumo)
         if form.is_valid():
             form.save()
-            return redirect('/detalle_consumos/'+str(incoming_fk))  # Redirige a la página deseada después de la edición.
+            return redirect('/detalle_consumos/'+str(consumo_pk))  # Redirige a la página deseada después de la edición.
     else:
         form = ConsumosForm(instance=consumo)
 
     return render(request, 'formularios/editar_consumo.html', {'form': form, 'consumo': consumo})
 
 
-def eliminar_consumo(request, incoming_fk):
-    consumos = Consumos.objects.get(incoming_fk=incoming_fk)
+def eliminar_consumo(request, consumo_pk):
+    consumos = Consumos.objects.get(consumo_pk=consumo_pk)
     consumos.delete()
     return redirect('/buscar_consumos')
+
+###########################################
+### Vista de Mantenedores all ####
+###########################################
+
+def mantenedores_all(request):
+
+    return render(request, 'mantenedores/mantenedores_all.html')
 
 ###########################################
 ### Vista de Mantenedor Categotia_incoming ####
@@ -668,7 +675,7 @@ def mantenedor_estado(request):
     context = {
         'get_estado': get_estado,
     }
-    return render(request, 'mantenedores/mantenedor_estado.html', context)
+    return render(request, 'mantenedores/estado/mantenedor_estado.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -683,7 +690,7 @@ def editar_estado(request, estado_pk):
     else:
         form = EstadoForm(instance=estados)
 
-    return render(request, 'mantenedores/editar_estado.html', {'form': form, 'estados': estados})
+    return render(request, 'mantenedores/estado/editar_estado.html', {'form': form, 'estados': estados})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -694,13 +701,583 @@ def registrar_estado(request):
         form_reg_estado = EstadoForm(request.POST)
         if form_reg_estado.is_valid():
             form_reg_estado.save()
-            return redirect('/mantenedor_categoria_incoming')
+            return redirect('/mantenedor_estado')
         
     context = {
         'form_reg_estado':form_reg_estado
     }
         
-    return render(request, 'mantenedores/registrar_estado.html', context)
+    return render(request, 'mantenedores/estado/registrar_estado.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor Ubicación         ####
+###########################################
+
+def mantenedor_ubicacion(request):
+    get_ubicacion = Ubicacion.objects.all()
+
+    context = {
+        'get_ubicacion': get_ubicacion,
+    }
+    return render(request, 'mantenedores/ubicacion/mantenedor_ubicacion.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_ubicacion(request, ubicacion_pk):
+    ubicaciones = Ubicacion.objects.get(ubicacion_pk=ubicacion_pk)
+
+    if request.method == 'POST':
+        form = UbicacionForm(request.POST, instance=ubicaciones)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_ubicacion/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = UbicacionForm(instance=ubicaciones)
+
+    return render(request, 'mantenedores/ubicacion/editar_ubicacion.html', {'form': form, 'ubicaciones': ubicaciones})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_ubicacion(request):
+    form_reg_ubicacion = UbicacionForm()
+
+    if request.method == 'POST':
+        form_reg_ubicacion = UbicacionForm(request.POST)
+        if form_reg_ubicacion.is_valid():
+            form_reg_ubicacion.save()
+            return redirect('/mantenedor_ubicacion')
+        
+    context = {
+        'form_reg_ubicacion':form_reg_ubicacion
+    }
+        
+    return render(request, 'mantenedores/ubicacion/registrar_ubicacion.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor Uom   uom      ####
+###########################################
+
+def mantenedor_uom(request):
+    get_uom = Uom.objects.all()
+
+    context = {
+        'get_uom': get_uom,
+    }
+    return render(request, 'mantenedores/uom/mantenedor_uom.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_uom(request, uom_pk):
+    uoms = Uom.objects.get(uom_pk=uom_pk)
+
+    if request.method == 'POST':
+        form = UomForm(request.POST, instance=uoms)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_ubicacion/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = UomForm(instance=uoms)
+
+    return render(request, 'mantenedores/ubicacion/editar_ubicacion.html', {'form': form, 'uoms': uoms})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_uom(request):
+    form_reg_uom = UomForm()
+
+    if request.method == 'POST':
+        form_reg_uom = UomForm(request.POST)
+        if form_reg_uom.is_valid():
+            form_reg_uom.save()
+            return redirect('/mantenedor_uom')
+        
+    context = {
+        'form_reg_uom':form_reg_uom
+    }
+        
+    return render(request, 'mantenedores/uom/registrar_uom.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor owner     ####
+###########################################
+
+def mantenedor_owner(request):
+    get_owner = Owner.objects.all()
+
+    context = {
+        'get_owner': get_owner,
+    }
+    return render(request, 'mantenedores/owner/mantenedor_owner.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_owner(request, owner_pk):
+    owners = Owner.objects.get(owner_pk=owner_pk)
+
+    if request.method == 'POST':
+        form = OwnerForm(request.POST, instance=owners)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_owner/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = OwnerForm(instance=owners)
+
+    return render(request, 'mantenedores/owner/editar_owner.html', {'form': form, 'owners': owners})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_owner(request):
+    form_reg_owner = OwnerForm()
+
+    if request.method == 'POST':
+        form_reg_owner = OwnerForm(request.POST)
+        if form_reg_owner.is_valid():
+            form_reg_owner.save()
+            return redirect('/mantenedor_owner')
+        
+    context = {
+        'form_reg_owner':form_reg_owner
+    }
+        
+    return render(request, 'mantenedores/owner/registrar_owner.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor condition     ####
+###########################################
+
+def mantenedor_condition(request):
+    get_condition = Condicion.objects.all()
+
+    context = {
+        'get_condition': get_condition,
+    }
+    return render(request, 'mantenedores/condition/mantenedor_condition.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_condition(request, condicion_pk):
+    conditions = Condicion.objects.get(condicion_pk=condicion_pk)
+
+    if request.method == 'POST':
+        form = ConditionForm(request.POST, instance=conditions)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_condition/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = ConditionForm(instance=conditions)
+
+    return render(request, 'mantenedores/condition/editar_condition.html', {'form': form, 'conditions': conditions})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_condition(request):
+    form_reg_condition = ConditionForm()
+
+    if request.method == 'POST':
+        form_reg_condition = ConditionForm(request.POST)
+        if form_reg_condition.is_valid():
+            form_reg_condition.save()
+            return redirect('/mantenedor_condition')
+        
+    context = {
+        'form_reg_condition':form_reg_condition
+    }
+        
+    return render(request, 'mantenedores/condition/registrar_condition.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor ficha     ####
+###########################################
+
+def mantenedor_ficha(request):
+    get_ficha = Ficha.objects.all()
+
+    context = {
+        'get_ficha': get_ficha,
+    }
+    return render(request, 'mantenedores/ficha/mantenedor_ficha.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_ficha(request, ficha_pk):
+    fichas = Ficha.objects.get(ficha_pk=ficha_pk)
+
+    if request.method == 'POST':
+        form = FichaForm(request.POST, instance=fichas)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_ficha/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = FichaForm(instance=fichas)
+
+    return render(request, 'mantenedores/ficha/editar_ficha.html', {'form': form, 'fichas': fichas})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_ficha(request):
+    form_reg_ficha = FichaForm()
+
+    if request.method == 'POST':
+        form_reg_ficha = FichaForm(request.POST)
+        if form_reg_ficha.is_valid():
+            form_reg_ficha.save()
+            return redirect('/mantenedor_ficha')
+        
+    context = {
+        'form_reg_ficha':form_reg_ficha
+    }
+        
+    return render(request, 'mantenedores/ficha/registrar_ficha.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor bodega     ####
+###########################################
+
+def mantenedor_bodega(request):
+    get_bodega = Bodega.objects.all()
+
+    context = {
+        'get_bodega': get_bodega,
+    }
+    return render(request, 'mantenedores/bodega/mantenedor_bodega.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_bodega(request, bodegas_pk):
+    bodegas = Bodega.objects.get(bodegas_pk=bodegas_pk)
+
+    if request.method == 'POST':
+        form = BodegaForm(request.POST, instance=bodegas)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_bodega/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = BodegaForm(instance=bodegas)
+
+    return render(request, 'mantenedores/bodega/editar_bodega.html', {'form': form, 'bodegas': bodegas})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_bodega(request):
+    form_reg_bodega = BodegaForm()
+
+    if request.method == 'POST':
+        form_reg_bodega = BodegaForm(request.POST)
+        if form_reg_bodega.is_valid():
+            form_reg_bodega.save()
+            return redirect('/mantenedor_bodega')
+        
+    context = {
+        'form_reg_bodega':form_reg_bodega
+    }
+        
+    return render(request, 'mantenedores/bodega/registrar_bodega.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor origen     ####
+###########################################
+
+def mantenedor_origen(request):
+    get_origen = Origen.objects.all()
+
+    context = {
+        'get_origen': get_origen,
+    }
+    return render(request, 'mantenedores/origen/mantenedor_origen.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_origen(request, origen_pk):
+    origens = Origen.objects.get(origen_pk=origen_pk)
+
+    if request.method == 'POST':
+        form = OrigenForm(request.POST, instance=origens)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_origen/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = OrigenForm(instance=origens)
+
+    return render(request, 'mantenedores/origen/editar_origen.html', {'form': form, 'origens': origens})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_origen(request):
+    form_reg_origen = OrigenForm()
+
+    if request.method == 'POST':
+        form_reg_origen = OrigenForm(request.POST)
+        if form_reg_origen.is_valid():
+            form_reg_origen.save()
+            return redirect('/mantenedor_origen')
+        
+    context = {
+        'form_reg_origen':form_reg_origen
+    }
+        
+    return render(request, 'mantenedores/origen/registrar_origen.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor cargo     ####
+###########################################
+
+def mantenedor_cargo(request):
+    get_cargo = Cargo.objects.all()
+
+    context = {
+        'get_cargo': get_cargo,
+    }
+    return render(request, 'mantenedores/cargo/mantenedor_cargo.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_cargo(request, id):
+    cargos = Cargo.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = CargoForm(request.POST, instance=cargos)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_cargo/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = CargoForm(instance=cargos)
+
+    return render(request, 'mantenedores/cargo/editar_cargo.html', {'form': form, 'cargos': cargos})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_cargo(request):
+    form_reg_cargo = CargoForm()
+
+    if request.method == 'POST':
+        form_reg_cargo = CargoForm(request.POST)
+        if form_reg_cargo.is_valid():
+            form_reg_cargo.save()
+            return redirect('/mantenedor_cargo')
+        
+    context = {
+        'form_reg_cargo':form_reg_cargo
+    }
+        
+    return render(request, 'mantenedores/cargo/registrar_cargo.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor clasificacion     ####
+###########################################
+
+def mantenedor_clasificacion(request):
+    get_clasificacion = Clasificacion.objects.all()
+
+    context = {
+        'get_clasificacion': get_clasificacion,
+    }
+    return render(request, 'mantenedores/clasificacion/mantenedor_clasificacion.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_clasificacion(request, clasificacion_pk):
+    clasificaciones = Clasificacion.objects.get(clasificacion_pk=clasificacion_pk)
+
+    if request.method == 'POST':
+        form = ClasificacionForm(request.POST, instance=clasificaciones)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_clasificacion/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = ClasificacionForm(instance=clasificaciones)
+
+    return render(request, 'mantenedores/clasificacion/editar_clasificacion.html', {'form': form, 'clasificaciones': clasificaciones})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_clasificacion(request):
+    form_reg_clasificacion = ClasificacionForm()
+
+    if request.method == 'POST':
+        form_reg_clasificacion = ClasificacionForm(request.POST)
+        if form_reg_clasificacion.is_valid():
+            form_reg_clasificacion.save()
+            return redirect('/mantenedor_clasificacion')
+        
+    context = {
+        'form_reg_clasificacion':form_reg_clasificacion
+    }
+        
+    return render(request, 'mantenedores/clasificacion/registrar_clasificacion.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+###########################################
+### Vista de Mantenedor compañia     ####
+###########################################
+
+def mantenedor_compañia(request):
+    get_compañia = Compañia.objects.all()
+
+    context = {
+        'get_compañia': get_compañia,
+    }
+    return render(request, 'mantenedores/compañia/mantenedor_compañia.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_compañia(request, cod_compañia):
+    compañias = Compañia.objects.get(cod_compañia=cod_compañia)
+
+    if request.method == 'POST':
+        form = CompañiaForm(request.POST, instance=compañias)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_compañia/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = CompañiaForm(instance=compañias)
+
+    return render(request, 'mantenedores/compañia/editar_compañia.html', {'form': form, 'compañias': compañias})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_compañia(request):
+    form_reg_compañia = CompañiaForm()
+
+    if request.method == 'POST':
+        form_reg_compañia = CompañiaForm(request.POST)
+        if form_reg_compañia.is_valid():
+            form_reg_compañia.save()
+            return redirect('/mantenedor_compañia')
+        
+    context = {
+        'form_reg_compañia':form_reg_compañia
+    }
+        
+    return render(request, 'mantenedores/compañia/registrar_compañia.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor consumidor     ####
+###########################################
+
+def mantenedor_consumidor(request):
+    get_consumidor = Consumidor.objects.all()
+
+    context = {
+        'get_consumidor': get_consumidor,
+    }
+    return render(request, 'mantenedores/consumidor/mantenedor_consumidor.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_consumidor(request, id):
+    consumidors = Consumidor.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = ConsumidorForm(request.POST, instance=consumidors)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_consumidor/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = ConsumidorForm(instance=consumidors)
+
+    return render(request, 'mantenedores/consumidor/editar_consumidor.html', {'form': form, 'consumidors': consumidors})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_consumidor(request):
+    form_reg_consumidor = ConsumidorForm()
+
+    if request.method == 'POST':
+        form_reg_consumidor = ConsumidorForm(request.POST)
+        if form_reg_consumidor.is_valid():
+            form_reg_consumidor.save()
+            return redirect('/mantenedor_consumidor')
+        
+    context = {
+        'form_reg_consumidor':form_reg_consumidor
+    }
+        
+    return render(request, 'mantenedores/consumidor/registrar_consumidor.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+###########################################
+### Vista de Mantenedor estado_repuesto     ####
+###########################################
+
+def mantenedor_estado_repuesto(request):
+    get_estado_repuesto = Estado_Repuesto.objects.all()
+
+    context = {
+        'get_estado_repuesto': get_estado_repuesto,
+    }
+    return render(request, 'mantenedores/estado_repuesto/mantenedor_estado_repuesto.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_estado_repuesto(request, id):
+    estado_repuestos = Estado_Repuesto.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = EstadoRepuestoForm(request.POST, instance=estado_repuestos)
+        if form.is_valid():
+            form.save()
+            return redirect('/mantenedor_estado_repuesto/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = EstadoRepuestoForm(instance=estado_repuestos)
+
+    return render(request, 'mantenedores/estado_repuesto/editar_estado_repuesto.html', {'form': form, 'estado_repuestos': estado_repuestos})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_estado_repuesto(request):
+    form_reg_estado_repuesto = EstadoRepuestoForm()
+
+    if request.method == 'POST':
+        form_reg_estado_repuesto = EstadoRepuestoForm(request.POST)
+        if form_reg_estado_repuesto.is_valid():
+            form_reg_estado_repuesto.save()
+            return redirect('/mantenedor_estado_repuesto')
+        
+    context = {
+        'form_reg_estado_repuesto':form_reg_estado_repuesto
+    }
+        
+    return render(request, 'mantenedores/estado_repuesto/registrar_estado_repuesto.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+##################################
+### Vista de Mantenedor DetalleForm ####
+##################################
+
+def editar_detalle_incoming_form(request, sn_batch_pk):
+    detalleForm = Detalle_Incoming.objects.get(incoming_fk=sn_batch_pk)
+
+    if request.method == 'POST':
+        form = DetalleForm(request.POST, instance=detalleForm)
+        if form.is_valid():
+            form.save()
+            return redirect('/detalle_incoming/'+sn_batch_pk)  # Redirige a la página deseada después de la edición.
+    else:
+        form = DetalleForm(instance=detalleForm)
+
+    return render(request, 'mantenedores/detalle_incoming_form/editar_detalle_incomingforms.html', {'form': form, 'detalleForm': detalleForm})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 

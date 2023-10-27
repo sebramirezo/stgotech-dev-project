@@ -2,14 +2,14 @@
 
 {% block body %}
 <div class="container m-2">
-    <h5>Formulario de Estado</h5>
+    <h5>Formulario de Origen</h5>
     <form id="formulario_categoria" action="" method="post">
         {% csrf_token %}
         <div class="row p-2">
-            {% for estado in form_reg_estado %}
+            {% for origen in form_reg_origen %}
             <div class="col-6 p-2">
-                <label>{{estado.label}}</label>
-                {{estado}}
+                <label>{{origen.label}}</label>
+                {{origen}}
             </div>
             {% endfor %}
         </div>

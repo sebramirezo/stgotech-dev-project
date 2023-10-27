@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container">
+    <h1>Mantenedor Consumidor</h1>
+    <div class="mantenedor">
+      <div class="table-responsive">
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Apellido</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Cargo</th>
+                      <th scope="col">Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for consumidor in get_consumidor %}
+                  <tr class="">
+                      <td>{{consumidor.nombre}}</td>
+                      <td>{{consumidor.apellido}}</td>
+                      <td>{{consumidor.email}}</td>
+                      <td>{{consumidor.cargo}}</td>
+                      <td>
+                          <a name="" id="" class="btn btn-primary" href="/editar_consumidor/{{consumidor.id}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="/eliminar_consumidor/{{consumidor.id}}" role="button">Eliminar</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <div class="container">
+            <a name="" id="" class="btn btn-primary" href="/registrar_consumidor/" role="button">Añadir Consumidor</a>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
