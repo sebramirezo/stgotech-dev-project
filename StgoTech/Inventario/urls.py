@@ -30,7 +30,7 @@ urlpatterns = [
     path('detalle_form/', views.detalle_form, name='detalle_form'),
     path('imprimir_excel_incoming/<str:sn_batch_pk>/', imprimir_excel.imprimir_excel_incoming, name='imprimir_excel_incoming'),
     # path('impresoras/', imprimir_excel.impresoras, name='impresoras'),
-    
+    path('estadostdf/', views.estadostdf, name='estadostdf'),
     #mantenedores comat
     path('editar_comat/<int:stdf_pk>/', views.editar_comat, name='editar_comat'),
     path('eliminar_comat/<int:stdf_pk>/', views.eliminar_comat, name='eliminar_comat'),
@@ -40,7 +40,10 @@ urlpatterns = [
     #mantenedores consumo
     path('editar_consumo/<str:incoming_fk>/', views.editar_consumo, name='editar_consumo'),
     path('eliminar_consumo/<str:incoming_fk>/', views.eliminar_consumo, name='eliminar_consumo'),
-
-    path('estadostdf/', views.estadostdf, name='estadostdf'),
+    #mantenedores categoria incoming
+    path('mantenedor_categoria_incoming/', views.mantenedor_categoria_incoming, name='mantenedor_categoria_incoming'),
+    path('editar_categoria_incoming/<int:categoria_pk>/', views.editar_categoria_incoming, name='editar_categoria_incoming'),
+    path('registrar_categoria_incoming/', views.registrar_categoria_incoming, name='registrar_categoria_incoming'),
+    path('eliminar_categoria_incoming/<int:categoria_pk>', views.eliminar_categoria_incoming, name='eliminar_categoria_incoming'),
 
 ]
