@@ -6,16 +6,20 @@
   <hr>
   <div class="container">
     <div class="row">
-      <div class="col-6">
+      <div class="col-4">
         <h5>Buscador Inicio</h5>
         <form action="{% url 'buscar_productos_inicio' %}" method="GET">
           <input class="form-control" type="text" name="n" placeholder="Ingresa un Part Number o STDF">
           <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
         </form>
       </div>
-      <div class="col-6">
+      <div class="col-4">
         <h5>Anclaje</h5>
         <a name="" id="" style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" href="#dashboard" role="button">Vista del Dashboard</a>
+      </div>
+      <div class="col-4">
+        <h5>Estado STDF</h5>
+        <a name="" id="" style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" href="/estadostdf" role="button">ABONA/CANCELA</a>
       </div>
     </div>
   </div>
