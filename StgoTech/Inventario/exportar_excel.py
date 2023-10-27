@@ -879,21 +879,3 @@ def crear_y_imprimir_excel_en_impresora(request):
         return HttpResponse(f"Se creó y se imprimió el archivo Excel en la impresora predeterminada.")
     except Exception as e:
         return HttpResponse(f"Error al crear o imprimir el archivo Excel: {str(e)}")
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-    

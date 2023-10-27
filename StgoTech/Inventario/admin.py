@@ -25,6 +25,9 @@ admin.site.register(Detalle_Incoming)
 admin.site.register(Estado_Repuesto)
 admin.site.register(Consumos)
 admin.site.register(Categotia_incoming)
+admin.site.register(Compañia)
+admin.site.register(Cargo)
+admin.site.register(Consumidor)
 
 
 
