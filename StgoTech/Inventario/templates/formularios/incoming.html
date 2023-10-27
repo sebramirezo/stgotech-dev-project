@@ -65,40 +65,7 @@
     }
 </style>
 
-<script>
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var categoria = document.getElementById('id_categoria_fk');
-        var batch = document.getElementById('id_batch_pk');
-
-
-        function disableField(field) {
-            field.disabled = true;
-            field.parentNode.style.display = 'none';
-        }
-
-        function enableField(field) {
-            field.disabled = false;
-            field.parentNode.style.display = 'block';
-        }
-
-        categoria.addEventListener('change', function () {
-            if (categoria.value === '1' || categoria.value === '2' || categoria.value === '') {
-                disableField(batch);
-
-            } else {
-                enableField(batch);
-
-            }
-        });
-
-        // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
-        if (categoria.value === '1' || categoria.value === '2' || categoria.value === '') {
-            disableField(batch);
-
-        }
-    });
-</script>
 
 
 
