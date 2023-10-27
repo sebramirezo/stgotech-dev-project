@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container">
+    <h1>Mantenedor Categoria</h1>
+    <div class="mantenedor">
+      <div class="table-responsive">
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th scope="col">Código</th>
+                      <th scope="col">Nombre Categoria</th>
+                      <th scope="col">Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for categoria in get_categoria_incoming %}
+                  <tr class="">
+                      <td scope="row">{{categoria.categoria_pk}}</td>
+                      <td>{{categoria.name_categoria}}</td>
+                      <td>
+                          <a name="" id="" class="btn btn-primary" href="/editar_categoria_incoming/{{categoria.categoria_pk}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="/eliminar_categoria_incoming/{{categoria.categoria_pk}}" role="button">Eliminar</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <div class="container">
+            <a name="" id="" class="btn btn-primary" href="/registrar_categoria_incoming/" role="button">Añadir Categoria</a>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
