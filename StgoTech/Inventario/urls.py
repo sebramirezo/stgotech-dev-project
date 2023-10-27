@@ -33,6 +33,8 @@ urlpatterns = [
 
     # path('impresoras/', imprimir_excel.impresoras, name='impresoras'),
     path('estadostdf/', views.estadostdf, name='estadostdf'),
+    #mantenedores all
+    path('mantenedores/', views.mantenedores_all, name='mantenedores'),
     #mantenedores comat
     path('editar_comat/<int:stdf_pk>/', views.editar_comat, name='editar_comat'),
     path('eliminar_comat/<int:stdf_pk>/', views.eliminar_comat, name='eliminar_comat'),
@@ -40,13 +42,82 @@ urlpatterns = [
     path('editar_incoming/<str:sn_batch_pk>/', views.editar_incoming, name='editar_incoming'),
     path('eliminar_incoming/<str:sn_batch_pk>/', views.eliminar_incoming, name='eliminar_incoming'),
     #mantenedores consumo
-    path('editar_consumo/<str:incoming_fk>/', views.editar_consumo, name='editar_consumo'),
-    path('eliminar_consumo/<str:incoming_fk>/', views.eliminar_consumo, name='eliminar_consumo'),
+    path('editar_consumo/<int:consumo_pk>/', views.editar_consumo, name='editar_consumo'),
+    path('eliminar_consumo/<int:consumo_pk>/', views.eliminar_consumo, name='eliminar_consumo'),
+    #mantenedores detalle incoming form
+    path('editar_detalle_incoming_form/<str:sn_batch_pk>/', views.editar_detalle_incoming_form, name='editar_detalle_incoming_form'),
+    # path('eliminar_comat/<int:stdf_pk>/', views.eliminar_comat, name='eliminar_comat'),
     #mantenedores categoria incoming
     path('mantenedor_categoria_incoming/', views.mantenedor_categoria_incoming, name='mantenedor_categoria_incoming'),
     path('editar_categoria_incoming/<int:categoria_pk>/', views.editar_categoria_incoming, name='editar_categoria_incoming'),
     path('registrar_categoria_incoming/', views.registrar_categoria_incoming, name='registrar_categoria_incoming'),
     path('eliminar_categoria_incoming/<int:categoria_pk>', views.eliminar_categoria_incoming, name='eliminar_categoria_incoming'),
-    
+
+    #mantenedores estado
+    path('mantenedor_estado/', views.mantenedor_estado, name='mantenedor_estado'),
+    path('editar_estado/<int:estado_pk>/', views.editar_estado, name='editar_estado'),
+    path('registrar_estado/', views.registrar_estado, name='registrar_estado'),
+    # path('eliminar_estado/<int:estado_pk>', views.eliminar_estado, name='eliminar_estado'),
+    #mantenedores ubicacion
+    path('mantenedor_ubicacion/', views.mantenedor_ubicacion, name='mantenedor_ubicacion'),
+    path('editar_ubicacion/<int:ubicacion_pk>/', views.editar_ubicacion, name='editar_ubicacion'),
+    path('registrar_ubicacion/', views.registrar_ubicacion, name='registrar_ubicacion'),
+    # path('eliminar_ubicacion/<int:ubicacion_pk>', views.eliminar_ubicacion, name='eliminar_ubicacion'),
+    #mantenedores uom
+    path('mantenedor_uom/', views.mantenedor_uom, name='mantenedor_uom'),
+    path('editar_uom/<int:uom_pk>/', views.editar_uom, name='editar_uom'),
+    path('registrar_uom/', views.registrar_uom, name='registrar_uom'),
+    # path('eliminar_uom/<int:uom_pk>', views.eliminar_uom, name='eliminar_uom'),
+    #mantenedores owner
+    path('mantenedor_owner/', views.mantenedor_owner, name='mantenedor_owner'),
+    path('editar_owner/<int:owner_pk>/', views.editar_owner, name='editar_owner'),
+    path('registrar_owner/', views.registrar_owner, name='registrar_owner'),
+    # path('eliminar_owner/<int:owner_pk>', views.eliminar_owner, name='eliminar_owner'),
+    #mantenedores ficha
+    path('mantenedor_ficha/', views.mantenedor_ficha, name='mantenedor_ficha'),
+    path('editar_ficha/<int:ficha_pk>/', views.editar_ficha, name='editar_ficha'),
+    path('registrar_ficha/', views.registrar_ficha, name='registrar_ficha'),
+    # path('eliminar_ficha/<int:ficha_pk>', views.eliminar_ficha, name='eliminar_ficha'),
+    #mantenedores condition
+    path('mantenedor_condition/', views.mantenedor_condition, name='mantenedor_condition'),
+    path('editar_condition/<int:condicion_pk>/', views.editar_condition, name='editar_condition'),
+    path('registrar_condition/', views.registrar_condition, name='registrar_condition'),
+    # path('eliminar_condition/<int:condicion_pk>', views.eliminar_condition, name='eliminar_condition'),
+    #mantenedores bodega
+    path('mantenedor_bodega/', views.mantenedor_bodega, name='mantenedor_bodega'),
+    path('editar_bodega/<int:bodega_pk>/', views.editar_bodega, name='editar_bodega'),
+    path('registrar_bodega/', views.registrar_bodega, name='registrar_bodega'),
+    # path('eliminar_bodega/<int:bodega_pk>', views.eliminar_bodega, name='eliminar_bodega'),
+    #mantenedores origen
+    path('mantenedor_origen/', views.mantenedor_origen, name='mantenedor_origen'),
+    path('editar_origen/<int:origen_pk>/', views.editar_origen, name='editar_origen'),
+    path('registrar_origen/', views.registrar_origen, name='registrar_origen'),
+    # path('eliminar_origen/<int:origen_pk>', views.eliminar_origen, name='eliminar_origen'),
+    #mantenedores cargo
+    path('mantenedor_cargo/', views.mantenedor_cargo, name='mantenedor_cargo'),
+    path('editar_cargo/<int:id>/', views.editar_cargo, name='editar_cargo'),
+    path('registrar_cargo/', views.registrar_cargo, name='registrar_cargo'),
+    # path('eliminar_cargo/<int:id>', views.eliminar_cargo, name='eliminar_cargo'),
+    #mantenedores clasificacion
+    path('mantenedor_clasificacion/', views.mantenedor_clasificacion, name='mantenedor_clasificacion'),
+    path('editar_clasificacion/<int:clasificacion_pk>/', views.editar_clasificacion, name='editar_clasificacion'),
+    path('registrar_clasificacion/', views.registrar_clasificacion, name='registrar_clasificacion'),
+    # path('eliminar_clasificacion/<int:clasificacion_pk>', views.eliminar_clasificacion, name='eliminar_clasificacion'),
+    #mantenedores consumidor
+    path('mantenedor_consumidor/', views.mantenedor_consumidor, name='mantenedor_consumidor'),
+    path('editar_consumidor/<int:id>/', views.editar_consumidor, name='editar_consumidor'),
+    path('registrar_consumidor/', views.registrar_consumidor, name='registrar_consumidor'),
+    # path('eliminar_consumidor/<int:id>', views.eliminar_consumidor, name='eliminar_consumidor'),
+    #mantenedores compañia
+    path('mantenedor_compañia/', views.mantenedor_compañia, name='mantenedor_compañia'),
+    path('editar_compañia/<int:cod_compañia>/', views.editar_compañia, name='editar_compañia'),
+    path('registrar_compañia/', views.registrar_compañia, name='registrar_compañia'),
+    # path('eliminar_compañia/<int:cod_compañia>', views.eliminar_compañia, name='eliminar_compañia'),
+    #mantenedores estado_repuesto
+    path('mantenedor_estado_repuesto/', views.mantenedor_estado_repuesto, name='mantenedor_estado_repuesto'),
+    path('editar_estado_repuesto/<int:id>/', views.editar_estado_repuesto, name='editar_estado_repuesto'),
+    path('registrar_estado_repuesto/', views.registrar_estado_repuesto, name='registrar_estado_repuesto'),
+    # path('eliminar_estado_repuesto/<int:id>', views.eliminar_estado_repuesto, name='eliminar_estado_repuesto'),
+
 
 ]

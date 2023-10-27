@@ -2,30 +2,30 @@
 
 {% block body %}
 <div class="container">
-    <h1>Mantenedor Estado</h1>
+    <h1>Mantenedor Ubicación</h1>
     <div class="mantenedor">
       <div class="table-responsive">
           <table class="table table-striped">
               <thead>
                   <tr>
-                      <th scope="col">Nombre Estado</th>
+                      <th scope="col">Ubicación</th>
                       <th scope="col">Acciones</th>
                   </tr>
               </thead>
               <tbody>
-                  {% for estado in get_estado %}
+                  {% for ubicacion in get_ubicacion %}
                   <tr class="">
-                      <td>{{estado.estado}}</td>
+                      <td>{{ubicacion.name_ubicacion}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_estado/{{estado.estado_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" href="/eliminar_estado/{{estado.estado_pk}}" role="button">Eliminar</a>
+                          <a name="" id="" class="btn btn-primary" href="/editar_ubicacion/{{ubicacion.ubicacion_pk}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="/eliminar_ubicacion/{{ubicacion.ubicacion_pk}}" role="button">Eliminar</a>
                       </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
-            <a name="" id="" class="btn btn-primary" href="/registrar_estado/" role="button">Añadir Estado</a>
+            <a name="" id="" class="btn btn-primary" href="/registrar_ubicacion/" role="button">Añadir Ubicación</a>
           </div>
       </div>
     </div>

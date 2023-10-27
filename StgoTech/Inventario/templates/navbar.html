@@ -30,7 +30,7 @@
             <a href="{% url 'login' %}">Iniciar Sesión</a>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
+            <a class="nav-link active" aria-current="page" href="/dashboard">Inicio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/comat">Comat</a>
@@ -42,20 +42,12 @@
             <a class="nav-link" href="/consumos">Consumos</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/mantenedores">Mantenedores</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/admin">Administración</a>
           </li>
         </ul>
-        <div class="dropdown">
-          <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Mantenedores
-          </a>
-        
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/mantenedor_categoria_incoming">Tabla Categoria Incoming</a></li>
-            <li><a class="dropdown-item" href="/mantenedor_estado">Tabla Estado</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </div>
         </div>
       </div>
     </div>

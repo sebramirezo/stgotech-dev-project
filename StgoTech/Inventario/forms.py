@@ -104,7 +104,7 @@ class IncomingForm(ModelForm):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 class ConsumosForm(ModelForm):
-
+    # consumo_pk = forms.IntegerField(widget=forms.NumberInput())
     qty_extraida = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Cantidad Extraida"}),label='Cantidad Extraida')
     matricula_aeronave = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Matricula"}),label='Matricula Aeronave')
     observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=False)
@@ -116,28 +116,31 @@ class ConsumosForm(ModelForm):
     class Meta:
         model = Consumos
         fields = [
-        'incoming_fk',
-        'qty_extraida',
-        'matricula_aeronave',
-        'f_transaccion',
-        'consumidor_fk',
-        'observaciones',
+            'incoming_fk',
+            'qty_extraida',
+            'matricula_aeronave',
+            'f_transaccion',
+            'consumidor_fk',
+            'observaciones',
         ]
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 class CategoriaForm(ModelForm):
+    name_categoria = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Nueva Categoria"}),label='')
 
     class Meta:
         model = Categotia_incoming
         fields = '__all__'
 
 class EstadoForm(ModelForm):
+    estado = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Nuevo Estado"}),label='')
 
     class Meta:
         model = Estado
         fields = '__all__'
 
 class UbicacionForm(ModelForm):
+    name_ubicacion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa la Ubicación"}),label='')
 
     class Meta:
         model = Ubicacion
@@ -183,6 +186,36 @@ class OrigenForm(ModelForm):
 
     class Meta:
         model = Origen
+        fields = '__all__'
+
+class CargoForm(ModelForm):
+
+    class Meta:
+        model = Cargo
+        fields = '__all__'
+
+class ClasificacionForm(ModelForm):
+
+    class Meta:
+        model = Clasificacion
+        fields = '__all__'
+
+class ConsumidorForm(ModelForm):
+
+    class Meta:
+        model = Consumidor
+        fields = '__all__'
+
+class EstadoRepuestoForm(ModelForm):
+
+    class Meta:
+        model = Estado_Repuesto
+        fields = '__all__'
+
+class CompañiaForm(ModelForm):
+
+    class Meta:
+        model = Compañia
         fields = '__all__'
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #

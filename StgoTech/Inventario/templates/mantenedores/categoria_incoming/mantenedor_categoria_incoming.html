@@ -8,7 +8,6 @@
           <table class="table table-striped">
               <thead>
                   <tr>
-                      <th scope="col">Código</th>
                       <th scope="col">Nombre Categoria</th>
                       <th scope="col">Acciones</th>
                   </tr>
@@ -16,7 +15,6 @@
               <tbody>
                   {% for categoria in get_categoria_incoming %}
                   <tr class="">
-                      <td scope="row">{{categoria.categoria_pk}}</td>
                       <td>{{categoria.name_categoria}}</td>
                       <td>
                           <a name="" id="" class="btn btn-primary" href="/editar_categoria_incoming/{{categoria.categoria_pk}}" role="button">Editar</a>

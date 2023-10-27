@@ -19,7 +19,6 @@ class Consumidor(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     nombre = models.CharField(blank=True, null=True, max_length=50)
     apellido = models.CharField(blank=True, null=True, max_length=50)
-    nombre_completo = models.CharField(blank=True, null=True, max_length=50)
     email = models.CharField(blank=True , null=True , max_length=50)
     cargo  = models.ForeignKey(Cargo, on_delete=models.SET_NULL , null=True , blank=True)
 
@@ -28,13 +27,13 @@ class Consumidor(models.Model):
     
     def __str__(self):
 
-        return self.nombre_completo
+        return self.nombre + ' ' + self.apellido
 
 # Create your models here.
 #TABLA CATEGORIA INCOMING
 class Categotia_incoming(models.Model):
     categoria_pk = models.AutoField(primary_key=True, unique=True)   
-    name_categoria = models.CharField(choices=CATEGORIA_INCOMING , blank=True , null=True, max_length=50)
+    name_categoria = models.CharField(blank=True , null=True, max_length=50)
 
     class Meta:
         db_table = "categoria_incoming"
@@ -46,7 +45,7 @@ class Categotia_incoming(models.Model):
 #TABLA ESTADO  
 class Estado(models.Model):
     estado_pk = models.AutoField(primary_key=True, unique=True)
-    estado = models.CharField(choices=ABONA_CANCELA, blank=True, null=True, max_length=50)
+    estado = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "estado"
@@ -58,7 +57,7 @@ class Estado(models.Model):
 #TABLA UBICACION
 class Ubicacion(models.Model):
     ubicacion_pk = models.AutoField(primary_key=True, unique= True)
-    name_ubicacion = models.CharField(choices=UBICACIONES ,blank=True, null=True, max_length=50)
+    name_ubicacion = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "ubicacion"

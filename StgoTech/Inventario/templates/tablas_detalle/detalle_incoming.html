@@ -16,6 +16,10 @@
                 <td class="col-sm-8"><a href="{% url 'exportar_excel_incoming' sn_batch_pk=detalle_incoming.sn_batch_pk %}">Detalle Incoming</a></td>
             </tr>
             <tr>
+                <th class="col-sm-4">Editar Incoming Inspection Form</th></th>
+                <td class="col-sm-8"><a href="{% url 'editar_detalle_incoming_form' sn_batch_pk=detalle_incoming.sn_batch_pk %}">Editar Incoming Forms</a></td>
+            </tr>
+            <tr>
                 <th class="col-sm-4">Serial / Batch Number:</th>
                 <td class="col-sm-8">{{detalle_incoming.sn_batch_pk}}</td>
             </tr>

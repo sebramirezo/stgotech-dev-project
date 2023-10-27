@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container">
+    <h1>Mantenedor Clasificación</h1>
+    <div class="mantenedor">
+      <div class="table-responsive">
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th scope="col">Nombre Clasificación</th>
+                      <th scope="col">Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for clasificacion in get_clasificacion %}
+                  <tr class="">
+                      <td>{{clasificacion.name_clasificacion}}</td>
+                      <td>
+                          <a name="" id="" class="btn btn-primary" href="/editar_clasificacion/{{clasificacion.clasificacion_pk}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="/eliminar_clasificacion/{{clasificacion.clasificacion_pk}}" role="button">Eliminar</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <div class="container">
+            <a name="" id="" class="btn btn-primary" href="/registrar_clasificacion/" role="button">Añadir Clasificación</a>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
