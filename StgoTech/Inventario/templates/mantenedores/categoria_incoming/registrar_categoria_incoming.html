@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container m-2">
+    <h5>Formulario de Categoria</h5>
+    <form id="formulario_categoria" action="" method="post">
+        {% csrf_token %}
+        <div class="row p-2">
+            {% for categoria in form_reg_categoria %}
+            <div class="col-6 p-2">
+                <label>{{categoria.label}}</label>
+                {{categoria}}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends "./base.html" %}
+{% extends "base.html" %}
 
 {% block body %}
   <h1>Resultados de la búsqueda</h1>
@@ -7,7 +7,7 @@
   <p>Resultados para: "{{ query_inicio }}"</p>
   {% endif %}
   <div class="container">
-    {% include 'mostrar_inicio.html' %}
+    {% include 'datatables/mostrar_inicio.html' %}
   </div>
 
 

@@ -1,37 +1,34 @@
-{% extends "./base.html" %}
+{% extends "base.html" %}
 
 {% block body %}
-
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h5>Buscador STDF</h5>
-            <form action="{% url 'buscar_stdf' %}" method="GET">
-                <input class="form-control" type="text" name="c" placeholder="Ingrese STDF, AWB O HAWB">
+            <h5>Buscador Serial Number</h5>
+            <form action="{% url 'buscar_productos_consumos' %}" method="GET">
+                <input class="form-control" type="text" name="t" placeholder="Ingrese Serial Number">
                 <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
             </form>
         </div>
-        
     </div>
 </div>
-<hr>
+<hr> 
 <div class="container m-2">
-    <h5>Formulario de Comat</h5>
-    <form id="formulario_comat" action="" method="post" autocomplete="off">
+    <h5>Formulario de Consumos</h5>
+    <form action="" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="row p-2">
-            {% for comat in form_comat %}
+            {% for consumo in form_consumos %}
             <div class="col-4 p-2">
-                <label>{{comat.label}}</label>
-                {{comat}}
+                <label>{{consumo.label}}</label>
+                {{consumo}}
             </div>
             {% endfor %}
         </div>
-
-    </div>
-    <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
-
+        <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
+    </form>
 </div>
+
 
 <style>
 
@@ -60,6 +57,5 @@ label {
 
 
 </style>
-
-
+    
 {% endblock %}
