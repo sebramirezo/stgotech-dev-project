@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.db.models import Count
 from django.db import connection
+from .imprimir_excel import *
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 # Vistas relacionadas al inicio y cierre de sesión
@@ -319,7 +320,7 @@ def obtener_datos_incoming(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def detalle_incoming(request, sn_batch_pk):
-    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)    
+    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)   
     return render(request,'tablas_detalle/detalle_incoming.html' , {'detalle_incoming':detalle_incoming})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
@@ -709,3 +710,4 @@ def estadostdf(request):
         cursor.execute('CALL abona_cancela()')
     
     return redirect('/dashboard')
+

@@ -29,6 +29,8 @@ urlpatterns = [
     path('exportar_excel_incoming/<str:sn_batch_pk>/', exportar_excel.exportar_excel_incoming, name='exportar_excel_incoming'),
     path('detalle_form/', views.detalle_form, name='detalle_form'),
     path('imprimir_excel_incoming/<str:sn_batch_pk>/', imprimir_excel.imprimir_excel_incoming, name='imprimir_excel_incoming'),
+    path('seleccionarimpresora/<str:sn_batch_pk>/', views.seleccionarimpresora, name='seleccionarimpresora'),
+
     # path('impresoras/', imprimir_excel.impresoras, name='impresoras'),
     path('estadostdf/', views.estadostdf, name='estadostdf'),
     #mantenedores comat
@@ -45,5 +47,6 @@ urlpatterns = [
     path('editar_categoria_incoming/<int:categoria_pk>/', views.editar_categoria_incoming, name='editar_categoria_incoming'),
     path('registrar_categoria_incoming/', views.registrar_categoria_incoming, name='registrar_categoria_incoming'),
     path('eliminar_categoria_incoming/<int:categoria_pk>', views.eliminar_categoria_incoming, name='eliminar_categoria_incoming'),
+    
 
 ]
