@@ -314,3 +314,11 @@ class DetalleForm(ModelForm):
             'item22',
             'n_item22',
         ]
+
+class ImpresoraForm(forms.Form):
+    nombre_impresora = forms.ChoiceField(label="Selecciona una impresora", choices=[])
+
+    def __init__(self, *args, **kwargs):
+        impresoras = kwargs.pop('impresoras', [])
+        super(ImpresoraForm, self).__init__(*args, **kwargs)
+        self.fields['nombre_impresora'].choices = [(impresora, impresora) for impresora in impresoras]

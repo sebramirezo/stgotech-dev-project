@@ -29,6 +29,8 @@ urlpatterns = [
     path('exportar_excel_incoming/<str:sn_batch_pk>/', exportar_excel.exportar_excel_incoming, name='exportar_excel_incoming'),
     path('detalle_form/', views.detalle_form, name='detalle_form'),
     path('imprimir_excel_incoming/<str:sn_batch_pk>/', imprimir_excel.imprimir_excel_incoming, name='imprimir_excel_incoming'),
+    path('seleccionarimpresora/<str:sn_batch_pk>/', views.seleccionarimpresora, name='seleccionarimpresora'),
+
     # path('impresoras/', imprimir_excel.impresoras, name='impresoras'),
     path('estadostdf/', views.estadostdf, name='estadostdf'),
     #mantenedores all
@@ -50,6 +52,7 @@ urlpatterns = [
     path('editar_categoria_incoming/<int:categoria_pk>/', views.editar_categoria_incoming, name='editar_categoria_incoming'),
     path('registrar_categoria_incoming/', views.registrar_categoria_incoming, name='registrar_categoria_incoming'),
     path('eliminar_categoria_incoming/<int:categoria_pk>', views.eliminar_categoria_incoming, name='eliminar_categoria_incoming'),
+
     #mantenedores estado
     path('mantenedor_estado/', views.mantenedor_estado, name='mantenedor_estado'),
     path('editar_estado/<int:estado_pk>/', views.editar_estado, name='editar_estado'),
@@ -115,5 +118,6 @@ urlpatterns = [
     path('editar_estado_repuesto/<int:id>/', views.editar_estado_repuesto, name='editar_estado_repuesto'),
     path('registrar_estado_repuesto/', views.registrar_estado_repuesto, name='registrar_estado_repuesto'),
     # path('eliminar_estado_repuesto/<int:id>', views.eliminar_estado_repuesto, name='eliminar_estado_repuesto'),
+
 
 ]
