@@ -45,7 +45,7 @@ class Categotia_incoming(models.Model):
 #TABLA ESTADO  
 class Estado(models.Model):
     estado_pk = models.AutoField(primary_key=True, unique=True)
-    estado = models.CharField(blank=True, null=True, max_length=50)
+    estado = models.CharField(choices=ABONA_CANCELA,blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "estado"
@@ -57,7 +57,7 @@ class Estado(models.Model):
 #TABLA UBICACION
 class Ubicacion(models.Model):
     ubicacion_pk = models.AutoField(primary_key=True, unique= True)
-    name_ubicacion = models.CharField(blank=True, null=True, max_length=50)
+    name_ubicacion = models.CharField(choices=UBICACIONES,blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "ubicacion"
@@ -230,6 +230,16 @@ class Estado_Repuesto(models.Model):
     
     def __str__(self):
         return self.name_estado
+    
+class Licencia(models.Model):
+    id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] ) 
+    name_licencia = models.CharField(choices=LICENCIA, blank=True, null=True, max_length=50)
+
+    class Meta:
+        db_table = "licencia"
+    
+    def __str__(self):
+        return self.name_licencia
 
 
 class Detalle_Incoming(models.Model):
@@ -244,7 +254,6 @@ class Detalle_Incoming(models.Model):
     ro_n = models.CharField(blank=True, null=True, max_length=50)
     wo_n = models.CharField(blank=True, null=True, max_length=50)
     aceptado = models.CharField(blank=True, null=True, max_length=50)
-    licencia = models.CharField(blank=True, null=True, max_length=50)
     item1 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
     item2 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
     item3 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
@@ -278,6 +287,7 @@ class Detalle_Incoming(models.Model):
     n_item22 = models.IntegerField(blank=True, null=True)
     estado_repuesto_fk = models.ForeignKey(Estado_Repuesto, on_delete=models.SET_NULL , null=True , blank=True)
     incoming_fk = models.OneToOneField(Incoming, on_delete=models.SET_NULL , null=True , blank=True)
+    licencia = models.ForeignKey(Licencia, on_delete=models.SET_NULL , null=True , blank=True)
 
     class Meta:
         db_table = "detalle"

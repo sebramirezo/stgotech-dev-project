@@ -160,7 +160,9 @@ def imprimir_excel_incoming(request, sn_batch_pk):
         ws.merge_cells('M13:O13')
         ws['M13']  = 'Calibración'
 
-        if detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
+        if detallesform.estado_repuesto_fk is None: 
+            ws['L13'] = ""
+        elif detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
             ws['D13'] = "X"
         elif detallesform.estado_repuesto_fk.id == 2:#REPARADO
             ws['D15'] = "X"
@@ -174,8 +176,7 @@ def imprimir_excel_incoming(request, sn_batch_pk):
             ws['P13'] = "X"
         elif detallesform.estado_repuesto_fk.id == 7:#OTRO
             ws['L13'] = "X"
-        else: 
-            ws['L13'] = ""
+        
         
 
 
@@ -588,10 +589,10 @@ def imprimir_excel_incoming(request, sn_batch_pk):
 
         ws.merge_cells('M65:Y65')
 
-        if detallesform.aceptado == 0:
-            ws['K65'] = 'X'
-        elif detallesform.aceptado == 1:
+        if detallesform.aceptado == 'SI':
             ws['G65'] = 'X'
+        elif detallesform.aceptado == 'NO':
+            ws['K65'] = 'X'
 
 
         ws.merge_cells('A67:H67')
@@ -599,13 +600,14 @@ def imprimir_excel_incoming(request, sn_batch_pk):
 
         ws.merge_cells('I67:P67')
         ws['I67'] = 'N° Licencia'
-        ws['I69'] = detallesform.licencia
+        ws['I69'] = detallesform.licencia.name_licencia
 
         ws.merge_cells('Q67:Y67')
         ws['Q67'] = 'Firma'
 
         ws.merge_cells('A69:H71')
-        ws['A69'] = datos.usuario.username
+        nombre_completo = f"{datos.usuario.first_name} {datos.usuario.last_name}"
+        ws['A69'] = nombre_completo
         
         ws.merge_cells('I69:P71')
 
