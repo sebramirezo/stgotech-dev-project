@@ -33,7 +33,7 @@ class Consumidor(models.Model):
 #TABLA CATEGORIA INCOMING
 class Categotia_incoming(models.Model):
     categoria_pk = models.AutoField(primary_key=True, unique=True)   
-    name_categoria = models.CharField(blank=True , null=True, max_length=50)
+    name_categoria = models.CharField(choices=CATEGORIA_INCOMING, blank=True , null=True, max_length=50)
 
     class Meta:
         db_table = "categoria_incoming"
@@ -277,7 +277,7 @@ class Detalle_Incoming(models.Model):
     item22 = models.CharField(choices=ITEMS, blank=True, null=True, max_length=50)
     n_item22 = models.IntegerField(blank=True, null=True)
     estado_repuesto_fk = models.ForeignKey(Estado_Repuesto, on_delete=models.SET_NULL , null=True , blank=True)
-    incoming_fk = models.ForeignKey(Incoming, on_delete=models.SET_NULL , null=True , blank=True)
+    incoming_fk = models.OneToOneField(Incoming, on_delete=models.SET_NULL , null=True , blank=True)
 
     class Meta:
         db_table = "detalle"
