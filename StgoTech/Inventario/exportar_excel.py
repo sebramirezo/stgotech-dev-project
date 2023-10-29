@@ -149,7 +149,9 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.merge_cells('M13:O13')
     ws['M13']  = 'Calibración'
 
-    if detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
+    if detallesform.estado_repuesto_fk is None: 
+        ws['L13'] = ""
+    elif detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
         ws['D13'] = "X"
     elif detallesform.estado_repuesto_fk.id == 2:#REPARADO
         ws['D15'] = "X"
@@ -163,8 +165,7 @@ def exportar_excel_incoming(request, sn_batch_pk):
         ws['P13'] = "X"
     elif detallesform.estado_repuesto_fk.id == 7:#OTRO
         ws['L13'] = "X"
-    else: 
-        ws['L13'] = ""
+    
     
 
 

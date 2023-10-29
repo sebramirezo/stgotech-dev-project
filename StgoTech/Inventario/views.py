@@ -468,7 +468,6 @@ def detalle_inicio(request, stdf_pk):
     for consumos_obj in consumos_objects_paginated:
         consumos_data_list.append({
                 "incoming_fk":consumos_obj.incoming_fk.sn_batch_pk,
-                "orden_consumo":consumos_obj.orden_consumo,
                 "f_transaccion":consumos_obj.f_transaccion,
                 "qty_extraida":consumos_obj.qty_extraida,
                 "matricula_aeronave":consumos_obj.matricula_aeronave,
@@ -531,7 +530,7 @@ def detalle_form(request):
             modelo1 = Detalle_Incoming(**datos_form1)
             modelo1.save()
 
-            return redirect('/incoming')
+            return redirect(f'/detalle_incoming/{form1.cleaned_data["incoming_fk"]}/')
 
     return render(request, 'tablas_detalle/detalle_incomingforms.html', {'form1': form1})
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
