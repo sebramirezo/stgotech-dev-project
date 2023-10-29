@@ -231,7 +231,6 @@ class DetalleForm(ModelForm):
     ro_n = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "RO N°"}),label='RO N°', required=False)
     wo_n = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "WO N°"}),label='WO N°', required=False)
     aceptado = forms.CharField(widget=forms.Select(choices=ACEPTADO, attrs={"class":"form-control reducido",}),label='¿Aceptado?', required=False)
-    licencia = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "N° Licencia"}),label='N° Licencia', required=False)
     item1 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class":"form-control reducido",}), label='1) Producto conforme a lo indicado en la lista de Embarque (Packing List)', required=False)
     item2 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class":"form-control reducido",}), label='2) Factura del Proveedor conforme a la orden de compra o solicitud de trabajo (Invoice)', required=False)
     item3 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class":"form-control reducido",}),label='3) Cartilla/Orden de Trabajo, Cartilla de prueba, Si corresponde, del taller que repara', required=False)
@@ -265,7 +264,7 @@ class DetalleForm(ModelForm):
     n_item22 = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control reducido",}),label='22.5) N° de Catilla Mantencion CMA Autorizado', required=False)
     estado_repuesto_fk = forms.ModelChoiceField(queryset=Estado_Repuesto.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el Estado del Repuesto"}), label='Estado del Repuesto', required=False)
     incoming_fk = forms.ModelChoiceField(queryset=Incoming.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el SN O BN"}), label='Serial Number o Batch Number')
-    
+    licencia = forms.ModelChoiceField(queryset=Licencia.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Licencia"}), label='Licencia')
     class Meta:
         model = Detalle_Incoming
         fields = [
