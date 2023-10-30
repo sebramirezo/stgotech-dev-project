@@ -321,3 +321,9 @@ class ImpresoraForm(forms.Form):
         impresoras = kwargs.pop('impresoras', [])
         super(ImpresoraForm, self).__init__(*args, **kwargs)
         self.fields['nombre_impresora'].choices = [(impresora, impresora) for impresora in impresoras]
+
+
+class OrdenConsumoForm(forms.Form):
+    fechainicio = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+    fechatermino = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+    

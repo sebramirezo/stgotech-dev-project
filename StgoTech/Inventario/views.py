@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from django.db.models import Count
 from django.db import connection
 from .imprimir_excel import *
+from Inventario.forms import OrdenConsumoForm
+
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 # Vistas relacionadas al inicio y cierre de sesión
@@ -1287,3 +1289,47 @@ def estadostdf(request):
     
     return redirect('/dashboard')
 
+
+
+def orden_consumo(request):
+    if request.method == 'POST':
+        form = OrdenConsumoForm(request.POST)
+        if form.is_valid():
+            # Procesar las fechas ingresadas, por ejemplo, guardar en la base de datos o realizar cálculos
+            fechainicio = form.cleaned_data['fechainicio']
+            fechatermino = form.cleaned_data['fechatermino']
+            # Agregar aquí la lógica de procesamiento
+
+            consumos = Consumos.objects.filter(f_transaccion__range=(fechainicio,fechatermino))
+
+            wk = openpyxl.Workbook()
+            ws = wk.active
+
+            # Agregar encabezados
+            ws['A1'] = 'Fecha de Transacción'
+            ws['A2'] = 'Descripcion'
+            ws['A3'] = 'STDF'
+            ws['A4'] = 'Cancela o Abona'
+            # Agregar otros encabezados según tus campos
+
+            # Agregar datos de consumos
+            row = 2
+            for consumo in consumos:
+                ws.cell(row=row, column=1, value=consumo.f_transaccion)
+                ws.cell(row=row, column=2, value=consumo.incoming_fk.descripcion)
+                ws.cell(row=row, column=3, value=consumo.incoming_fk.stdf_fk)
+                ws.cell(row=row, column=4, value=consumo.incoming_fk.stdf_fk.estado_fk)
+                # Agregar otros campos de consumo según tus campos
+                row += 1
+
+            # Guardar el archivo Excel en la memoria
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="consumos.xlsx"'
+            wk.save(response)
+
+            return response
+
+    else:
+        form = OrdenConsumoForm()
+
+    return render(request, 'orden_consumo.html', {'form': form})

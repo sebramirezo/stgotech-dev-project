@@ -30,7 +30,7 @@ urlpatterns = [
     path('detalle_form/', views.detalle_form, name='detalle_form'),
     path('imprimir_excel_incoming/<str:sn_batch_pk>/', imprimir_excel.imprimir_excel_incoming, name='imprimir_excel_incoming'),
     path('seleccionarimpresora/<str:sn_batch_pk>/', views.seleccionarimpresora, name='seleccionarimpresora'),
-
+    path('orden_consumo/', views.orden_consumo, name='orden_consumo'),
     # path('impresoras/', imprimir_excel.impresoras, name='impresoras'),
     path('estadostdf/', views.estadostdf, name='estadostdf'),
     #mantenedores all
