@@ -321,3 +321,12 @@ class ImpresoraForm(forms.Form):
         impresoras = kwargs.pop('impresoras', [])
         super(ImpresoraForm, self).__init__(*args, **kwargs)
         self.fields['nombre_impresora'].choices = [(impresora, impresora) for impresora in impresoras]
+
+
+class OrdenConsumoForm(forms.Form):
+    fechainicio = forms.DateField(widget=forms.DateInput(attrs={"class": "form-control reducido", 'type':'date'}),label='Fecha de Inicio',required=True)
+    fechatermino = forms.DateField(widget=forms.DateInput(attrs={'type':'date',"class": "form-control reducido"}), label='Fecha de Termino',required=True)
+    compania = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control reducido"}),label='Compañía que Presenta',required=True)
+    aduana = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Aduana de Presentacion', required=True)
+    resolucion_habilitacion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Resolucion de Habilitacion', required=True)
+    orden_consumo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Orden de Consumos', required=True)

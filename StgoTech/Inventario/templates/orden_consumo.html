@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<H5>Generar Orden de Consumo</H5>
+<form method="post" autocomplete="off">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+</form>
+
+
+
+
+
+{% endblock %}
