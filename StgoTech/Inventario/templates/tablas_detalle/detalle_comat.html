@@ -20,6 +20,10 @@
                     <td>{{detalle_comat.stdf_pk}}</td>
                 </tr>
                 <tr class="">
+                    <td scope="row"><b>ESTADO STDF</b></td>
+                    <td>{{detalle_comat.estado_fk}}</td>
+                </tr>
+                <tr class="">
                     <td scope="row"><b>AWB</b></td>
                     <td>{{detalle_comat.awb}}</td>
                 </tr>
@@ -84,9 +88,19 @@
                     <td>{{detalle_comat.origen_fk}}</td>
                 </tr>
                 <tr class="">
+                    <td scope="row"><b>USUARIO DE INGRESO</b></td>
+                    <td>{{detalle_comat.usuario}}</td>
+                </tr>
+                <tr class="">
+                    <td scope="row"><b>PERTENECE A</b></td>
+                    <td>{{detalle_comat.compania_fk}}</td>
+                </tr>
+                <tr class="">
                     <td scope="row"><b>OBSERVACIONES</b></td>
                     <td>{{detalle_comat.observaciones}}</td>
                 </tr>
+                
+               
             </tbody>
         </table>
         <a name="" id="" style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" href="/editar_comat/{{detalle_comat.stdf_pk}}" role="button">Editar</a>

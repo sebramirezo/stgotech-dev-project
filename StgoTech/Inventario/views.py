@@ -322,8 +322,11 @@ def obtener_datos_incoming(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def detalle_incoming(request, sn_batch_pk):
-    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)   
-    return render(request,'tablas_detalle/detalle_incoming.html' , {'detalle_incoming':detalle_incoming})
+    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)
+    return render(request, 'tablas_detalle/detalle_incoming.html', {'detalle_incoming': detalle_incoming})
+
+
+
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #VISTA DE CONSUMO QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA VISTA DE CONSUMOS
