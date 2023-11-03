@@ -316,12 +316,16 @@ class DetalleForm(ModelForm):
 
 class ImpresoraForm(forms.Form):
     nombre_impresora = forms.ChoiceField(label="Selecciona una impresora", choices=[])
+    cantidad_hojas = forms.IntegerField(
+        label="Cantidad de hojas",
+        min_value=1,
+        initial=1  # Valor inicial predeterminado
+    )
 
     def __init__(self, *args, **kwargs):
         impresoras = kwargs.pop('impresoras', [])
         super(ImpresoraForm, self).__init__(*args, **kwargs)
         self.fields['nombre_impresora'].choices = [(impresora, impresora) for impresora in impresoras]
-
 
 class OrdenConsumoForm(forms.Form):
     fechainicio = forms.DateField(widget=forms.DateInput(attrs={"class": "form-control reducido", 'type':'date'}),label='Fecha de Inicio',required=True)

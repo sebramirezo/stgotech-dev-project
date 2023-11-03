@@ -2,6 +2,29 @@
 
 {% block body %}
 
+{% block js %}
+<script>
+    function destroy(stdf_pk) {
+        Swal.fire({
+            "title": "¿Estas Seguro?",
+            "text": "Esta opcion no se puede deshacer y eliminara los Incomings y Consumos relacionados.",
+            "icon": "warning",
+            "showCancelButton": true,
+            "cancelButtonText": "Cancelar",
+            "confirmButtonText": "Si, Eliminar",
+            "reverseButtons": true,
+            "confirmButtonColor": "red"
+        })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/eliminar_comat/" + stdf_pk
+                }
+            })
+
+    }
+
+</script>
+{% endblock %}
 
 <!-- Detalle Comat Estilo Tabla -->
 <div class="container">
@@ -103,8 +126,8 @@
                
             </tbody>
         </table>
-        <a name="" id="" style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" href="/editar_comat/{{detalle_comat.stdf_pk}}" role="button">Editar</a>
-        <a name="" id="" style="background-image: linear-gradient(135deg, rgb(246, 61, 61) 0%, rgb(191, 22, 22) 100%); color: #f1f8fe;" class="btn" href="/eliminar_comat/{{detalle_comat.stdf_pk}}" role="button">Eliminar</a>
+        <a name="" id="" style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" href="/editar_comat/{{detalle_comat.stdf_pk}}"  role="button">Editar</a>
+        <a name="" id="" style="background-image: linear-gradient(135deg, rgb(246, 61, 61) 0%, rgb(191, 22, 22) 100%); color: #f1f8fe;" class="btn" onclick="destroy({{detalle_comat.stdf_pk}})" href="#" role="button">Eliminar</a>
     </div>
 </div>
   
