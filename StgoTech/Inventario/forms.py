@@ -29,7 +29,7 @@ class ComatForm(ModelForm):
     prioridad = forms.ChoiceField(choices=Prioridad,widget=forms.Select(attrs={"class":"form-control reducido", "placeholder": "Ingresa la Prioridad"}),label='Prioridad',required=True) 
     bodega_fk = forms.ModelChoiceField(queryset=Bodega.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa la Bodega"}), label='Bodega')
     origen_fk = forms.ModelChoiceField(queryset=Origen.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el Origen"}), label='Origen')
-    compañia_fk = forms.ModelChoiceField(queryset=Compañia.objects.all(),widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el Compañia"}), label='Compañia')
+    compania_fk = forms.ModelChoiceField(queryset=Compania.objects.all(),widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el Compañia"}), label='Compañia')
     
     class Meta:
         model = Comat
@@ -49,7 +49,7 @@ class ComatForm(ModelForm):
         'flete',
         'seguro',
         'prioridad',
-        'compañia_fk',
+        'compania_fk',
         'bodega_fk',
         'origen_fk',
         'observaciones',
@@ -212,10 +212,10 @@ class EstadoRepuestoForm(ModelForm):
         model = Estado_Repuesto
         fields = '__all__'
 
-class CompañiaForm(ModelForm):
+class CompaniaForm(ModelForm):
 
     class Meta:
-        model = Compañia
+        model = Compania
         fields = '__all__'
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
@@ -326,7 +326,8 @@ class ImpresoraForm(forms.Form):
 class OrdenConsumoForm(forms.Form):
     fechainicio = forms.DateField(widget=forms.DateInput(attrs={"class": "form-control reducido", 'type':'date'}),label='Fecha de Inicio',required=True)
     fechatermino = forms.DateField(widget=forms.DateInput(attrs={'type':'date',"class": "form-control reducido"}), label='Fecha de Termino',required=True)
-    compania = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control reducido"}),label='Compañía que Presenta',required=True)
+    compania = forms.ChoiceField(choices=COMPANIA,widget=forms.Select(attrs={"class": "form-control reducido"}),label='Compañía que Presenta',required=True)
     aduana = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Aduana de Presentacion', required=True)
     resolucion_habilitacion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Resolucion de Habilitacion', required=True)
     orden_consumo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Orden de Consumos', required=True)
+    

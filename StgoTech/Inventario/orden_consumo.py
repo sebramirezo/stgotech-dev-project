@@ -24,7 +24,16 @@ def orden_consumos(request):
             fechatermino = form.cleaned_data['fechatermino']
             # Agregar aquí la lógica de procesamiento
 
-            consumos = Consumos.objects.filter(f_transaccion__range=(fechainicio,fechatermino))
+            compania = form.cleaned_data['compania']
+            aduana = form.cleaned_data['aduana']
+            resolucion_habilitacion = form.cleaned_data['resolucion_habilitacion']
+            orden_consumo = form.cleaned_data['orden_consumo']
+
+            consumos = Consumos.objects.filter(f_transaccion__range=(fechainicio,fechatermino),incoming_fk__stdf_fk__compania_fk__nom_compania=compania)
+
+            for consumo in consumos:
+                consumo.orden_consumo = orden_consumo
+                consumo.save()
 
             wk2 = openpyxl.load_workbook(excel_file_path)
             ws2 = wk2.active
@@ -37,10 +46,7 @@ def orden_consumos(request):
             # Formatear la fecha como una cadena de texto en el formato deseado (día/mes/año)
             fecha_formateada = fecha_actual.strftime("%d/%m/%Y")
 
-            compania = form.cleaned_data['compania']
-            aduana = form.cleaned_data['aduana']
-            resolucion_habilitacion = form.cleaned_data['resolucion_habilitacion']
-            orden_consumo = form.cleaned_data['orden_consumo']
+            
             
 
             margen_izquierdo = 0.25

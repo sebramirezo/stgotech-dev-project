@@ -1,3 +1,10 @@
+COMPANIA = [
+
+    ( 'STGO TECHNIK', 'STGO TECHNIK' ),
+    ( 'JETSMART', 'JETSMART')
+
+]
+
 Estado_Repuesto = [
 
     ('Overhaul', 'Overhaul'),

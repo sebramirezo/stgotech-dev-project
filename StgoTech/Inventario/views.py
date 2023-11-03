@@ -1287,7 +1287,7 @@ def estadostdf(request):
     with connection.cursor() as cursor:
         cursor.execute('CALL abona_cancela()')
     
-    return redirect('/dashboard')
+    return redirect('/orden_consumo')
 
 
 
