@@ -17,6 +17,7 @@
     {% include 'navbar.html' %}
   </head>
   <body style="background-color: #f1f8fe;">
+    
     <div class="">
         <button style="color: rgb(16, 91, 148); border-color: rgb(16, 91, 148); background-color: rgb(241, 248, 254);" class="btn m-2" type="button" onclick="history.back()" name="volver atrás" value="Volver atrás">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -52,6 +53,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% if messages %}
+      {%for m in messages %}
+        <script>
+          Swal.fire({
+            "tittle": "GOOD JOB!",
+            "text":"{{m}}",
+            "icon":"success"
+
+          })
+        </script>
+      {%endfor%}
+    {% endif %}
+    
+  
 
     
     {% include 'scripts_js.html' %}

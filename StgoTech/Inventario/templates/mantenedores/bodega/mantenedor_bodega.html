@@ -1,6 +1,37 @@
 {% extends "base.html" %}
 
 {% block body %}
+
+{% block js %}
+<script>
+    function destroy(consumo_pk) {
+        Swal.fire({
+            "title": "¿Estas Seguro?",
+            "text": "Esta opcion no se puede deshacer.",
+            "icon": "warning",
+            "showCancelButton": true,
+            "cancelButtonText": "Cancelar",
+            "confirmButtonText": "Si, Eliminar",
+            "reverseButtons": true,
+            "confirmButtonColor": "red"
+        })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/eliminar_consumo/" + consumo_pk
+                }
+            })
+
+    }
+
+</script>
+{% endblock %}
+
+
+
+
+
+
+
 <div class="container">
     <h1>Mantenedor Bodega</h1>
     <div class="mantenedor">
@@ -18,7 +49,7 @@
                       <td>{{bodega.name_bodega}}</td>
                       <td>
                           <a name="" id="" class="btn btn-primary" href="/editar_owner/{{bodega.bodega_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" href="/eliminar_owner/{{bodega.bodega_pk}}" role="button">Eliminar</a>
+                          <a name="" id="" class="btn btn-danger"  href="/eliminar_owner/{{bodega.bodega_pk}}" role="button">Eliminar</a>
                       </td>
                   </tr>
                   {% endfor %}
