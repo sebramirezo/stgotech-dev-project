@@ -145,16 +145,16 @@ class Origen(models.Model):
     def __str__(self):
         return self.name_origen
     
-#TABLA COMPAÑIA
-class Compañia(models.Model):
-    cod_compañia = models.IntegerField(primary_key=True , unique=True)
-    nom_compañia = models.CharField(blank=True, null=True, max_length=50)
+#TABLA COMPANIA
+class Compania(models.Model):
+    cod_compania = models.IntegerField(primary_key=True , unique=True)
+    nom_compania = models.CharField(choices=COMPANIA,blank=True, null=True, max_length=50)
 
     class Meta:
-        db_table = "compañia"
+        db_table = "compania"
 
     def __str__(self):
-        return self.nom_compañia
+        return self.nom_compania
     
 
 
@@ -182,7 +182,7 @@ class Comat(models.Model):
     origen_fk = models.ForeignKey(Origen, on_delete=models.SET_NULL, null=True)
     estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True , default=1)
     usuario =  models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
-    compañia_fk = models.ForeignKey(Compañia, on_delete=models.SET_NULL, null=True , blank=True)
+    compania_fk = models.ForeignKey(Compania, on_delete=models.SET_NULL, null=True , blank=True)
 
     class Meta:
         db_table = 'comat'
@@ -298,6 +298,7 @@ class Detalle_Incoming(models.Model):
 #Tabla Consumos
 class Consumos(models.Model):
     consumo_pk = models.AutoField(primary_key=True, unique=True , validators=[MinValueValidator(1)])
+    orden_consumo = models.CharField(blank=True , null=True, max_length=50)
     f_transaccion = models.DateField(blank=True, null=True)
     qty_extraida = models.IntegerField(blank=True, null=True)
     matricula_aeronave = models.CharField(blank=True, null=True, max_length=50)
