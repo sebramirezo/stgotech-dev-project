@@ -145,10 +145,11 @@ class Origen(models.Model):
     def __str__(self):
         return self.name_origen
     
-#TABLA COMPANIA
+
+#TABLA COMPAÑIA
 class Compania(models.Model):
     cod_compania = models.IntegerField(primary_key=True , unique=True)
-    nom_compania = models.CharField(choices=COMPANIA,blank=True, null=True, max_length=50)
+    nom_compania = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "compania"

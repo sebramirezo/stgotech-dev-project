@@ -232,6 +232,8 @@ def detalle_comat(request, stdf_pk):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #VISTA DE INCOMING QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA PAGINA DE INCOMING
+from django.core.cache import cache
+
 @login_required 
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
@@ -250,7 +252,6 @@ def incoming(request):
                     incoming.total_u_purchase_cost = total_unit_cost
                     incoming.saldo = incoming.qty
                     incoming.save()
-
                     request.session['incoming_fk'] = incoming.sn_batch_pk
                     messages.success(request, "Se ha Añadido Correctamente")
                     return redirect('/detalle_form')
@@ -328,6 +329,40 @@ def detalle_incoming(request, sn_batch_pk):
 
 
 
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+# ## Test
+# def obtener_datos_stdf_incoming(request):
+
+#     term = request.GET.get('q', '')
+
+#     stdf_data = Comat.objects.filter(stdf_pk__icontains=term).values('stdf_pk')[:20]
+
+#     # stdf_data = Comat.objects.all().values('stdf_pk')
+#     stdf_list = list(stdf_data)
+    
+#     # Convierte la lista de diccionarios a una lista de objetos JSON
+#     stdf_json = [{'stdf_pk': item['stdf_pk']} for item in stdf_list]
+    
+#     return JsonResponse({'stdf_data': stdf_json}, safe=False)
+
+def obtener_datos_stdf_incoming(request):
+    term = request.GET.get('q', '')
+
+    # Filtra los objetos Comat según el término de búsqueda
+    stdf_data = Comat.objects.filter(stdf_pk__icontains=term).first()
+
+    # Verifica si se encontró un objeto Comat
+    if stdf_data:
+        # Convierte el objeto Comat a un diccionario
+        comat_data = {
+            'stdf_pk': stdf_data.stdf_pk,
+            # Agrega otros campos de Comat que necesites
+        }
+        return JsonResponse({'stdf_data': comat_data}, safe=False)
+    else:
+        return JsonResponse({'stdf_data': None}, safe=False)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #VISTA DE CONSUMO QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA VISTA DE CONSUMOS
@@ -427,6 +462,40 @@ def detalle_consumos(request, consumo_pk):
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def obtener_datos_sn_consumos(request):
+    term = request.GET.get('q', '')
+
+    # Filtra los objetos Comat según el término de búsqueda
+    sn_data = Incoming.objects.filter(sn_batch_pk__icontains=term).first()
+
+    # Verifica si se encontró un objeto Comat
+    if sn_data:
+        # Convierte el objeto Comat a un diccionario
+        incoming_data = {
+            'sn_batch_pk': sn_data.sn_batch_pk,
+            # Agrega otros campos de Comat que necesites
+        }
+        return JsonResponse({'sn_data': incoming_data}, safe=False)
+    else:
+        return JsonResponse({'sn_data': None}, safe=False)
+    
+# def obtener_datos_sn_consumos(request):
+
+#     term = request.GET.get('q', '')
+
+#     sn_data = Incoming.objects.filter(sn_batch_pk__icontains=term).values('sn_batch_pk')[:20]
+
+#     sn_data = Incoming.objects.all().values('sn_batch_pk')
+#     sn_list = list(sn_data)
+    
+#     # Convierte la lista de diccionarios a una lista de objetos JSON
+#     sn_json = [{'sn_batch_pk': item['sn_batch_pk']} for item in sn_list]
+    
+#     return JsonResponse({'sn_data': sn_json}, safe=False)
+    
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 def detalle_inicio(request, stdf_pk):
     draw = int(request.GET.get('draw', 0))
     start = int(request.GET.get('start', 0))
