@@ -24,7 +24,7 @@
                       <td>{{consumidor.cargo}}</td>
                       <td>
                           <a name="" id="" class="btn btn-primary" href="/editar_consumidor/{{consumidor.id}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" href="/eliminar_consumidor/{{consumidor.id}}" role="button">Eliminar</a>
+                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{consumidor.id}}')" href="#" role="button">Eliminar</a>
                       </td>
                   </tr>
                   {% endfor %}
@@ -36,4 +36,27 @@
       </div>
     </div>
   </div>
+{% block js %}
+<script>
+    function destroy(id) {
+        Swal.fire({
+            "title": "¿Estas Seguro?",
+            "text": "Esta opcion no se puede deshacer.",
+            "icon": "warning",
+            "showCancelButton": true,
+            "cancelButtonText": "Cancelar",
+            "confirmButtonText": "Si, Eliminar",
+            "reverseButtons": true,
+            "confirmButtonColor": "red"
+        })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/eliminar_consumidor/" + id
+                }
+            })
+
+    }
+
+</script>
+{% endblock %}
 {% endblock %}
