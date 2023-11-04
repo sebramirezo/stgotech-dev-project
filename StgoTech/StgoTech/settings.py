@@ -40,12 +40,18 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
         },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'error.log',  # Nombre del archivo de registro de errores
+        },
     },
     'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',  # Puedes ajustar el nivel de registro según tus necesidades.
+        'handlers': ['console', 'file'],
+        'level': 'ERROR',  # Configura el nivel en 'ERROR'
     },
 }
+
 
 
 

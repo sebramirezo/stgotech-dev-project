@@ -146,15 +146,15 @@ class Origen(models.Model):
         return self.name_origen
     
 #TABLA COMPAÑIA
-class Compañia(models.Model):
-    cod_compañia = models.IntegerField(primary_key=True , unique=True)
-    nom_compañia = models.CharField(blank=True, null=True, max_length=50)
+class Compania(models.Model):
+    cod_compania = models.IntegerField(primary_key=True , unique=True)
+    nom_compania = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
-        db_table = "compañia"
+        db_table = "compania"
 
     def __str__(self):
-        return self.nom_compañia
+        return self.nom_compania
     
 
 
@@ -182,7 +182,7 @@ class Comat(models.Model):
     origen_fk = models.ForeignKey(Origen, on_delete=models.SET_NULL, null=True)
     estado_fk = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True , default=1)
     usuario =  models.ForeignKey(User, on_delete=models.SET_NULL , null=True , blank=True)
-    compañia_fk = models.ForeignKey(Compañia, on_delete=models.SET_NULL, null=True , blank=True)
+    compania_fk = models.ForeignKey(Compania, on_delete=models.SET_NULL, null=True , blank=True)
 
     class Meta:
         db_table = 'comat'

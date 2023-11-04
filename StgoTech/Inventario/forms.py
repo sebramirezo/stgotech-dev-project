@@ -1,8 +1,6 @@
 from django.forms import ModelForm, ValidationError
 from .models import *
 from django import forms
-from django.contrib.auth.models import Permission
-from django.contrib.admin.widgets import AdminDateWidget
 
 
 
@@ -29,7 +27,7 @@ class ComatForm(ModelForm):
     prioridad = forms.ChoiceField(choices=Prioridad,widget=forms.Select(attrs={"class":"form-control reducido", "placeholder": "Ingresa la Prioridad"}),label='Prioridad',required=True) 
     bodega_fk = forms.ModelChoiceField(queryset=Bodega.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa la Bodega"}), label='Bodega')
     origen_fk = forms.ModelChoiceField(queryset=Origen.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el Origen"}), label='Origen')
-    compañia_fk = forms.ModelChoiceField(queryset=Compañia.objects.all(),widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el Compañia"}), label='Compañia')
+    compania_fk = forms.ModelChoiceField(queryset=Compania.objects.all(),widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el Compañia"}), label='Compañia')
     
     class Meta:
         model = Comat
@@ -49,13 +47,12 @@ class ComatForm(ModelForm):
         'flete',
         'seguro',
         'prioridad',
-        'compañia_fk',
+        'compania_fk',
         'bodega_fk',
         'origen_fk',
         'observaciones',
         
         ]
-
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 class IncomingForm(ModelForm):
 
@@ -76,9 +73,8 @@ class IncomingForm(ModelForm):
     owner_fk = forms.ModelChoiceField(queryset=Owner.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingreso Owner"}), label='Owner')
     condicion_fk = forms.ModelChoiceField(queryset=Condicion.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa Condicion"}), label='Condicion')
     ficha_fk = forms.ModelChoiceField(queryset=Ficha.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingreso N° Ficha"}), label='N° Ficha')
-    #stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
-    stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
-
+    # stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+    stdf_fk = forms.ModelChoiceField(queryset= Comat.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
     class Meta:
         model = Incoming
         fields = [
@@ -212,10 +208,10 @@ class EstadoRepuestoForm(ModelForm):
         model = Estado_Repuesto
         fields = '__all__'
 
-class CompañiaForm(ModelForm):
+class CompaniaForm(ModelForm):
 
     class Meta:
-        model = Compañia
+        model = Compania
         fields = '__all__'
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
