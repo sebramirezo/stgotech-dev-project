@@ -29,10 +29,13 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     #Obtener Datos de la base de datos
     datos = Incoming.objects.get(sn_batch_pk = sn_batch_pk)
+
+
+   
     detallesform = Detalle_Incoming.objects.get(incoming_fk=sn_batch_pk)
-
-
-    # Crea una instancia de la imagen
+    
+    
+# Crea una instancia de la imagen
 
     image.save('temp_image.png')
 
@@ -83,6 +86,7 @@ def exportar_excel_incoming(request, sn_batch_pk):
     alineacion = Alignment(horizontal='center', vertical='center')
 
     rango_celdas = 'A1:Y72'
+
 
     ws.merge_cells('R1:T2')
     ws['R1']  = 'RCV N°'
@@ -149,7 +153,9 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.merge_cells('M13:O13')
     ws['M13']  = 'Calibración'
 
-    if detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
+    if detallesform.estado_repuesto_fk is None: 
+        ws['L13'] = ""
+    elif detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
         ws['D13'] = "X"
     elif detallesform.estado_repuesto_fk.id == 2:#REPARADO
         ws['D15'] = "X"
@@ -163,8 +169,7 @@ def exportar_excel_incoming(request, sn_batch_pk):
         ws['P13'] = "X"
     elif detallesform.estado_repuesto_fk.id == 7:#OTRO
         ws['L13'] = "X"
-    else: 
-        ws['L13'] = ""
+    
     
 
 
@@ -577,10 +582,10 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     ws.merge_cells('M65:Y65')
 
-    if detallesform.aceptado == 0:
-        ws['K65'] = 'X'
-    elif detallesform.aceptado == 1:
+    if detallesform.aceptado == 'SI':
         ws['G65'] = 'X'
+    elif detallesform.aceptado == 'NO':
+        ws['K65'] = 'X'
 
 
     ws.merge_cells('A67:H67')
@@ -588,13 +593,15 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     ws.merge_cells('I67:P67')
     ws['I67'] = 'N° Licencia'
-    ws['I69'] = detallesform.licencia
+    ws['I69'] = detallesform.licencia.name_licencia
+    
 
     ws.merge_cells('Q67:Y67')
     ws['Q67'] = 'Firma'
 
     ws.merge_cells('A69:H71')
-    ws['A69'] = datos.usuario.username
+    nombre_completo = f"{datos.usuario.first_name} {datos.usuario.last_name}"
+    ws['A69'] = nombre_completo
     
     ws.merge_cells('I69:P71')
 
@@ -603,12 +610,6 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     ws.merge_cells('A72:J72')
     ws['A72'] = 'FORM CMA-005 REV.1'
-
-
-
-
-
-
 
     #ws.merge_cells('')
     #ws['']  = ''
@@ -640,10 +641,6 @@ def exportar_excel_incoming(request, sn_batch_pk):
                 cell.border = None
 
 
-
-
-
-
     for fila in ws.iter_rows(min_row=1, max_row=72, min_col=1, max_col=25):
         for cell in fila:
             cell.alignment = alineacion
@@ -658,10 +655,6 @@ def exportar_excel_incoming(request, sn_batch_pk):
     ws.page_margins.right = 0.30  # Márgen derecho
     ws.page_margins.top = 0.25  # Márgen superior
     ws.page_margins.bottom = 0.25  # Márgen inferior
-
-
-
-   
 
 
     for row in ws.iter_rows(min_row=13, max_row=15, min_col=1, max_col=16):  # Columna A a P
@@ -682,11 +675,7 @@ def exportar_excel_incoming(request, sn_batch_pk):
         celda = ws[coord]
         celda.border = border
 
-
-
     # Define el formato de fuente para las demás filas
-   
-
     borde_sin_superior = Border(top=Side(style=None))
 
     # Celda combinada 'M15:P15'
@@ -833,49 +822,3 @@ def exportar_excel_incoming(request, sn_batch_pk):
     wk.save(response)
     return response
 
-
-import os  # Importa el módulo os
-
-# ...
-
-def crear_y_imprimir_excel_en_impresora(request):
-    try:
-        # Inicializar COM
-        win32.pythoncom.CoInitialize()
-
-        # Crear un nuevo libro de Excel con openpyxl
-        wb = openpyxl.Workbook()
-        ws = wb.active
-
-        # Agregar contenido al libro de Excel (opcional)
-        ws['A1'] = 'Hola, esto es un ejemplo'
-        # Puedes agregar más contenido según tus necesidades
-
-        # Ruta donde se guardará el archivo Excel temporal
-        temp_folder = os.path.join(os.getcwd(), "temp_excel_files")
-        os.makedirs(temp_folder, exist_ok=True)  # Crea la carpeta si no existe
-
-        # Nombre del archivo Excel temporal
-        excel_file = os.path.join(temp_folder, "temp_excel_file.xlsx")
-
-        # Guardar el libro de Excel en el archivo temporal
-        wb.save(excel_file)
-
-        # Iniciar Excel usando pywin32
-        excel = win32.gencache.EnsureDispatch('Excel.Application')
-
-        # Abrir el libro de Excel en Excel
-        workbook = excel.Workbooks.Open(excel_file)
-
-        # Imprimir el libro de Excel
-        workbook.PrintOut()
-
-        # Cerrar Excel
-        excel.Quit()
-
-        # Finalizar COM
-        win32.pythoncom.CoUninitialize()
-
-        return HttpResponse(f"Se creó y se imprimió el archivo Excel en la impresora predeterminada.")
-    except Exception as e:
-        return HttpResponse(f"Error al crear o imprimir el archivo Excel: {str(e)}")

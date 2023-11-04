@@ -14,11 +14,11 @@ class ComatForm(ModelForm):
     pcs = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Cantidad de Piezas"}),label='Piezas')
     peso = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa el Peso"}),label='Peso')
 
-    f_control = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control reducido", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha', 'id':'id_f_control'}), required=False, label='Fecha de Control')
+    f_control = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control reducido", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha', 'id':'id_f_control'}), required=True, label='Fecha de Control')
     # f_control = forms.DateTimeField(widget=AdminDateWidget())
-    f_manifiesto = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control reducido", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha'}), required=False, label='Fecha de Manifiesto')
-    f_recepcion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control reducido", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha'}), required=False, label='Fecha de Recepción')
-    f_stdf = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control reducido", 'type': 'date', 'placeholder':'Selecciona la fecha'}), required=False, label='Fecha del STDF')
+    f_manifiesto = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control reducido", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha'}), required=True, label='Fecha de Manifiesto')
+    f_recepcion = forms.DateTimeField(widget=forms.DateTimeInput(attrs={"class":"form-control reducido", 'type': 'datetime-local', 'placeholder':'Selecciona la fecha'}), required=True, label='Fecha de Recepción')
+    f_stdf = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control reducido", 'type': 'date', 'placeholder':'Selecciona la fecha'}), required=True, label='Fecha del STDF')
 
     fob = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa el valor del FOB Formato - Utilice coma para separar  00,00"}),label='FOB')
     flete = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa el valor del Flete - Utilice coma para separar  00,00"}),label='Flete')
@@ -57,15 +57,15 @@ class ComatForm(ModelForm):
 class IncomingForm(ModelForm):
 
     sn_batch_pk = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Serial Number o Batch Number"}),label='Serial Number o Batch Number')
-    batch_pk = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Batch Number"}),label='Batch Number')
+    batch_pk = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Batch Number"}),label='Batch Number', required=False)
     part_number = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Part Number"}),label='Part Number')
-    f_incoming = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control reducido", 'type': 'date', 'placeholder':'Selecciona la fecha'}), required=False, label='Fecha Ingreso Incoming')
+    f_incoming = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control reducido", 'type': 'date', 'placeholder':'Selecciona la fecha'}), required=True, label='Fecha Ingreso Incoming')
     po = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Product Order"}),label='Orden del Repuesto')
     qty = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Cantidad"}),label='Quantity')
     u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Unit Purchase Cost"}),label='Unit Purchase Cost')
-    f_vencimiento = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control reducido", 'type': 'date', "placeholder":'Seleccione fecha'}), required=False, label='Fecha Vencimiento')
+    f_vencimiento = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control reducido", 'type': 'date', "placeholder":'Seleccione fecha'}), required=True, label='Fecha Vencimiento')
     descripcion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Descripción"}),label='Descripción')
-    observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=False)
+    observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=True)
     categoria_fk = forms.ModelChoiceField(queryset=Categotia_incoming.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa la Categoria SN o BN"}), label='Categoria')
     clasificacion_fk = forms.ModelChoiceField(queryset=Clasificacion.objects.all(), widget=forms.Select(attrs={"class": "form-control reducido","placeholder": "Ingresa la Clasificación"}), label='Clasificación')
     ubicacion_fk = forms.ModelChoiceField(queryset=Ubicacion.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa la Ubicacion"}), label='Ubicación')
@@ -227,7 +227,6 @@ class DetalleForm(ModelForm):
     ro_n = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "RO N°"}),label='RO N°', required=False)
     wo_n = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "WO N°"}),label='WO N°', required=False)
     aceptado = forms.CharField(widget=forms.Select(choices=ACEPTADO, attrs={"class":"form-control reducido",}),label='¿Aceptado?', required=False)
-    licencia = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "N° Licencia"}),label='N° Licencia', required=False)
     item1 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class":"form-control reducido",}), label='1) Producto conforme a lo indicado en la lista de Embarque (Packing List)', required=False)
     item2 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class":"form-control reducido",}), label='2) Factura del Proveedor conforme a la orden de compra o solicitud de trabajo (Invoice)', required=False)
     item3 = forms.CharField(widget=forms.Select(choices=ITEMS, attrs={"class":"form-control reducido",}),label='3) Cartilla/Orden de Trabajo, Cartilla de prueba, Si corresponde, del taller que repara', required=False)
@@ -261,7 +260,7 @@ class DetalleForm(ModelForm):
     n_item22 = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control reducido",}),label='22.5) N° de Catilla Mantencion CMA Autorizado', required=False)
     estado_repuesto_fk = forms.ModelChoiceField(queryset=Estado_Repuesto.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el Estado del Repuesto"}), label='Estado del Repuesto', required=False)
     incoming_fk = forms.ModelChoiceField(queryset=Incoming.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa el SN O BN"}), label='Serial Number o Batch Number')
-    
+    licencia = forms.ModelChoiceField(queryset=Licencia.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Licencia"}), label='Licencia')
     class Meta:
         model = Detalle_Incoming
         fields = [
@@ -313,8 +312,22 @@ class DetalleForm(ModelForm):
 
 class ImpresoraForm(forms.Form):
     nombre_impresora = forms.ChoiceField(label="Selecciona una impresora", choices=[])
+    cantidad_hojas = forms.IntegerField(
+        label="Cantidad de hojas",
+        min_value=1,
+        initial=1  # Valor inicial predeterminado
+    )
 
     def __init__(self, *args, **kwargs):
         impresoras = kwargs.pop('impresoras', [])
         super(ImpresoraForm, self).__init__(*args, **kwargs)
         self.fields['nombre_impresora'].choices = [(impresora, impresora) for impresora in impresoras]
+
+class OrdenConsumoForm(forms.Form):
+    fechainicio = forms.DateField(widget=forms.DateInput(attrs={"class": "form-control reducido", 'type':'date'}),label='Fecha de Inicio',required=True)
+    fechatermino = forms.DateField(widget=forms.DateInput(attrs={'type':'date',"class": "form-control reducido"}), label='Fecha de Termino',required=True)
+    compania = forms.ChoiceField(choices=COMPANIA,widget=forms.Select(attrs={"class": "form-control reducido"}),label='Compañía que Presenta',required=True)
+    aduana = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Aduana de Presentacion', required=True)
+    resolucion_habilitacion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Resolucion de Habilitacion', required=True)
+    orden_consumo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido"}),label='Orden de Consumos', required=True)
+    

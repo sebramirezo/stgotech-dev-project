@@ -2,6 +2,30 @@
 
 {% block body %}
 
+{% block js %}
+<script>
+    function destroy(consumo_pk) {
+        Swal.fire({
+            "title": "¿Estas Seguro?",
+            "text": "Esta opcion no se puede deshacer.",
+            "icon": "warning",
+            "showCancelButton": true,
+            "cancelButtonText": "Cancelar",
+            "confirmButtonText": "Si, Eliminar",
+            "reverseButtons": true,
+            "confirmButtonColor": "red"
+        })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/eliminar_consumo/" + consumo_pk
+                }
+            })
+
+    }
+
+</script>
+{% endblock %}
+
 <div class="row p-2">
     <div class="col-md-6 p-2">
         <h2>Detalles Consumos</h2>
@@ -53,7 +77,7 @@
             </tr>
         </table>
         <a name="" id="" style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" href="/editar_consumo/{{detalle_consumos.incoming_fk}}" role="button">Editar</a>
-        <a name="" id="" style="background-image: linear-gradient(135deg, rgb(246, 61, 61) 0%, rgb(191, 22, 22) 100%); color: #f1f8fe;" class="btn" href="/eliminar_consumo/{{detalle_consumos.incoming_fk}}" role="button">Eliminar</a>
+        <a name="" id="" style="background-image: linear-gradient(135deg, rgb(246, 61, 61) 0%, rgb(191, 22, 22) 100%); color: #f1f8fe;" class="btn" onclick="destroy({{detalle_consumos.consumo_pk}})" href="#" role="button">Eliminar</a>
     </div>
 </div>
 {% endblock %}

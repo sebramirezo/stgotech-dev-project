@@ -14,6 +14,7 @@ from django.urls import reverse
 import win32print
 import io
 import tempfile
+from django.contrib import messages
 
 
 
@@ -21,6 +22,7 @@ import tempfile
 def imprimir_excel_incoming(request, sn_batch_pk):
     try:
         selected_printer = request.session.get('selected_printer', None)
+        cantidad_hojas = int(request.POST.get('cantidad_hojas', 1))
 
         if selected_printer is None:
             return HttpResponse("No se ha seleccionado una impresora.")
@@ -160,7 +162,9 @@ def imprimir_excel_incoming(request, sn_batch_pk):
         ws.merge_cells('M13:O13')
         ws['M13']  = 'Calibración'
 
-        if detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
+        if detallesform.estado_repuesto_fk is None: 
+            ws['L13'] = ""
+        elif detallesform.estado_repuesto_fk.id == 1: #OVERHAUL
             ws['D13'] = "X"
         elif detallesform.estado_repuesto_fk.id == 2:#REPARADO
             ws['D15'] = "X"
@@ -174,8 +178,7 @@ def imprimir_excel_incoming(request, sn_batch_pk):
             ws['P13'] = "X"
         elif detallesform.estado_repuesto_fk.id == 7:#OTRO
             ws['L13'] = "X"
-        else: 
-            ws['L13'] = ""
+        
         
 
 
@@ -588,10 +591,10 @@ def imprimir_excel_incoming(request, sn_batch_pk):
 
         ws.merge_cells('M65:Y65')
 
-        if detallesform.aceptado == 0:
-            ws['K65'] = 'X'
-        elif detallesform.aceptado == 1:
+        if detallesform.aceptado == 'SI':
             ws['G65'] = 'X'
+        elif detallesform.aceptado == 'NO':
+            ws['K65'] = 'X'
 
 
         ws.merge_cells('A67:H67')
@@ -599,13 +602,14 @@ def imprimir_excel_incoming(request, sn_batch_pk):
 
         ws.merge_cells('I67:P67')
         ws['I67'] = 'N° Licencia'
-        ws['I69'] = detallesform.licencia
+        ws['I69'] = detallesform.licencia.name_licencia
 
         ws.merge_cells('Q67:Y67')
         ws['Q67'] = 'Firma'
 
         ws.merge_cells('A69:H71')
-        ws['A69'] = datos.usuario.username
+        nombre_completo = f"{datos.usuario.first_name} {datos.usuario.last_name}"
+        ws['A69'] = nombre_completo
         
         ws.merge_cells('I69:P71')
 
@@ -850,16 +854,21 @@ def imprimir_excel_incoming(request, sn_batch_pk):
         # Abrir el libro de Excel desde el archivo temporal
         workbook = excel.Workbooks.Open(excel_temp_file.name)
 
+
+
         # Configurar la impresión en la impresora seleccionada
         workbook.PrintOut(ActivePrinter=selected_printer)
+
+        workbook.PrintOut(Copies=cantidad_hojas, ActivePrinter=selected_printer)
 
         # Cerrar Excel y liberar COM
         workbook.Close(False)
         excel.Quit()
         win32.pythoncom.CoUninitialize()
-
+        messages.success(request, "Se Imprimio Correctamente")
         return redirect('seleccionarimpresora', sn_batch_pk=sn_batch_pk)
     except Exception as e:
+        messages.success(request, "No se ha encontrado Incoming Inspection Forms")
         return redirect('seleccionarimpresora', sn_batch_pk=sn_batch_pk)
 # def impresoras(request):
 #     # Obtener la lista de impresoras disponibles
@@ -868,15 +877,19 @@ def imprimir_excel_incoming(request, sn_batch_pk):
 #     context = {'impresoras_disponibles': impresoras_disponibles}
 #     return render(request, 'impresoras.html', context)
 
-def seleccionarimpresora(request,sn_batch_pk):
-
-    datos = Incoming.objects.get(sn_batch_pk = sn_batch_pk)
+def seleccionarimpresora(request, sn_batch_pk):
+    datos = Incoming.objects.get(sn_batch_pk=sn_batch_pk)
 
     if request.method == 'POST':
         selected_printer = request.POST.get('impresora')
-        # Guardar la impresora seleccionada en una variable de sesión
+        cantidad_hojas = int(request.POST.get('cantidad_hojas', 1))  # Obtener la cantidad de hojas (1 por defecto)
+
+        # Guardar la impresora seleccionada y la cantidad de hojas en variables de sesión
         request.session['selected_printer'] = selected_printer
+        request.session['cantidad_hojas'] = cantidad_hojas
+
+        # Aquí puedes realizar la impresión con la cantidad de hojas seleccionada
 
     printers = [printer[2] for printer in win32print.EnumPrinters(2)]
 
-    return render(request, 'impresoras.html', {'printers': printers , 'datos':datos})
+    return render(request, 'impresoras.html', {'printers': printers, 'datos': datos})

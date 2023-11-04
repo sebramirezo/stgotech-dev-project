@@ -20,6 +20,38 @@
             $("html, body").animate({ scrollTop: 0 }, "fast");
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+            var Categoria = document.getElementById('id_categoria_fk');
+            var batch = document.getElementById('id_batch_pk');
+    
+    
+            function disableField(field) {
+                field.disabled = true;
+                field.parentNode.style.display = 'none';
+            }
+    
+            function enableField(field) {
+                field.disabled = false;
+                field.parentNode.style.display = 'block';
+            }
+    
+            Categoria.addEventListener('change', function () {
+                if (Categoria.value === '1' || Categoria.value === '2'|| Categoria.value === '') { // Cambia '1' a 'NO' para desactivar los campos en caso de "NO"
+                    disableField(batch);
+    
+                } else {
+                    enableField(batch);
+    
+                }
+            });
+    
+            // Inicialmente, ocultar y desactivar los campos si la opción seleccionada en item13 es "NO"
+            if (Categoria.value === '1' || Categoria.value === '2'|| Categoria.value === '' ) {
+                disableField(batch);
+    
+            }
+        });
     
     document.addEventListener('DOMContentLoaded', function () {
             var item18 = document.getElementById('id_form1-item18');
@@ -507,8 +539,6 @@
                 { "data": "qty_extraida_total" },
                 { "data": "saldo" },
                 { "data": "stdf_fk__awb" },
-                { "data": "stdf_fk__num_manifiesto" },
-                { "data": "owner_fk__name_owner"},
                 { "data": "ubicacion_fk__name_ubicacion" },
                 { "data": "f_vencimiento" },
                 {

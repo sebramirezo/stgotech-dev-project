@@ -10,6 +10,9 @@ from django.http import HttpResponse
 from django.db.models import Count
 from django.db import connection
 from .imprimir_excel import *
+from Inventario.forms import OrdenConsumoForm
+from django.contrib import messages
+
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 # Vistas relacionadas al inicio y cierre de sesión
@@ -153,7 +156,7 @@ def comat(request):
                 # Guarda el objeto Comat con la cif actualizada
                 comat.sum_cif = total_cif
                 comat.save()
-
+                messages.success(request, "Se ha Añadido Correctamente")
                 return redirect('/comat')
             else:
                 # Manejo del caso en el que el usuario no está autenticado
@@ -250,7 +253,7 @@ def incoming(request):
                     incoming.saldo = incoming.qty
                     incoming.save()
                     request.session['incoming_fk'] = incoming.sn_batch_pk
-
+                    messages.success(request, "Se ha Añadido Correctamente")
                     return redirect('/detalle_form')
                 else:
                 # Manejo del caso en el que el usuario no está autenticado
@@ -321,8 +324,11 @@ def obtener_datos_incoming(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def detalle_incoming(request, sn_batch_pk):
-    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)   
-    return render(request,'tablas_detalle/detalle_incoming.html' , {'detalle_incoming':detalle_incoming})
+    detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)
+    return render(request, 'tablas_detalle/detalle_incoming.html', {'detalle_incoming': detalle_incoming})
+
+
+
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -380,7 +386,7 @@ def consumos(request):
 
                 # Guardar el registro de Consumos en la base de datos
                 consumo.save()
-
+                messages.success(request, "Se ha Añadido Correctamente")
                 return redirect('/consumos')
             else:
                 # Manejo del caso en el que el usuario no está autenticado
@@ -598,8 +604,8 @@ def detalle_form(request):
             # Crea una instancia de Detalle_Incoming y guárdala
             modelo1 = Detalle_Incoming(**datos_form1)
             modelo1.save()
-
-            return redirect('/incoming')
+            messages.success(request, "Se ha Añadido Correctamente")
+            return redirect(f'/detalle_incoming/{form1.cleaned_data["incoming_fk"]}/')
 
     return render(request, 'tablas_detalle/detalle_incomingforms.html', {'form1': form1})
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
@@ -615,6 +621,7 @@ def editar_comat(request, stdf_pk):
         form = ComatForm(request.POST, instance=comat)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/detalle_comat/'+str(stdf_pk))  # Redirige a la página deseada después de la edición.
     else:
         form = ComatForm(instance=comat)
@@ -625,6 +632,7 @@ def editar_comat(request, stdf_pk):
 def eliminar_comat(request, stdf_pk):
     comats = Comat.objects.get(pk=stdf_pk)
     comats.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
     return redirect('/buscar')
 
 
@@ -639,6 +647,7 @@ def editar_incoming(request, sn_batch_pk):
         form = IncomingForm(request.POST, instance=incoming)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/detalle_incoming/'+str(sn_batch_pk))  # Redirige a la página deseada después de la edición.
     else:
         form = IncomingForm(instance=incoming)
@@ -649,6 +658,7 @@ def editar_incoming(request, sn_batch_pk):
 def eliminar_incoming(request, sn_batch_pk):
     incomings = Incoming.objects.get(pk=sn_batch_pk)
     incomings.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
     return redirect('/buscar_incoming')
 
 ##################################
@@ -662,6 +672,7 @@ def editar_consumo(request, consumo_pk):
         form = ConsumosForm(request.POST, instance=consumo)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/detalle_consumos/'+str(consumo_pk))  # Redirige a la página deseada después de la edición.
     else:
         form = ConsumosForm(instance=consumo)
@@ -671,7 +682,11 @@ def editar_consumo(request, consumo_pk):
 
 def eliminar_consumo(request, consumo_pk):
     consumos = Consumos.objects.get(consumo_pk=consumo_pk)
+    incoming = consumos.incoming_fk
+    incoming.saldo += consumos.qty_extraida
+    incoming.save()
     consumos.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
     return redirect('/buscar_consumos')
 
 ###########################################
@@ -703,6 +718,7 @@ def editar_categoria_incoming(request, categoria_pk):
         form = CategoriaForm(request.POST, instance=categoria_incoming)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_categoria_incoming/')  # Redirige a la página deseada después de la edición.
     else:
         form = CategoriaForm(instance=categoria_incoming)
@@ -717,6 +733,7 @@ def registrar_categoria_incoming(request):
         form_reg_categoria = CategoriaForm(request.POST)
         if form_reg_categoria.is_valid():
             form_reg_categoria.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_categoria_incoming')
         
     context = {
@@ -729,7 +746,7 @@ def registrar_categoria_incoming(request):
 def eliminar_categoria_incoming(request, categoria_pk):
     categoria_incoming = Categotia_incoming.objects.get(categoria_pk=categoria_pk)
     categoria_incoming.delete()
-
+    messages.success(request, "Se ha Eliminado Correctamente")
     return redirect('/mantenedor_categoria_incoming')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
@@ -755,6 +772,7 @@ def editar_estado(request, estado_pk):
         form = EstadoForm(request.POST, instance=estados)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Moficado Correctamente")
             return redirect('/mantenedor_estado/')  # Redirige a la página deseada después de la edición.
     else:
         form = EstadoForm(instance=estados)
@@ -770,6 +788,7 @@ def registrar_estado(request):
         form_reg_estado = EstadoForm(request.POST)
         if form_reg_estado.is_valid():
             form_reg_estado.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_estado')
         
     context = {
@@ -801,6 +820,7 @@ def editar_ubicacion(request, ubicacion_pk):
         form = UbicacionForm(request.POST, instance=ubicaciones)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_ubicacion/')  # Redirige a la página deseada después de la edición.
     else:
         form = UbicacionForm(instance=ubicaciones)
@@ -816,6 +836,7 @@ def registrar_ubicacion(request):
         form_reg_ubicacion = UbicacionForm(request.POST)
         if form_reg_ubicacion.is_valid():
             form_reg_ubicacion.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_ubicacion')
         
     context = {
@@ -847,6 +868,7 @@ def editar_uom(request, uom_pk):
         form = UomForm(request.POST, instance=uoms)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_ubicacion/')  # Redirige a la página deseada después de la edición.
     else:
         form = UomForm(instance=uoms)
@@ -862,6 +884,7 @@ def registrar_uom(request):
         form_reg_uom = UomForm(request.POST)
         if form_reg_uom.is_valid():
             form_reg_uom.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_uom')
         
     context = {
@@ -893,6 +916,7 @@ def editar_owner(request, owner_pk):
         form = OwnerForm(request.POST, instance=owners)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_owner/')  # Redirige a la página deseada después de la edición.
     else:
         form = OwnerForm(instance=owners)
@@ -908,6 +932,7 @@ def registrar_owner(request):
         form_reg_owner = OwnerForm(request.POST)
         if form_reg_owner.is_valid():
             form_reg_owner.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_owner')
         
     context = {
@@ -939,6 +964,7 @@ def editar_condition(request, condicion_pk):
         form = ConditionForm(request.POST, instance=conditions)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_condition/')  # Redirige a la página deseada después de la edición.
     else:
         form = ConditionForm(instance=conditions)
@@ -954,6 +980,7 @@ def registrar_condition(request):
         form_reg_condition = ConditionForm(request.POST)
         if form_reg_condition.is_valid():
             form_reg_condition.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_condition')
         
     context = {
@@ -985,6 +1012,7 @@ def editar_ficha(request, ficha_pk):
         form = FichaForm(request.POST, instance=fichas)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_ficha/')  # Redirige a la página deseada después de la edición.
     else:
         form = FichaForm(instance=fichas)
@@ -1000,6 +1028,7 @@ def registrar_ficha(request):
         form_reg_ficha = FichaForm(request.POST)
         if form_reg_ficha.is_valid():
             form_reg_ficha.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_ficha')
         
     context = {
@@ -1031,6 +1060,7 @@ def editar_bodega(request, bodegas_pk):
         form = BodegaForm(request.POST, instance=bodegas)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_bodega/')  # Redirige a la página deseada después de la edición.
     else:
         form = BodegaForm(instance=bodegas)
@@ -1046,6 +1076,7 @@ def registrar_bodega(request):
         form_reg_bodega = BodegaForm(request.POST)
         if form_reg_bodega.is_valid():
             form_reg_bodega.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_bodega')
         
     context = {
@@ -1077,6 +1108,7 @@ def editar_origen(request, origen_pk):
         form = OrigenForm(request.POST, instance=origens)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_origen/')  # Redirige a la página deseada después de la edición.
     else:
         form = OrigenForm(instance=origens)
@@ -1092,6 +1124,7 @@ def registrar_origen(request):
         form_reg_origen = OrigenForm(request.POST)
         if form_reg_origen.is_valid():
             form_reg_origen.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_origen')
         
     context = {
@@ -1123,6 +1156,7 @@ def editar_cargo(request, id):
         form = CargoForm(request.POST, instance=cargos)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_cargo/')  # Redirige a la página deseada después de la edición.
     else:
         form = CargoForm(instance=cargos)
@@ -1138,6 +1172,7 @@ def registrar_cargo(request):
         form_reg_cargo = CargoForm(request.POST)
         if form_reg_cargo.is_valid():
             form_reg_cargo.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_cargo')
         
     context = {
@@ -1169,6 +1204,7 @@ def editar_clasificacion(request, clasificacion_pk):
         form = ClasificacionForm(request.POST, instance=clasificaciones)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_clasificacion/')  # Redirige a la página deseada después de la edición.
     else:
         form = ClasificacionForm(instance=clasificaciones)
@@ -1184,6 +1220,7 @@ def registrar_clasificacion(request):
         form_reg_clasificacion = ClasificacionForm(request.POST)
         if form_reg_clasificacion.is_valid():
             form_reg_clasificacion.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_clasificacion')
         
     context = {
@@ -1214,6 +1251,7 @@ def editar_compañia(request, cod_compañia):
         form = CompaniaForm(request.POST, instance=compañias)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_compañia/')  # Redirige a la página deseada después de la edición.
     else:
         form = CompaniaForm(instance=compañias)
@@ -1229,6 +1267,7 @@ def registrar_compañia(request):
         form_reg_compañia = CompaniaForm(request.POST)
         if form_reg_compañia.is_valid():
             form_reg_compañia.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_compañia')
         
     context = {
@@ -1260,6 +1299,7 @@ def editar_consumidor(request, id):
         form = ConsumidorForm(request.POST, instance=consumidors)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_consumidor/')  # Redirige a la página deseada después de la edición.
     else:
         form = ConsumidorForm(instance=consumidors)
@@ -1275,6 +1315,7 @@ def registrar_consumidor(request):
         form_reg_consumidor = ConsumidorForm(request.POST)
         if form_reg_consumidor.is_valid():
             form_reg_consumidor.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_consumidor')
         
     context = {
@@ -1306,6 +1347,7 @@ def editar_estado_repuesto(request, id):
         form = EstadoRepuestoForm(request.POST, instance=estado_repuestos)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_estado_repuesto/')  # Redirige a la página deseada después de la edición.
     else:
         form = EstadoRepuestoForm(instance=estado_repuestos)
@@ -1321,6 +1363,7 @@ def registrar_estado_repuesto(request):
         form_reg_estado_repuesto = EstadoRepuestoForm(request.POST)
         if form_reg_estado_repuesto.is_valid():
             form_reg_estado_repuesto.save()
+            messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_estado_repuesto')
         
     context = {
@@ -1342,6 +1385,7 @@ def editar_detalle_incoming_form(request, sn_batch_pk):
         form = DetalleForm(request.POST, instance=detalleForm)
         if form.is_valid():
             form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/detalle_incoming/'+sn_batch_pk)  # Redirige a la página deseada después de la edición.
     else:
         form = DetalleForm(instance=detalleForm)
@@ -1353,6 +1397,50 @@ def editar_detalle_incoming_form(request, sn_batch_pk):
 def estadostdf(request):
     with connection.cursor() as cursor:
         cursor.execute('CALL abona_cancela()')
-    
-    return redirect('/dashboard')
+    messages.success(request, "Se ha ejecutado Correctamente")
+    return redirect('/orden_consumo')
 
+
+
+def orden_consumo(request):
+    if request.method == 'POST':
+        form = OrdenConsumoForm(request.POST)
+        if form.is_valid():
+            # Procesar las fechas ingresadas, por ejemplo, guardar en la base de datos o realizar cálculos
+            fechainicio = form.cleaned_data['fechainicio']
+            fechatermino = form.cleaned_data['fechatermino']
+            # Agregar aquí la lógica de procesamiento
+
+            consumos = Consumos.objects.filter(f_transaccion__range=(fechainicio,fechatermino))
+
+            wk = openpyxl.Workbook()
+            ws = wk.active
+
+            # Agregar encabezados
+            ws['A1'] = 'Fecha de Transacción'
+            ws['A2'] = 'Descripcion'
+            ws['A3'] = 'STDF'
+            ws['A4'] = 'Cancela o Abona'
+            # Agregar otros encabezados según tus campos
+
+            # Agregar datos de consumos
+            row = 2
+            for consumo in consumos:
+                ws.cell(row=row, column=1, value=consumo.f_transaccion)
+                ws.cell(row=row, column=2, value=consumo.incoming_fk.descripcion)
+                ws.cell(row=row, column=3, value=consumo.incoming_fk.stdf_fk)
+                ws.cell(row=row, column=4, value=consumo.incoming_fk.stdf_fk.estado_fk)
+                # Agregar otros campos de consumo según tus campos
+                row += 1
+
+            # Guardar el archivo Excel en la memoria
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="consumos.xlsx"'
+            wk.save(response)
+
+            return response
+
+    else:
+        form = OrdenConsumoForm()
+
+    return render(request, 'orden_consumo.html', {'form': form})

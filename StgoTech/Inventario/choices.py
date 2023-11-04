@@ -1,3 +1,10 @@
+COMPANIA = [
+
+    ( 'STGO TECHNIK', 'STGO TECHNIK' ),
+    ( 'JETSMART', 'JETSMART')
+
+]
+
 Estado_Repuesto = [
 
     ('Overhaul', 'Overhaul'),
@@ -21,8 +28,8 @@ ITEMS = [
 
 ACEPTADO = [
 
-    ('1', 'SI'),
-    ('0', 'NO'),
+    ('SI', 'SI'),
+    ('NO', 'NO'),
 
 ]
 
@@ -194,6 +201,12 @@ CATEGORIA_INCOMING = [
     ('Serial Number','SN'),
     ('Batch Number','BN '),
     ('Serial/Bacth Number','SN/BN'),
+]
+
+LICENCIA = [
+    ('INCOMING INPECTION','INCOMING INPECTION'),
+    ('CALIDAD','CALIDAD '),
+    
 ]
 
 
