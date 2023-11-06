@@ -4,7 +4,7 @@
 <body>
     <h1>Editar Bodega</h1>
     
-    <form method="post">
+    <form onsubmit="return validateForm_compañia()" method="post">
         {% csrf_token %}
         <div class="row p-2">
             {% for field in form %}
@@ -19,4 +19,29 @@
 
 
 </body>
+{% block js %}
+<script>
+    function validateForm_compañia() {
+        var inputValue = document.getElementById("nom_compania").value;
+        if (inputValue < 0) {
+            Swal.fire({
+            "title": "Error",
+            "text": "¡No puedes ingresar valores negativos!",
+            "icon": "warning",
+            "showCancelButton": true,
+            "confirmButtonText": "Ok",
+            "reverseButtons": true,
+            "confirmButtonColor": "red"
+        })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "#"
+                }
+            })
+        return false;
+      }
+    }
+
+</script>
+{% endblock %}
 {% endblock %}

@@ -33,7 +33,7 @@ class Consumidor(models.Model):
 #TABLA CATEGORIA INCOMING
 class Categotia_incoming(models.Model):
     categoria_pk = models.AutoField(primary_key=True, unique=True)   
-    name_categoria = models.CharField(choices=CATEGORIA_INCOMING, blank=True , null=True, max_length=50)
+    name_categoria = models.CharField(blank=True , null=True, max_length=50)
 
     class Meta:
         db_table = "categoria_incoming"
@@ -45,7 +45,7 @@ class Categotia_incoming(models.Model):
 #TABLA ESTADO  
 class Estado(models.Model):
     estado_pk = models.AutoField(primary_key=True, unique=True)
-    estado = models.CharField(choices=ABONA_CANCELA,blank=True, null=True, max_length=50)
+    estado = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "estado"
@@ -57,7 +57,7 @@ class Estado(models.Model):
 #TABLA UBICACION
 class Ubicacion(models.Model):
     ubicacion_pk = models.AutoField(primary_key=True, unique= True)
-    name_ubicacion = models.CharField(choices=UBICACIONES,blank=True, null=True, max_length=50)
+    name_ubicacion = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "ubicacion"
@@ -70,7 +70,7 @@ class Ubicacion(models.Model):
 #TABLA UOM
 class Uom(models.Model):
     uom_pk = models.AutoField(primary_key=True, unique=True)
-    name_uom = models.CharField(choices=UOM , blank=True, null=True, max_length=50)
+    name_uom = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "uom"
@@ -81,7 +81,7 @@ class Uom(models.Model):
 #TABLA OWNER
 class Owner(models.Model):
     owner_pk = models.AutoField(primary_key=True, unique=True)
-    name_owner = models.CharField(choices=OWNER, blank=True, null=True, max_length=50)
+    name_owner = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "owner"
@@ -92,7 +92,7 @@ class Owner(models.Model):
 #TABLA N_FICHA
 class Ficha(models.Model):
     ficha_pk = models.AutoField(primary_key=True, unique=True)
-    name_ficha = models.CharField(choices=N_FICHA, blank=True, null=True, max_length=50)
+    name_ficha = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "n_ficha"
@@ -103,7 +103,7 @@ class Ficha(models.Model):
 #TABLA CONDICION
 class Condicion(models.Model):
     condicion_pk = models.AutoField(primary_key=True, unique=True)
-    name_condicion = models.CharField(choices=CONDITION, blank=True, null=True, max_length=50)
+    name_condicion = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "condicion"
@@ -115,7 +115,7 @@ class Condicion(models.Model):
 #TABLA CLASIFICACION
 class Clasificacion(models.Model):
     clasificacion_pk = models.AutoField(primary_key=True, unique=True)
-    name_clasificacion = models.CharField(choices=CLASIF_CONSUMO, blank=True, null=True, max_length=50)
+    name_clasificacion = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "clasificacion"
@@ -126,7 +126,7 @@ class Clasificacion(models.Model):
 #TABLA BODEGA
 class Bodega(models.Model):
     bodega_pk = models.AutoField(primary_key=True, unique=True)
-    name_bodega = models.CharField(choices=BODEGA , blank=True, null=True, max_length=50)
+    name_bodega = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "bodega"
@@ -137,7 +137,7 @@ class Bodega(models.Model):
 #TABLA ORIGEN
 class Origen(models.Model):
     origen_pk = models.AutoField(primary_key=True, unique=True)
-    name_origen = models.CharField(choices=ORIGEN,blank=True, null=True, max_length=50)
+    name_origen = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "origen"
@@ -145,10 +145,11 @@ class Origen(models.Model):
     def __str__(self):
         return self.name_origen
     
-#TABLA COMPANIA
+
+#TABLA COMPAÑIA
 class Compania(models.Model):
     cod_compania = models.IntegerField(primary_key=True , unique=True)
-    nom_compania = models.CharField(choices=COMPANIA,blank=True, null=True, max_length=50)
+    nom_compania = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "compania"
@@ -223,7 +224,7 @@ class Incoming(models.Model):
     
 class Estado_Repuesto(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] ) 
-    name_estado = models.CharField(choices=Estado_Repuesto, blank=True, null=True, max_length=50)
+    name_estado = models.CharField( blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "estado_repuesto"
@@ -233,7 +234,7 @@ class Estado_Repuesto(models.Model):
     
 class Licencia(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] ) 
-    name_licencia = models.CharField(choices=LICENCIA, blank=True, null=True, max_length=50)
+    name_licencia = models.CharField(blank=True, null=True, max_length=50)
 
     class Meta:
         db_table = "licencia"

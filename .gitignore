@@ -7,3 +7,4 @@ migrations
 *.env
 .vscode
 admin
+error.log

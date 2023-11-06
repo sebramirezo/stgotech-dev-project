@@ -232,6 +232,8 @@ def detalle_comat(request, stdf_pk):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #VISTA DE INCOMING QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA PAGINA DE INCOMING
+from django.core.cache import cache
+
 @login_required 
 def incoming(request):
     get_form_incoming = Incoming.objects.all()
@@ -250,7 +252,6 @@ def incoming(request):
                     incoming.total_u_purchase_cost = total_unit_cost
                     incoming.saldo = incoming.qty
                     incoming.save()
-
                     request.session['incoming_fk'] = incoming.sn_batch_pk
                     messages.success(request, "Se ha Añadido Correctamente")
                     return redirect('/detalle_form')
@@ -330,6 +331,43 @@ def detalle_incoming(request, sn_batch_pk):
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+
+# ## Test
+# def obtener_datos_stdf_incoming(request):
+
+#     term = request.GET.get('q', '')
+
+#     stdf_data = Comat.objects.filter(stdf_pk__icontains=term).values('stdf_pk')[:20]
+
+#     # stdf_data = Comat.objects.all().values('stdf_pk')
+#     stdf_list = list(stdf_data)
+    
+#     # Convierte la lista de diccionarios a una lista de objetos JSON
+#     stdf_json = [{'stdf_pk': item['stdf_pk']} for item in stdf_list]
+    
+#     return JsonResponse({'stdf_data': stdf_json}, safe=False)
+
+def obtener_datos_stdf_incoming(request):
+    term = request.GET.get('q', '')
+
+    # Filtra los objetos Comat según el término de búsqueda
+    stdf_data = Comat.objects.filter(stdf_pk__icontains=term).first()
+
+    # Verifica si se encontró un objeto Comat
+    if stdf_data:
+        # Convierte el objeto Comat a un diccionario
+        comat_data = {
+            'stdf_pk': stdf_data.stdf_pk,
+            # Agrega otros campos de Comat que necesites
+        }
+        return JsonResponse({'stdf_data': comat_data}, safe=False)
+    else:
+        return JsonResponse({'stdf_data': None}, safe=False)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+#VISTA DE CONSUMO QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA VISTA DE CONSUMOS
+
 def consumos(request):
     form_consumos = ConsumosForm()
     if request.method == 'POST':
@@ -430,6 +468,40 @@ def detalle_consumos(request, consumo_pk):
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def obtener_datos_sn_consumos(request):
+    term = request.GET.get('q', '')
+
+    # Filtra los objetos Comat según el término de búsqueda
+    sn_data = Incoming.objects.filter(sn_batch_pk__icontains=term).first()
+
+    # Verifica si se encontró un objeto Comat
+    if sn_data:
+        # Convierte el objeto Comat a un diccionario
+        incoming_data = {
+            'sn_batch_pk': sn_data.sn_batch_pk,
+            # Agrega otros campos de Comat que necesites
+        }
+        return JsonResponse({'sn_data': incoming_data}, safe=False)
+    else:
+        return JsonResponse({'sn_data': None}, safe=False)
+    
+# def obtener_datos_sn_consumos(request):
+
+#     term = request.GET.get('q', '')
+
+#     sn_data = Incoming.objects.filter(sn_batch_pk__icontains=term).values('sn_batch_pk')[:20]
+
+#     sn_data = Incoming.objects.all().values('sn_batch_pk')
+#     sn_list = list(sn_data)
+    
+#     # Convierte la lista de diccionarios a una lista de objetos JSON
+#     sn_json = [{'sn_batch_pk': item['sn_batch_pk']} for item in sn_list]
+    
+#     return JsonResponse({'sn_data': sn_json}, safe=False)
+    
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 def detalle_inicio(request, stdf_pk):
     draw = int(request.GET.get('draw', 0))
     start = int(request.GET.get('start', 0))
@@ -733,6 +805,13 @@ def registrar_estado(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
+def eliminar_estado(request, estado_pk):
+    estados = Estado.objects.get(pk=estado_pk)
+    estados.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_estado')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 ###########################################
 ### Vista de Mantenedor Ubicación         ####
 ###########################################
@@ -778,6 +857,14 @@ def registrar_ubicacion(request):
     }
         
     return render(request, 'mantenedores/ubicacion/registrar_ubicacion.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_ubicacion(request, ubicacion_pk):
+    ubicaciones = Ubicacion.objects.get(pk=ubicacion_pk)
+    ubicaciones.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_ubicacion')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -829,6 +916,14 @@ def registrar_uom(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
+def eliminar_uom(request, uom_pk):
+    uoms = Uom.objects.get(pk=uom_pk)
+    uoms.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_uom')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 ###########################################
 ### Vista de Mantenedor owner     ####
 ###########################################
@@ -874,6 +969,14 @@ def registrar_owner(request):
     }
         
     return render(request, 'mantenedores/owner/registrar_owner.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_owner(request, owner_pk):
+    owners = Owner.objects.get(pk=owner_pk)
+    owners.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_owner')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -925,6 +1028,14 @@ def registrar_condition(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
+def eliminar_condition(request, condicion_pk):
+    condicions = Condicion.objects.get(pk=condicion_pk)
+    condicions.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_condition')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 ###########################################
 ### Vista de Mantenedor ficha     ####
 ###########################################
@@ -973,6 +1084,14 @@ def registrar_ficha(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
+def eliminar_ficha(request, ficha_pk):
+    fichas = Ficha.objects.get(pk=ficha_pk)
+    fichas.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_ficha')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 ###########################################
 ### Vista de Mantenedor bodega     ####
 ###########################################
@@ -987,8 +1106,8 @@ def mantenedor_bodega(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
-def editar_bodega(request, bodegas_pk):
-    bodegas = Bodega.objects.get(bodegas_pk=bodegas_pk)
+def editar_bodega(request, bodega_pk):
+    bodegas = Bodega.objects.get(bodega_pk=bodega_pk)
 
     if request.method == 'POST':
         form = BodegaForm(request.POST, instance=bodegas)
@@ -1018,6 +1137,14 @@ def registrar_bodega(request):
     }
         
     return render(request, 'mantenedores/bodega/registrar_bodega.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_bodega(request, bodega_pk):
+    bodegas = Bodega.objects.get(pk=bodega_pk)
+    bodegas.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_bodega')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -1069,6 +1196,14 @@ def registrar_origen(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
+def eliminar_origen(request, origen_pk):
+    origenes = Origen.objects.get(pk=origen_pk)
+    origenes.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_origen')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 ###########################################
 ### Vista de Mantenedor cargo     ####
 ###########################################
@@ -1114,6 +1249,14 @@ def registrar_cargo(request):
     }
         
     return render(request, 'mantenedores/cargo/registrar_cargo.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_cargo(request, id):
+    cargos = Cargo.objects.get(pk=id)
+    cargos.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_cargo')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -1164,6 +1307,14 @@ def registrar_clasificacion(request):
     return render(request, 'mantenedores/clasificacion/registrar_clasificacion.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_clasificacion(request, clasificacion_pk):
+    clasificaciones = Clasificacion.objects.get(pk=clasificacion_pk)
+    clasificaciones.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_clasificacion')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 ###########################################
 ### Vista de Mantenedor compañia     ####
 ###########################################
@@ -1178,8 +1329,8 @@ def mantenedor_compañia(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
-def editar_compañia(request, cod_compañia):
-    compañias = Compania.objects.get(cod_compañia=cod_compañia)
+def editar_compañia(request, cod_compania):
+    compañias = Compania.objects.get(cod_compania=cod_compania)
 
     if request.method == 'POST':
         form = CompaniaForm(request.POST, instance=compañias)
@@ -1209,6 +1360,14 @@ def registrar_compañia(request):
     }
         
     return render(request, 'mantenedores/compañia/registrar_compañia.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_compañia(request, cod_compania):
+    companias = Compania.objects.get(pk=cod_compania)
+    companias.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_compañia')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -1260,6 +1419,14 @@ def registrar_consumidor(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
+def eliminar_consumidor(request, id):
+    consumidores = Consumidor.objects.get(pk=id)
+    consumidores.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_consumidor')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 ###########################################
 ### Vista de Mantenedor estado_repuesto     ####
 ###########################################
@@ -1305,6 +1472,14 @@ def registrar_estado_repuesto(request):
     }
         
     return render(request, 'mantenedores/estado_repuesto/registrar_estado_repuesto.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_estado_repuesto(request, id):
+    estado_repuestos = Estado_Repuesto.objects.get(pk=id)
+    estado_repuestos.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_estado_repuesto')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 

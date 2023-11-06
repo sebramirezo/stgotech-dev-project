@@ -1,4 +1,21 @@
 <script>
+    // Array para rastrear las páginas visitadas
+    const historyStack = [];
+
+    // Función para registrar una página visitada
+    function registerPage(pageName) {
+        historyStack.push(pageName);
+    }
+
+    // Función para retroceder a la página anterior
+    function goBack() {
+        if (historyStack.length > 1) {
+            // Retrocede solo si hay al menos dos páginas en el historial
+            historyStack.pop(); // Elimina la página actual
+            const previousPage = historyStack.pop(); // Obtiene la página anterior
+            window.location.href = previousPage; // Navega a la página anterior
+        }
+    }
 
     $(document).ready(function() {
         var goTopButton = $("#goTopButton");
@@ -358,14 +375,88 @@
         $('#id_uom_fk').select2({ 'placeholder': 'Seleccione UOM' })
         $('#id_condicion_fk').select2({ 'placeholder': 'Seleccione Condición' })
         $('#id_ficha_fk').select2({ 'placeholder': 'Seleccione N° de Ficha' })
-        $('#id_stdf_fk').select2({ 'placeholder': 'Seleccione STDF' })
-        $('#id_incoming_fk').select2({ 'placeholder': 'Seleccione Serial/Batch Number' })
+        // $('#id_stdf_fk').select2({ 'placeholder': 'Seleccione STDF' })
+        // $('#id_incoming_fk').select2({ 'placeholder': 'Seleccione Serial/Batch Number' })
         $('#id_owner_fk').select2({ 'placeholder': 'Seleccione Owner' })
         // $('#id_categoria_fk').select2({ 'placeholder': 'Seleccione Categoria' })
         $('#id_consumidor_fk').select2({ 'placeholder': 'Seleccione Consumidor' })
         $('#id_compañia_fk').select2({ 'placeholder': 'Seleccione Compañia' })
-
     });
+    // Test
+    $(document).ready(function () {
+        // Inicializa el elemento select2
+        $('#id_stdf_fk').select2({
+            placeholder: 'Selecciona una opción',
+            ajax: {
+                url: '/obtener_stdf_incoming/', // La URL donde obtendrás los datos desde Django
+                dataType: 'json',
+                // delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term // Enviar el término de búsqueda como parámetro de consulta
+                    };
+                },
+                processResults: function (data) {
+                    if (data.stdf_data) {
+                        return {
+                            results: [
+                                {
+                                    id: data.stdf_data.stdf_pk,
+                                    text: data.stdf_data.stdf_pk,
+                                }
+                                // Agrega más campos del objeto Comat si es necesario
+                            ],
+                        };
+                    } else {
+                        return { results: [] }; // No se encontraron resultados
+                    }
+                },
+                cache: true,
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Error en la solicitud AJAX:', errorThrown);
+                }
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        // Inicializa el elemento select2
+        $('#id_incoming_fk').select2({
+            placeholder: 'Seleccione Serial Number o Batch Number',
+            ajax: {
+                url: '/obtener_sn_consumo/', // La URL donde obtendrás los datos desde Django
+                dataType: 'json',
+                // delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term // Enviar el término de búsqueda como parámetro de consulta
+                    };
+                },
+                processResults: function (data) {
+                    if (data.sn_data) {
+                        return {
+                            results: [
+                                {
+                                    id: data.sn_data.sn_batch_pk,
+                                    text: data.sn_data.sn_batch_pk,
+                                }
+                                // Agrega más campos del objeto Comat si es necesario
+                            ],
+                        };
+                    } else {
+                        return { results: [] }; // No se encontraron resultados
+                    }
+                },
+                cache: true,
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Error en la solicitud AJAX:', errorThrown);
+                }
+            }
+        });
+    });
+
+
+    
     
     $(document).ready(function () {
       var dataTable = $('#tabla-consumos').DataTable({

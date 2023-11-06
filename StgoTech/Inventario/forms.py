@@ -1,8 +1,6 @@
 from django.forms import ModelForm, ValidationError
 from .models import *
 from django import forms
-from django.contrib.auth.models import Permission
-from django.contrib.admin.widgets import AdminDateWidget
 
 
 
@@ -55,7 +53,6 @@ class ComatForm(ModelForm):
         'observaciones',
         
         ]
-
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 class IncomingForm(ModelForm):
 
@@ -76,9 +73,8 @@ class IncomingForm(ModelForm):
     owner_fk = forms.ModelChoiceField(queryset=Owner.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingreso Owner"}), label='Owner')
     condicion_fk = forms.ModelChoiceField(queryset=Condicion.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa Condicion"}), label='Condicion')
     ficha_fk = forms.ModelChoiceField(queryset=Ficha.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingreso N° Ficha"}), label='N° Ficha')
-    #stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
-    stdf_fk = forms.ModelChoiceField(queryset=Comat.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
-
+    # stdf_fk = forms.CharField(widget=forms.Select(attrs={"class": "form-control","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
+    stdf_fk = forms.ModelChoiceField(queryset= Comat.objects.all(), widget=forms.Select(attrs={"class": "select2-selection select2-selection--single","placeholder": "Ingresa STDF", "id":"id_stdf_fk"}), label='STDF')
     class Meta:
         model = Incoming
         fields = [
@@ -126,21 +122,21 @@ class ConsumosForm(ModelForm):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 class CategoriaForm(ModelForm):
-    name_categoria = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Nueva Categoria"}),label='')
+    name_categoria = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Nueva Categoria", 'id':'name_categoria'}),label='Categoria')
 
     class Meta:
         model = Categotia_incoming
         fields = '__all__'
 
 class EstadoForm(ModelForm):
-    estado = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Nuevo Estado"}),label='')
+    estado = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Nuevo Estado", 'id':'estado'}),label='Estado')
 
     class Meta:
         model = Estado
         fields = '__all__'
 
 class UbicacionForm(ModelForm):
-    name_ubicacion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa la Ubicación"}),label='')
+    name_ubicacion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa la Ubicación", 'id':'name_ubicacion'}),label='Ubicación')
 
     class Meta:
         model = Ubicacion
@@ -153,66 +149,80 @@ class UserForm(ModelForm):
         fields = '__all__'
 
 class UomForm(ModelForm):
+    name_uom = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa el Uom", 'id':'name_uom'}),label='Uom')
     
     class Meta:
         model = Uom
         fields = '__all__'
 
 class OwnerForm(ModelForm):
+    name_owner = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa el Owner", 'id':'name_owner'}),label='Owner')
 
     class Meta:
         model = Owner
         fields = '__all__'
 
 class FichaForm(ModelForm):
+    name_ficha = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa el N de Ficha", 'id':'name_ficha'}),label='Número de Ficha')
 
     class Meta:
         model = Ficha
         fields = '__all__'
 
 class ConditionForm(ModelForm):
+    name_condicion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa la Condición", 'id':'name_condicion'}),label='Condición')
 
     class Meta:
         model = Condicion
         fields = '__all__'
 
 class BodegaForm(ModelForm):
+    name_bodega = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa una bodega", 'id':'name_bodega'}),label='Bodega')
 
     class Meta:
         model = Bodega
         fields = '__all__'
 
 class OrigenForm(ModelForm):
+    name_origen = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa un Origen", 'id':'name_origen'}),label='Origen')
 
     class Meta:
         model = Origen
         fields = '__all__'
 
 class CargoForm(ModelForm):
+    name_cargo = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa un Cargo", 'id':'name_cargo'}),label='Cargo')
 
     class Meta:
         model = Cargo
         fields = '__all__'
 
 class ClasificacionForm(ModelForm):
+    name_clasificacion = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa una clasificación", 'id':'name_clasificacion'}),label='Clasificación')
 
     class Meta:
         model = Clasificacion
         fields = '__all__'
 
 class ConsumidorForm(ModelForm):
+    nombre = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa una Nombre", 'id':'nombre'}),label='Nombre')
+    apellido = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa un Apellido", 'id':'apellido'}),label='Apellido')
+    email = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa un Email", 'id':'email'}),label='Email')
+    cargo = forms.ModelChoiceField(queryset=Cargo.objects.all(), widget=forms.Select(attrs={"class":"form-control", "placeholder": "Ingresa un Cargo", 'id':'cargo'}),label='Cargo')
 
     class Meta:
         model = Consumidor
         fields = '__all__'
 
 class EstadoRepuestoForm(ModelForm):
+    name_estado = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa un estado de repuesto", 'id':'name_estado'}),label='Estado Repuesto')
 
     class Meta:
         model = Estado_Repuesto
         fields = '__all__'
 
 class CompaniaForm(ModelForm):
+    nom_compania = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa un nombre de Compañia", 'id':'nom_compania'}),label='Nombre Compañia')
 
     class Meta:
         model = Compania
