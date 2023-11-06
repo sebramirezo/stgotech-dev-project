@@ -24,7 +24,7 @@
 <hr>
 <div class="container m-2">
     <h5>Formulario de Ingreso de Productos al Almacen - Incoming Inspection</h5>
-    <form id="incoming_form" action="" method="post" autocomplete="off">
+    <form id="incoming_form" onsubmit="return validateForm_incoming()" action="" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="row p-2">
             {% for incoming in form_incoming %}
@@ -72,9 +72,45 @@
         display: flex;
     }
 </style>
+{% block js %}
+<script>
+    function validateInput(inputValue, elementId) {
+        if (inputValue < 0) {
+            Swal.fire({
+                "title": "Error",
+                "text": "¡No puedes ingresar valores negativos!",
+                "icon": "warning",
+                "showCancelButton": true,
+                "confirmButtonText": "Ok",
+                "reverseButtons": true,
+                "confirmButtonColor": "red"
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    // Puedes agregar código adicional si es necesario
+                    window.location.href = "#"
+                }
+            });
+            return false;
+        }
+        return true;
+    }
 
+    function validateForm_incoming() {
+        // Validar cada input y recoger los resultados
+        var isInput1Valid = validateInput(parseFloat(document.getElementById("id_sn_batch_pk").value), "id_sn_batch_pk");
+        var isInput2Valid = validateInput(parseFloat(document.getElementById("id_po").value), "id_po");
+        var isInput3Valid = validateInput(parseFloat(document.getElementById("id_qty").value), "id_qty");
+        var isInput4Valid = validateInput(parseFloat(document.getElementById("id_u_purchase_cost").value), "id_u_purchase_cost");
+        // Puedes agregar más lógica aquí para manejar los resultados si es necesario
 
-
-
-
+        // Verificar si todos los inputs son válidos
+        if (isInput1Valid && isInput2Valid && isInput3Valid && isInput4Valid) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+{% endblock %}
 {% endblock %}
