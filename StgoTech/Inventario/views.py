@@ -330,7 +330,6 @@ def detalle_incoming(request, sn_batch_pk):
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-#VISTA DE CONSUMO QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA VISTA DE CONSUMOS
 def consumos(request):
     form_consumos = ConsumosForm()
     if request.method == 'POST':
@@ -341,26 +340,30 @@ def consumos(request):
 
                 consumo.usuario = request.user
 
-                # Obtener el registro correspondiente en Incoming
-                incoming = consumo.incoming_fk
+                # Obtener el registro de Incoming relacionado a través de ForeignKey
+                incoming = consumo.incoming_fk  # Asegúrate de usar el nombre correcto del campo
 
-                incoming.saldo -=consumo.qty_extraida
+                if consumo.qty_extraida <= incoming.saldo:
+                    incoming.saldo -= consumo.qty_extraida
+                    incoming.save()
 
-                # Actualizar el valor de saldo en el registro de Incoming
-                incoming.save()
-
-                # Guardar el registro de Consumos en la base de datos
-                consumo.save()
-                messages.success(request, "Se ha Añadido Correctamente")
-                return redirect('/consumos')
+                    # Guardar el registro de Consumos en la base de datos
+                    consumo.save()
+                    messages.success(request, "Se ha añadido correctamente")
+                    return redirect('/consumos')
+                else:
+                    error_message = f"No puedes extraer más de lo que hay en el saldo. Saldo actual: {incoming.saldo}."
+                    messages.error(request, error_message)
             else:
                 # Manejo del caso en el que el usuario no está autenticado
-                return HttpResponse("Debes iniciar sesión para realizar esta acción.")  
+                return HttpResponse("Debes iniciar sesión para realizar esta acción.")
 
     context = {
         'form_consumos': form_consumos,
     }
     return render(request, 'formularios/consumos.html', context)
+
+
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
