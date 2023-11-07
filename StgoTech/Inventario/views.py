@@ -5,7 +5,6 @@ from django.db.models import Q , Sum
 from django.http.response import JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.db.models import Count
 from django.db import connection
@@ -25,6 +24,18 @@ class CustomLoginView(LoginView):
 def cerrar_sesion(request):
     logout(request)
     return redirect('/login')
+
+def error_404(request, exception):
+    return render(request, 'errores/404.html', status=404)
+
+def error_400(request, exception):
+    return render(request, 'errores/400.html', status=400)
+
+def error_403(request, exception):
+    return render(request, 'errores/403.html', status=403)
+
+def error_500(request):
+    return render(request, 'errores/500.html', status=500)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
@@ -738,6 +749,13 @@ def registrar_categoria_incoming(request):
     if request.method == 'POST':
         form_reg_categoria = CategoriaForm(request.POST)
         if form_reg_categoria.is_valid():
+            if Categotia_incoming.objects.exists():
+                last_register = Categotia_incoming.objects.latest('categoria_pk')
+                new_pk = last_register.categoria_pk + 1
+            else:
+                new_pk = 1
+            
+            form_reg_categoria.instance.categoria_pk = new_pk
             form_reg_categoria.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_categoria_incoming')
@@ -793,6 +811,13 @@ def registrar_estado(request):
     if request.method == 'POST':
         form_reg_estado = EstadoForm(request.POST)
         if form_reg_estado.is_valid():
+            if Estado.objects.exists():
+                last_register = Estado.objects.latest('estado_pk')
+                new_pk = last_register.estado_pk + 1
+            else:
+                new_pk = 1
+            
+            form_reg_estado.instance.estado_pk = new_pk
             form_reg_estado.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_estado')
@@ -848,6 +873,13 @@ def registrar_ubicacion(request):
     if request.method == 'POST':
         form_reg_ubicacion = UbicacionForm(request.POST)
         if form_reg_ubicacion.is_valid():
+            if Ubicacion.objects.exists():
+                last_register = Ubicacion.objects.latest('ubicacion_pk')
+                new_pk = last_register.ubicacion_pk + 1
+            else:
+                new_pk = 1
+
+            form_reg_ubicacion.instance.ubicacion_pk = new_pk
             form_reg_ubicacion.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_ubicacion')
@@ -904,6 +936,13 @@ def registrar_uom(request):
     if request.method == 'POST':
         form_reg_uom = UomForm(request.POST)
         if form_reg_uom.is_valid():
+            if Uom.objects.exists():
+                last_register = Uom.objects.latest('uom_pk')
+                new_pk = last_register.uom_pk + 1
+            else:
+                new_pk = 1
+
+            form_reg_uom.instance.uom_pk = new_pk
             form_reg_uom.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_uom')
@@ -960,6 +999,13 @@ def registrar_owner(request):
     if request.method == 'POST':
         form_reg_owner = OwnerForm(request.POST)
         if form_reg_owner.is_valid():
+            if Owner.objects.exists():
+                last_register = Owner.objects.latest('owner_pk')
+                new_pk = last_register.owner_pk + 1
+            else:
+                new_pk = 1
+
+            form_reg_owner.instance.owner_pk = new_pk
             form_reg_owner.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_owner')
@@ -1016,6 +1062,13 @@ def registrar_condition(request):
     if request.method == 'POST':
         form_reg_condition = ConditionForm(request.POST)
         if form_reg_condition.is_valid():
+            if Condicion.objects.exists():
+                last_register = Condicion.objects.latest('condicion_pk')
+                new_pk = last_register.condicion_pk + 1
+            else:
+                new_pk = 1
+
+            form_reg_condition.instance.condicion_pk = new_pk
             form_reg_condition.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_condition')
@@ -1072,6 +1125,13 @@ def registrar_ficha(request):
     if request.method == 'POST':
         form_reg_ficha = FichaForm(request.POST)
         if form_reg_ficha.is_valid():
+            if Ficha.objects.exists():
+                last_register = Ficha.objects.latest('ficha_pk')
+                new_pk = last_register.ficha_pk + 1
+            else:
+                new_pk = 1
+
+            form_reg_ficha.instance.ficha_pk = new_pk
             form_reg_ficha.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_ficha')
@@ -1128,6 +1188,13 @@ def registrar_bodega(request):
     if request.method == 'POST':
         form_reg_bodega = BodegaForm(request.POST)
         if form_reg_bodega.is_valid():
+            if Bodega.objects.exists():
+                last_register = Bodega.objects.latest('bodega_pk')
+                new_pk = last_register.bodega_pk + 1
+            else:
+                new_pk = 1
+
+            form_reg_bodega.instance.bodega_pk = new_pk
             form_reg_bodega.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_bodega')
@@ -1184,6 +1251,13 @@ def registrar_origen(request):
     if request.method == 'POST':
         form_reg_origen = OrigenForm(request.POST)
         if form_reg_origen.is_valid():
+            if Origen.objects.exists():
+                last_register = Origen.objects.latest('origen_pk')
+                new_pk = last_register.origen_pk + 1
+            else:
+                new_pk = 1
+
+            form_reg_origen.instance.origen_pk = new_pk
             form_reg_origen.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_origen')
@@ -1240,6 +1314,13 @@ def registrar_cargo(request):
     if request.method == 'POST':
         form_reg_cargo = CargoForm(request.POST)
         if form_reg_cargo.is_valid():
+            if Cargo.objects.exists():
+                last_register = Cargo.objects.latest('id')
+                new_pk = last_register.id + 1
+            else:
+                new_pk = 1
+
+            form_reg_cargo.instance.id = new_pk
             form_reg_cargo.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_cargo')
@@ -1296,6 +1377,13 @@ def registrar_clasificacion(request):
     if request.method == 'POST':
         form_reg_clasificacion = ClasificacionForm(request.POST)
         if form_reg_clasificacion.is_valid():
+            if Clasificacion.objects.exists():
+                last_register = Clasificacion.objects.latest('clasificacion_pk')
+                new_pk = last_register.clasificacion_pk + 1
+            else:
+                new_pk = 1
+
+            form_reg_clasificacion.instance.clasificacion_pk = new_pk
             form_reg_clasificacion.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_clasificacion')
@@ -1351,6 +1439,13 @@ def registrar_compañia(request):
     if request.method == 'POST':
         form_reg_compañia = CompaniaForm(request.POST)
         if form_reg_compañia.is_valid():
+            if Compania.objects.exists():
+                last_register = Compania.objects.latest('cod_compania')
+                new_pk = last_register.cod_compania + 1
+            else:
+                new_pk = 1
+
+            form_reg_compañia.instance.cod_compania = new_pk
             form_reg_compañia.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_compañia')
@@ -1407,6 +1502,13 @@ def registrar_consumidor(request):
     if request.method == 'POST':
         form_reg_consumidor = ConsumidorForm(request.POST)
         if form_reg_consumidor.is_valid():
+            if Consumidor.objects.exists():
+                last_register = Consumidor.objects.latest('id')
+                new_pk = last_register.id + 1
+            else:
+                new_pk = 1
+
+            form_reg_consumidor.instance.id = new_pk
             form_reg_consumidor.save()
             messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/mantenedor_consumidor')
@@ -1463,6 +1565,13 @@ def registrar_estado_repuesto(request):
     if request.method == 'POST':
         form_reg_estado_repuesto = EstadoRepuestoForm(request.POST)
         if form_reg_estado_repuesto.is_valid():
+            if Estado_Repuesto.objects.exists():
+                last_register = Estado_Repuesto.objects.latest('id')
+                new_pk = last_register.id + 1
+            else:
+                new_pk = 1
+
+            form_reg_estado_repuesto.instance.id = new_pk
             form_reg_estado_repuesto.save()
             messages.success(request, "Se ha Añadido Correctamente")
             return redirect('/mantenedor_estado_repuesto')

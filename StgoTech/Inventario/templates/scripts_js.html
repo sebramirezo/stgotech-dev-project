@@ -1,21 +1,4 @@
 <script>
-    // Array para rastrear las páginas visitadas
-    const historyStack = [];
-
-    // Función para registrar una página visitada
-    function registerPage(pageName) {
-        historyStack.push(pageName);
-    }
-
-    // Función para retroceder a la página anterior
-    function goBack() {
-        if (historyStack.length > 1) {
-            // Retrocede solo si hay al menos dos páginas en el historial
-            historyStack.pop(); // Elimina la página actual
-            const previousPage = historyStack.pop(); // Obtiene la página anterior
-            window.location.href = previousPage; // Navega a la página anterior
-        }
-    }
 
     $(document).ready(function() {
         var goTopButton = $("#goTopButton");
@@ -378,9 +361,9 @@
         // $('#id_stdf_fk').select2({ 'placeholder': 'Seleccione STDF' })
         // $('#id_incoming_fk').select2({ 'placeholder': 'Seleccione Serial/Batch Number' })
         $('#id_owner_fk').select2({ 'placeholder': 'Seleccione Owner' })
-        // $('#id_categoria_fk').select2({ 'placeholder': 'Seleccione Categoria' })
+        $('#id_categoria_fk').select2({ 'placeholder': 'Seleccione Categoria' })
         $('#id_consumidor_fk').select2({ 'placeholder': 'Seleccione Consumidor' })
-        $('#id_compañia_fk').select2({ 'placeholder': 'Seleccione Compañia' })
+        $('#id_compania_fk').select2({ 'placeholder': 'Seleccione Compañia' })
     });
     // Test
     $(document).ready(function () {

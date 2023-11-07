@@ -5,7 +5,7 @@ COMPANIA = [
 
 ]
 
-Estado_Repuesto = [
+ESTADO_REPUESTO = [
 
     ('Overhaul', 'Overhaul'),
     ('Chequeado', 'Chequeado'),
@@ -47,18 +47,6 @@ Prioridad = [
     ('Media', 'Media'),
     ('Alta', 'Alta'),
     ('Baja', 'Baja'),
-
-]
-
-Estado_Repuesto = [
-
-    ('Overhaul', 'Overhaul'),
-    ('Chequeado', 'Chequeado'),
-    ('Reparado', 'Reparado'),
-    ('Testeado', 'Testeado'),
-    ('Calibracion', 'Calibracion'),
-    ('Nuevo', 'Nuevo'),
-    ('Otro', 'Otro'),
 
 ]
 

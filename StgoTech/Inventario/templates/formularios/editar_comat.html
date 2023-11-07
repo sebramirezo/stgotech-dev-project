@@ -4,7 +4,7 @@
 <body>
     <h1>Editar Comat</h1>
     
-    <form method="post">
+    <form onsubmit="return validateForm_comat()" method="post">
         {% csrf_token %}
         <div class="row p-2">
             {% for field in form %}
@@ -19,4 +19,50 @@
 
 
 </body>
+{% block js %}
+<script>
+    function validateInput(inputValue, elementId) {
+        if (inputValue < 0) {
+            Swal.fire({
+                "title": "Error",
+                "text": "¡No puedes ingresar valores negativos!",
+                "icon": "warning",
+                "showCancelButton": true,
+                "confirmButtonText": "Ok",
+                "reverseButtons": true,
+                "confirmButtonColor": "red"
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    // Puedes agregar código adicional si es necesario
+                    window.location.href = "#"
+                }
+            });
+            return false;
+        }
+        return true;
+    }
+
+    function validateForm_comat() {
+        // Validar cada input y recoger los resultados
+        var isInput1Valid = validateInput(parseFloat(document.getElementById("id_stdf_pk").value), "id_stdf_pk");
+        var isInput2Valid = validateInput(parseFloat(document.getElementById("id_num_manifiesto").value), "id_num_manifiesto");
+        var isInput3Valid = validateInput(parseFloat(document.getElementById("id_corr_interno").value), "id_corr_interno");
+        var isInput4Valid = validateInput(parseFloat(document.getElementById("id_pcs").value), "id_pcs");
+        var isInput5Valid = validateInput(parseFloat(document.getElementById("id_peso").value), "id_peso");
+        var isInput6Valid = validateInput(parseFloat(document.getElementById("id_flete").value), "id_flete");
+        var isInput7Valid = validateInput(parseFloat(document.getElementById("id_seguro").value), "id_seguro");
+        var isInput8Valid = validateInput(parseFloat(document.getElementById("id_fob").value), "id_fob");
+
+        // Puedes agregar más lógica aquí para manejar los resultados si es necesario
+
+        // Verificar si todos los inputs son válidos
+        if (isInput1Valid && isInput2Valid && isInput3Valid && isInput4Valid && isInput5Valid && isInput6Valid && isInput7Valid && isInput8Valid) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+{% endblock %}
 {% endblock %}
