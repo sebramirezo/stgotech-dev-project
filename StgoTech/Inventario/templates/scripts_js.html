@@ -457,9 +457,10 @@
           },
           "columns": [
               // Define las columnas que deseas mostrar
-              { "data": "consumo_pk" },
+              { "data": "consumo_pk"},
               { "data": "incoming_fk" },
               { "data": "f_transaccion" },
+              { "data": "orden_consumo"},
               { "data": "matricula_aeronave" },
               { "data": "qty_extraida" },
               { "data": "usuario"},
@@ -468,7 +469,7 @@
                 "render": function (data, type, row, meta) {
                     var consumo_pk = data.consumo_pk;
                     var url = "/detalle_consumos/" + consumo_pk + "/";
-                    return '<a href="' + url + '" class="ver-detalles" data-consumo_pk="' + consumo_pk + '">Detalles</a>';
+                    return '<a href="' + url + '" class="ver-detalles" data-consumo_pk="' + consumo_pk + '">Detalle</a>';
                 }
               }
           ]

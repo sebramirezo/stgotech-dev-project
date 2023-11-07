@@ -22,10 +22,16 @@ from django.contrib import messages
 def imprimir_excel_incoming(request, sn_batch_pk):
     try:
         selected_printer = request.session.get('selected_printer', None)
-        cantidad_hojas = int(request.POST.get('cantidad_hojas', 1))
-
+        cantidad_hojas = request.session.get('cantidad_hojas', 1)
+        print("Cantidad de hojas1:", cantidad_hojas)
         if selected_printer is None:
             return HttpResponse("No se ha seleccionado una impresora.")
+        
+        if cantidad_hojas is not None:
+            cantidad_hojas = int(cantidad_hojas)
+        else:
+            # Manejar el caso en el que 'cantidad_hojas' es None o no es un número válido
+            cantidad_hojas = 1
 
 
         imagen_path = 'staticfiles\\img\\Imagen1.png'
@@ -850,12 +856,10 @@ def imprimir_excel_incoming(request, sn_batch_pk):
         # Iniciar COM y Excel
         win32.pythoncom.CoInitialize()
         excel = win32.gencache.EnsureDispatch('Excel.Application')
-
         # Abrir el libro de Excel desde el archivo temporal
         workbook = excel.Workbooks.Open(excel_temp_file.name)
         # Configurar la impresión en la impresora seleccionada
-        workbook.PrintOut(ActivePrinter=selected_printer)
-
+        print("Cantidad de hojas a imprimir:", cantidad_hojas)
         workbook.PrintOut(Copies=cantidad_hojas, ActivePrinter=selected_printer)
 
         # Cerrar Excel y liberar COM
@@ -880,12 +884,13 @@ def seleccionarimpresora(request, sn_batch_pk):
 
     if request.method == 'POST':
         selected_printer = request.POST.get('impresora')
-        cantidad_hojas = int(request.POST.get('cantidad_hojas', 1))  # Obtener la cantidad de hojas (1 por defecto)
-
+        cantidad_hojas = int(request.POST.get('cantidad_hojas'))  # Obtener la cantidad de hojas (1 por defecto)
+        print("Cantidad de hojas:", cantidad_hojas)
         # Guardar la impresora seleccionada y la cantidad de hojas en variables de sesión
         request.session['selected_printer'] = selected_printer
         request.session['cantidad_hojas'] = cantidad_hojas
 
+        
         # Aquí puedes realizar la impresión con la cantidad de hojas seleccionada
 
     printers = [printer[2] for printer in win32print.EnumPrinters(2)]
