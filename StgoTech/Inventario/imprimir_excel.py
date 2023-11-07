@@ -853,9 +853,6 @@ def imprimir_excel_incoming(request, sn_batch_pk):
 
         # Abrir el libro de Excel desde el archivo temporal
         workbook = excel.Workbooks.Open(excel_temp_file.name)
-
-
-
         # Configurar la impresión en la impresora seleccionada
         workbook.PrintOut(ActivePrinter=selected_printer)
 
@@ -868,7 +865,8 @@ def imprimir_excel_incoming(request, sn_batch_pk):
         messages.success(request, "Se Imprimio Correctamente")
         return redirect('seleccionarimpresora', sn_batch_pk=sn_batch_pk)
     except Exception as e:
-        messages.success(request, "No se ha encontrado Incoming Inspection Forms")
+        print("Error al imprimir:", str(e))
+        messages.error(request, f"Error al imprimir: {str(e)}")
         return redirect('seleccionarimpresora', sn_batch_pk=sn_batch_pk)
 # def impresoras(request):
 #     # Obtener la lista de impresoras disponibles
@@ -893,3 +891,5 @@ def seleccionarimpresora(request, sn_batch_pk):
     printers = [printer[2] for printer in win32print.EnumPrinters(2)]
 
     return render(request, 'impresoras.html', {'printers': printers, 'datos': datos})
+
+
