@@ -56,17 +56,39 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {% if messages %}
-      {%for m in messages %}
+      {% for message in messages %}
         <script>
-          Swal.fire({
-            "title": "GOOD JOB!",
-            "text":"{{m}}",
-            "icon":"success"
+            (function() {
+              let messageTag = "{{ message.tags|escapejs }}";
+              let messageText = "{{ message.message|escapejs }}";
 
-          })
+              if (messageTag === 'error') {
+                Swal.fire({
+                  title: "Error!",
+                  text: messageText,
+                  icon: "error"
+                });
+              } else if (messageTag === 'success') {
+                Swal.fire({
+                  title: "Completado!",
+                  text: messageText,
+                  icon: "success"
+                });
+              }
+            })();
+          
         </script>
-      {%endfor%}
+      {% endfor %}
     {% endif %}
+
+
+
+
+
+
+
+
+
     
 
     

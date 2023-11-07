@@ -25,7 +25,8 @@ def imprimir_excel_incoming(request, sn_batch_pk):
         cantidad_hojas = request.session.get('cantidad_hojas', 1)
         print("Cantidad de hojas1:", cantidad_hojas)
         if selected_printer is None:
-            return HttpResponse("No se ha seleccionado una impresora.")
+            messages.error(request, "No se ha seleccionado una Impresora")
+            return redirect('seleccionarimpresora', sn_batch_pk=sn_batch_pk)
         
         if cantidad_hojas is not None:
             cantidad_hojas = int(cantidad_hojas)
@@ -885,7 +886,6 @@ def seleccionarimpresora(request, sn_batch_pk):
     if request.method == 'POST':
         selected_printer = request.POST.get('impresora')
         cantidad_hojas = int(request.POST.get('cantidad_hojas'))  # Obtener la cantidad de hojas (1 por defecto)
-        print("Cantidad de hojas:", cantidad_hojas)
         # Guardar la impresora seleccionada y la cantidad de hojas en variables de sesión
         request.session['selected_printer'] = selected_printer
         request.session['cantidad_hojas'] = cantidad_hojas
@@ -896,5 +896,3 @@ def seleccionarimpresora(request, sn_batch_pk):
     printers = [printer[2] for printer in win32print.EnumPrinters(2)]
 
     return render(request, 'impresoras.html', {'printers': printers, 'datos': datos})
-
-
