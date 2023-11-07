@@ -118,11 +118,11 @@ def buscar_datos_inicio(request):
     )[start:start + length]  # Ajustar la paginación aquí
 
     # Consulta para obtener Comats sin Incoming relacionado
-    query_comats_sin_incoming = Comat.objects.filter(incoming__isnull=True)
-    total_records_comats_sin_incoming = query_comats_sin_incoming.count()
-    resultados_comats_sin_incoming = list(
-        query_comats_sin_incoming.values("stdf_pk", "awb", "hawb", "prioridad")
-    )[start:start + length]  # Ajustar la paginación aquí
+    # query_comats_sin_incoming = Comat.objects.filter(incoming__isnull=True)
+    # total_records_comats_sin_incoming = query_comats_sin_incoming.count()
+    # resultados_comats_sin_incoming = list(
+    #     query_comats_sin_incoming.values("stdf_pk", "awb", "hawb", "prioridad")
+    # )[start:start + length]  # Ajustar la paginación aquí
 
     # Crear el diccionario principal "data"
     data = {
@@ -130,7 +130,7 @@ def buscar_datos_inicio(request):
         "recordsTotal": total_records_incoming,
         "recordsFiltered": total_records_incoming,
         "data_incoming": resultados_incoming,
-        "data_comats_sin_incoming": resultados_comats_sin_incoming,   
+        # "data_comats_sin_incoming": resultados_comats_sin_incoming,   
     }
 
     return JsonResponse(data)
@@ -449,6 +449,7 @@ def obtener_datos_consumos(request):
             "consumo_pk": consumo.consumo_pk,
             "incoming_fk": consumo.incoming_fk.sn_batch_pk,
             "f_transaccion": consumo.f_transaccion,
+            "orden_consumo": consumo.orden_consumo,
             "matricula_aeronave": consumo.matricula_aeronave,
             "qty_extraida": consumo.qty_extraida,
             "usuario": consumo.usuario.username,

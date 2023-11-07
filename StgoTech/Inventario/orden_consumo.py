@@ -46,9 +46,6 @@ def orden_consumos(request):
             # Formatear la fecha como una cadena de texto en el formato deseado (día/mes/año)
             fecha_formateada = fecha_actual.strftime("%d/%m/%Y")
 
-            
-            
-
             margen_izquierdo = 0.25
             margen_derecho = 0.25
             margen_superior = 0.6
