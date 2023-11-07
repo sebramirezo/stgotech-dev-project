@@ -98,31 +98,42 @@ def buscar_datos_inicio(request):
 
     total_records_incoming = query_incoming.count()
 
-    resultados_incoming = list(
-        query_incoming.values(
-            "sn_batch_pk",
-            "categoria_fk__name_categoria",
-            "part_number",
-            "descripcion",
-            "stdf_fk__stdf_pk",
-            "qty",
-            "saldo",
-            "stdf_fk__awb",
-            "stdf_fk__num_manifiesto",
-            "owner_fk__name_owner",
-            "ubicacion_fk__name_ubicacion",
-            "f_vencimiento"
-        ).annotate(
-            qty_extraida_total=Sum('consumos__qty_extraida')
-        ).distinct()
-    )[start:start + length]  # Ajustar la paginación aquí
+    resultados_incoming_list = []
+    
+    for incoming in query_incoming:
+        if incoming.categoria_fk.categoria_pk == 1:
+            serial_number = incoming.sn_batch_pk
+            batch_number = None
+        elif incoming.categoria_fk.categoria_pk == 2:
+            serial_number = None
+            batch_number = incoming.sn_batch_pk
+        elif incoming.categoria_fk.categoria_pk == 3:
+            serial_number = incoming.sn_batch_pk
+            batch_number = incoming.batch_pk
+        else:
+            serial_number = None
+            batch_number = None
 
-    # Consulta para obtener Comats sin Incoming relacionado
-    # query_comats_sin_incoming = Comat.objects.filter(incoming__isnull=True)
-    # total_records_comats_sin_incoming = query_comats_sin_incoming.count()
-    # resultados_comats_sin_incoming = list(
-    #     query_comats_sin_incoming.values("stdf_pk", "awb", "hawb", "prioridad")
-    # )[start:start + length]  # Ajustar la paginación aquí
+
+        qty_extraida_total = Consumos.objects.filter(incoming_fk=incoming.sn_batch_pk).aggregate(qty_extraida_total=Sum('qty_extraida'))['qty_extraida_total']
+        
+        resultados_incoming_list.append({
+            "serial_number": serial_number,
+            "batch_number": batch_number,
+            "part_number": incoming.part_number,
+            "descripcion": incoming.descripcion,
+            "stdf_fk__stdf_pk": incoming.stdf_fk.stdf_pk,
+            "qty": incoming.qty,
+            "saldo": incoming.saldo,
+            "stdf_fk__awb": incoming.stdf_fk.awb,
+            "stdf_fk__num_manifiesto": incoming.stdf_fk.num_manifiesto,
+            "owner_fk__name_owner": incoming.owner_fk.name_owner,
+            "ubicacion_fk__name_ubicacion": incoming.ubicacion_fk.name_ubicacion,
+            "f_vencimiento": incoming.f_vencimiento,
+            "qty_extraida_total": qty_extraida_total,
+        })
+
+    resultados_incoming = resultados_incoming_list[start:start + length]  # Ajustar la paginación aquí
 
     # Crear el diccionario principal "data"
     data = {
@@ -134,6 +145,8 @@ def buscar_datos_inicio(request):
     }
 
     return JsonResponse(data)
+
+
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS PARA REALIZAR EL DETALLE DE LA PAGINA DE INICIO
@@ -298,10 +311,9 @@ def obtener_datos_incoming(request):
     incoming_data = Incoming.objects.all()
     
     if search_value:
-        incoming_data = incoming_data.filter(Q(part_number__icontains = search_value) | Q(sn_batch_pk__icontains=search_value))
+        incoming_data = incoming_data.filter(Q(part_number__icontains = search_value) | Q(sn_batch_pk__icontains=search_value)|
+                                              Q(batch_pk__icontains=search_value))
         
-
-
     # Realizar la consulta teniendo en cuenta la paginación
     incoming_data = incoming_data[start:start + length]
 
@@ -309,9 +321,21 @@ def obtener_datos_incoming(request):
     # Formatea los datos en un formato compatible con DataTables
     data = []
     for incoming in incoming_data:
+        if incoming.categoria_fk.categoria_pk == 1:
+            serial_number = incoming.sn_batch_pk
+            batch_number = None
+        elif incoming.categoria_fk.categoria_pk == 2:
+            serial_number = None
+            batch_number = incoming.sn_batch_pk
+        elif incoming.categoria_fk.categoria_pk == 3:
+            serial_number = incoming.sn_batch_pk
+            batch_number = incoming.batch_pk
+        else:
+            serial_number = None
+            batch_number = None
         data.append({
-            "sn_batch_pk":incoming.sn_batch_pk,
-            "categoria_fk":incoming.categoria_fk.name_categoria,
+            "serial_number": serial_number,
+            "batch_number": batch_number,
             "part_number":incoming.part_number,
             "descripcion": incoming.descripcion,
             "qty":incoming.qty,
@@ -685,10 +709,16 @@ def eliminar_incoming(request, sn_batch_pk):
 
 def editar_consumo(request, consumo_pk):
     consumo = Consumos.objects.get(consumo_pk=consumo_pk)
-
     if request.method == 'POST':
         form = ConsumosForm(request.POST, instance=consumo)
         if form.is_valid():
+            incoming = consumo.incoming_fk
+            nuevo_qty_extraida = form.cleaned_data['qty_extraida']
+            diferencia = nuevo_qty_extraida - consumo.qty_extraida
+            # Ajusta el saldo según la diferencia
+            incoming.saldo -= diferencia
+            print(nuevo_qty_extraida.saldo, diferencia)
+            incoming.save()
             form.save()
             messages.success(request, "Se ha Modificado Correctamente")
             return redirect('/detalle_consumos/'+str(consumo_pk))  # Redirige a la página deseada después de la edición.
