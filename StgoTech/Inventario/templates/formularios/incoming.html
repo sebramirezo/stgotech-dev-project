@@ -28,7 +28,7 @@
         {% csrf_token %}
         <div class="row p-2">
             {% for incoming in form_incoming %}
-            <div class="col-4 p-2">
+            <div class="col-sm-12 col-md-12 col-lg-4 p-2">
                 <label>{{incoming.label}}</label>
                 {{incoming}}
             </div>
@@ -102,10 +102,11 @@
         var isInput2Valid = validateInput(parseFloat(document.getElementById("id_po").value), "id_po");
         var isInput3Valid = validateInput(parseFloat(document.getElementById("id_qty").value), "id_qty");
         var isInput4Valid = validateInput(parseFloat(document.getElementById("id_u_purchase_cost").value), "id_u_purchase_cost");
+        var isInput5Valid = validateInput(parseFloat(document.getElementById("id_batch_pk").value), "id_batch_pk");
         // Puedes agregar más lógica aquí para manejar los resultados si es necesario
 
         // Verificar si todos los inputs son válidos
-        if (isInput1Valid && isInput2Valid && isInput3Valid && isInput4Valid) {
+        if (isInput1Valid && isInput2Valid && isInput3Valid && isInput4Valid && isInput5Valid) {
             return true;
         } else {
             return false;

@@ -3,8 +3,12 @@
 {% block body %}
 
 <h2>Detalles STDF {{comat_data.stdf_pk}}</h2>
+{% if comat_data.estado_fk_id == 2 %}
+    <h4>Estado: <span style="color: red;">{{comat_data.estado_fk}}</span></h4>
+{% else %}
+    <h4>Estado: <span style="color: green;">{{comat_data.estado_fk}}</span></h4>
+{% endif %}
 
-<h4>Estado: {{comat_data.estado_fk}}</h4>
 
 <div class="row p-2">
     <div class="col-md-6">

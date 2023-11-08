@@ -21,7 +21,7 @@
         {% csrf_token %}
         <div class="row p-2">
             {% for comat in form_comat %}
-            <div class="col-4 p-2">
+            <div class="col-sm-12 col-md-12 col-lg-4 p-2">
                 <label>{{comat.label}}</label>
                 {{comat}}
             </div>

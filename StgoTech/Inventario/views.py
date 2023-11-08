@@ -1673,6 +1673,71 @@ def editar_detalle_incoming_form(request, sn_batch_pk):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
+
+##################################
+### Vista de Mantenedor Licencia ####
+##################################
+
+def mantenedor_licencia(request):
+    get_licencia = Licencia.objects.all()
+
+    context = {
+        'get_licencia': get_licencia,
+    }
+    return render(request, 'mantenedores/licencia/mantenedor_licencia.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def editar_licencia(request, id):
+    licencias = Licencia.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = LicenciaForm(request.POST, instance=licencias)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Se ha Modificado Correctamente")
+            return redirect('/mantenedor_licencia/')  # Redirige a la página deseada después de la edición.
+    else:
+        form = LicenciaForm(instance=licencias)
+
+    return render(request, 'mantenedores/licencia/editar_licencia.html', {'form': form, 'licencias': licencias})
+
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def registrar_licencia(request):
+    form_reg_licencia = LicenciaForm()
+
+    if request.method == 'POST':
+        form_reg_licencia = LicenciaForm(request.POST)
+        if form_reg_licencia.is_valid():
+            if Licencia.objects.exists():
+                last_register = Licencia.objects.latest('id')
+                new_pk = last_register.id + 1
+            else:
+                new_pk = 1
+
+            form_reg_licencia.instance.id = new_pk
+            form_reg_licencia.save()
+            messages.success(request, "Se ha Añadido Correctamente")
+            return redirect('/mantenedor_licencia')
+        
+    context = {
+        'form_reg_licencia':form_reg_licencia
+    }
+        
+    return render(request, 'mantenedores/licencia/registrar_licencia.html', context)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def eliminar_licencia(request, id):
+    licencias = Licencia.objects.get(pk=id)
+    licencias.delete()
+    messages.success(request, "Se ha Eliminado Correctamente")
+    return redirect('/mantenedor_licencia')
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
 def estadostdf(request):
     with connection.cursor() as cursor:
         cursor.execute('CALL abona_cancela()')
