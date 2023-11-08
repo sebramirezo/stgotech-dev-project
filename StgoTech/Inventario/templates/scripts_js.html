@@ -372,6 +372,7 @@
         // $('#id_stdf_fk').select2({ 'placeholder': 'Seleccione STDF' })
         // $('#id_incoming_fk').select2({ 'placeholder': 'Seleccione Serial/Batch Number' })
         $('#id_owner_fk').select2({ 'placeholder': 'Seleccione Owner' })
+
         $('#id_consumidor_fk').select2({ 'placeholder': 'Seleccione Consumidor' })
         $('#id_compania_fk').select2({ 'placeholder': 'Seleccione Compañia' })
     });
@@ -768,6 +769,216 @@
                             }
                         }
                     }
+                });
+            });
+
+// OTRO GRÁFICO
+
+        // fetch('/get_chart_data_repuesto_owner/')
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         const ctx = document.getElementById('myChart1').getContext('2d');
+        //         new Chart(ctx, {
+        //             type: 'bar',
+        //             data: {
+        //                 labels: data.labels,
+        //                 datasets: [{
+        //                     label: 'Part Numbers por Owner',
+        //                     data: data.values,
+        //                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        //                     borderColor: 'rgba(75, 192, 192, 1)',
+        //                     borderWidth: 1
+        //                 }]
+        //             },
+        //             options: {
+        //                 scales: {
+        //                     y: {
+        //                         beginAtZero: true
+        //                     }
+        //                 }
+        //             }
+        //         });
+        //     });
+
+        fetch('/get_chart_data_repuesto_owner/')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myChart1').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',  // Cambiar el tipo de gráfico a 'pie' para un gráfico de torta
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Part Numbers por Owner',
+                            data: data.values,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                                // Puedes agregar más colores de fondo si tienes más datos
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                                // Asegúrate de que haya el mismo número de colores de borde
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display:true,
+                            text: 'KPI - Cantidad de Part Number por Owner'
+                        }
+                    }
+                });
+            });
+
+// Otro Gráfico
+    
+        fetch('/top_10_lowest_saldo/')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myChart2').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.part_numbers,
+                        datasets: [{
+                            label: 'Saldos',
+                            data: data.saldos,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+
+// Otro grafico
+
+        fetch('/soon_to_expire_parts/')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myChart3').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',  // Utilizamos un gráfico de barras horizontales
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Part Numbers Próximos a Vencer',
+                            data: data.part_numbers,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+
+// Otro grafico
+
+        fetch('/monthly_weight_chart/')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myChart4').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Peso Total',
+                            data: data.weights,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+
+//  Otro grafico
+
+        fetch('/monthly_cif_chart/')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myChart5').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'CIF (Transporte) Mensual',
+                            data: data.cif_values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+
+//  Otro grafico
+
+        fetch('/state_pie_chart/')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myChart6').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            data: data.stdf_counts,
+                            backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'],
+                        }]
+                    },
                 });
             });
     </script>

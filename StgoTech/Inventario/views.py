@@ -11,7 +11,8 @@ from django.db import connection
 from .imprimir_excel import *
 from Inventario.forms import OrdenConsumoForm
 from django.contrib import messages
-
+from datetime import datetime, timedelta
+from django.db.models.functions import TruncMonth
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 # Vistas relacionadas al inicio y cierre de sesión
@@ -77,6 +78,65 @@ def get_pks_by_priority(request, priority):
     return JsonResponse({'stdf_pk': list(stdf_pk)}, safe=False)
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
+def get_chart_data_repuesto_owner(request):
+    data = Incoming.objects.values('owner_fk__name_owner').annotate(part_count=Count('part_number'))
+    labels = [entry['owner_fk__name_owner'] for entry in data]
+    values = [entry['part_count'] for entry in data]
+    return JsonResponse({'labels': labels, 'values': values}, safe=False)
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def top_10_lowest_saldo(request):
+    data = Incoming.objects.values('part_number', 'saldo').order_by('saldo')[:10]
+    part_numbers = [entry['part_number'] for entry in data]
+    saldos = [entry['saldo'] for entry in data]
+    return JsonResponse({'part_numbers': part_numbers, 'saldos': saldos})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def soon_to_expire_parts(request):
+    today = datetime.now()
+    three_months_later = today + timedelta(days=90)
+    six_months_later = today + timedelta(days=180)
+    
+    data = Incoming.objects.filter(f_vencimiento__gte=three_months_later, f_vencimiento__lte=six_months_later).order_by('f_vencimiento')
+    
+    labels = [entry.f_vencimiento.strftime('%Y-%m-%d') for entry in data]
+    part_numbers = [entry.part_number for entry in data]
+    
+    return JsonResponse({'labels': labels, 'part_numbers': part_numbers})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def monthly_weight_chart(request):
+    data = Comat.objects.annotate(month=TruncMonth('f_stdf')).values('month').annotate(total_weight=Sum('peso')).order_by('month')
+    
+    labels = [entry['month'].strftime('%Y-%m') for entry in data]
+    weights = [entry['total_weight'] for entry in data]
+    
+    return JsonResponse({'labels': labels, 'weights': weights})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def monthly_cif_chart(request):
+    data = Comat.objects.annotate(month=TruncMonth('f_stdf')).values('month').annotate(total_cif=Sum('sum_cif')).order_by('month')
+    
+    labels = [entry['month'].strftime('%Y-%m') for entry in data]
+    cif_values = [entry['total_cif'] for entry in data]
+    
+    return JsonResponse({'labels': labels, 'cif_values': cif_values})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+
+def state_pie_chart(request):
+    data = Comat.objects.values('estado_fk__estado').annotate(stdf_count=Count('stdf_pk')).order_by('estado_fk__estado')
+    
+    labels = [entry['estado_fk__estado'] for entry in data]
+    stdf_counts = [entry['stdf_count'] for entry in data]
+    
+    return JsonResponse({'labels': labels, 'stdf_counts': stdf_counts})
+
+# -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #BUSCADOR DE LA PAGINA DE INICIO, REDIRIGE AL RESULTADO DE BUSQUEDA DE LA PAGINA DE INICIO
 def buscar_productos_inicio(request):
     # Obtiene el término de búsqueda del usuario desde la URL
