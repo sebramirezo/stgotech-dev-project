@@ -289,8 +289,8 @@
           },
           "columns": [
               // Define las columnas que deseas mostrar
-              { "data": "sn_batch_pk" },
-              { "data": "categoria_fk" },
+              { "data": "serial_number" },
+              { "data": "batch_number" },
               { "data": "part_number" },
               { "data": "descripcion"},
               { "data": "qty" },
@@ -301,11 +301,22 @@
               {
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var sn_batch_pk = data.sn_batch_pk;
-                    var url = "/detalle_incoming/" + sn_batch_pk + "/";
-                    return '<a href="' + url + '" class="ver-detalles" data-sn_batch_pk="' + sn_batch_pk + '">Detalles</a>';
+                    var serial_number = data.serial_number;
+                    var batch_number = data.batch_number;
+                    var url = "";
+
+                    if (serial_number) {
+                        url = "/detalle_incoming/" + serial_number + "/";
+                    } else if (batch_number) {
+                        url = "/detalle_incoming/" + batch_number + "/";
+                    } else {
+                        // Manejar el caso en que ni serial_number ni batch_number estén presentes
+                        // Puedes configurar una URL predeterminada o mostrar un mensaje de error.
+                    }
+
+                    return url ? '<a href="' + url + '" class="ver-detalles" data-sn_batch_pk="' + serial_number + '">Detalles</a>' : 'URL no válida';
                 }
-              }
+            }
           ]
       });
     });
@@ -361,7 +372,7 @@
         // $('#id_stdf_fk').select2({ 'placeholder': 'Seleccione STDF' })
         // $('#id_incoming_fk').select2({ 'placeholder': 'Seleccione Serial/Batch Number' })
         $('#id_owner_fk').select2({ 'placeholder': 'Seleccione Owner' })
-        // $('#id_categoria_fk').select2({ 'placeholder': 'Seleccione Categoria' })
+
         $('#id_consumidor_fk').select2({ 'placeholder': 'Seleccione Consumidor' })
         $('#id_compania_fk').select2({ 'placeholder': 'Seleccione Compañia' })
     });
@@ -531,8 +542,8 @@
             },
             "columns": [
                 // Define las columnas que deseas mostrar para Incoming
-                { "data": "sn_batch_pk" },
-                { "data": "categoria_fk__name_categoria" },
+                { "data": "serial_number" },
+                { "data": "batch_number" },
                 { "data": "part_number" },
                 { "data": "descripcion" },
                 { "data": "stdf_fk__stdf_pk" },
