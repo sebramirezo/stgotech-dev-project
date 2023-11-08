@@ -60,7 +60,7 @@ class IncomingForm(ModelForm):
     batch_pk = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Batch Number"}),label='Batch Number', required=False)
     part_number = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Part Number"}),label='Part Number')
     f_incoming = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control reducido", 'type': 'date', 'placeholder':'Selecciona la fecha'}), required=True, label='Fecha Ingreso Incoming')
-    po = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Product Order"}),label='Orden del Repuesto')
+    po = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Product Order"}),label='PO')
     qty = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Cantidad"}),label='Quantity')
     u_purchase_cost = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Unit Purchase Cost"}),label='Unit Purchase Cost')
     f_vencimiento = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control reducido", 'type': 'date', "placeholder":'Seleccione fecha'}), required=True, label='Fecha Vencimiento')
@@ -101,7 +101,7 @@ class IncomingForm(ModelForm):
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 class ConsumosForm(ModelForm):
     # consumo_pk = forms.IntegerField(widget=forms.NumberInput())
-    qty_extraida = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Cantidad Extraida"}),label='Cantidad Extraida')
+    qty_extraida = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Cantidad Extraida"}),label='Cantidad Extraida', min_value=1)
     matricula_aeronave = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Matricula"}),label='Matricula Aeronave')
     observaciones = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Observaciones"}),label='Observaciones',required=False)
     f_transaccion = forms.DateTimeField(widget=forms.DateInput(attrs={"class":"form-control reducido",'type': 'date', "placeholder": "Seleccione fecha"}), required=False, label='Fecha de Transacción')
