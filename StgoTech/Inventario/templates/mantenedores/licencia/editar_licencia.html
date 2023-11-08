@@ -2,27 +2,27 @@
 
 {% block body %}
 <body>
-    <h1>Editar Detalle Incoming Form</h1>
+    <h1>Editar Licencia</h1>
     
-    <form onsubmit="return validateForm_detallesForm()" method="post">
+    <form onsubmit="return validateForm_licencia()" method="post">
         {% csrf_token %}
         <div class="row p-2">
             {% for field in form %}
-            <div class="col-sm-12 col-md-12 col-lg-4 p-2">
+            <div class="col-6 p-2">
                 {{ field.label_tag }}
                 {{ field }}
             </div>
             {% endfor %}
         </div>
-        <input class="btn btn-primary" type="submit" value="Guardar">
+        <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" type="submit" value="Guardar">
     </form>
 
 
 </body>
 {% block js %}
 <script>
-    function validateForm_detallesForm() {
-        var inputValue = document.getElementById("#").value;
+    function validateForm_licencia() {
+        var inputValue = document.getElementById("name_licencia").value;
         if (inputValue < 0) {
             Swal.fire({
             "title": "Error",

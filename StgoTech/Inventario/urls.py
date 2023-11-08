@@ -126,6 +126,9 @@ urlpatterns = [
     path('editar_estado_repuesto/<int:id>/', views.editar_estado_repuesto, name='editar_estado_repuesto'),
     path('registrar_estado_repuesto/', views.registrar_estado_repuesto, name='registrar_estado_repuesto'),
     path('eliminar_estado_repuesto/<int:id>', views.eliminar_estado_repuesto, name='eliminar_estado_repuesto'),
-
-
+    #mantenedores licencia
+    path('mantenedor_licencia/', views.mantenedor_licencia, name='mantenedor_licencia'),
+    path('editar_licencia/<int:id>/', views.editar_licencia, name='editar_licencia'),
+    path('registrar_licencia/', views.registrar_licencia, name='registrar_licencia'),
+    path('eliminar_licencia/<int:id>', views.eliminar_licencia, name='eliminar_licencia'),
 ]

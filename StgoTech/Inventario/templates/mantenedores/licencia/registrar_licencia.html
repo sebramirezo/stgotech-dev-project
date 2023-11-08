@@ -1,28 +1,25 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<body>
-    <h1>Editar Detalle Incoming Form</h1>
-    
-    <form onsubmit="return validateForm_detallesForm()" method="post">
+<div class="container m-2">
+    <h5>Formulario de Licencia</h5>
+    <form id="formulario_licencia" onsubmit="return validateForm_ficha()" action="" method="post">
         {% csrf_token %}
         <div class="row p-2">
-            {% for field in form %}
-            <div class="col-sm-12 col-md-12 col-lg-4 p-2">
-                {{ field.label_tag }}
-                {{ field }}
+            {% for licencia in form_reg_licencia %}
+            <div class="col-6 p-2">
+                <label>{{licencia.label}}</label>
+                {{licencia}}
             </div>
             {% endfor %}
         </div>
-        <input class="btn btn-primary" type="submit" value="Guardar">
-    </form>
-
-
-</body>
+    </div>
+    <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Guardar">
+</div>
 {% block js %}
 <script>
-    function validateForm_detallesForm() {
-        var inputValue = document.getElementById("#").value;
+    function validateForm_licencia() {
+        var inputValue = document.getElementById("name_licencia").value;
         if (inputValue < 0) {
             Swal.fire({
             "title": "Error",

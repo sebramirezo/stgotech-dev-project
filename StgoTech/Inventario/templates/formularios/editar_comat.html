@@ -8,7 +8,7 @@
         {% csrf_token %}
         <div class="row p-2">
             {% for field in form %}
-            <div class="col-6 p-2">
+            <div class="col-sm-12 col-md-12 col-lg-4">
                 {{ field.label_tag }}
                 {{ field }}
             </div>
@@ -19,6 +19,31 @@
 
 
 </body>
+<style>
+    .reducido {
+        width: 59%;
+    }
+
+    .select2-selection.select2-selection--single {
+        width: 246.39px;
+        height: 38px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        margin-bottom: 5px;
+        /* Espacio entre la etiqueta y el input */
+
+    }
+
+    label {
+        display: flex;
+    }
+</style>
 {% block js %}
 <script>
     function validateInput(inputValue, elementId) {

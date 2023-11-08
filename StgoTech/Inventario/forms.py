@@ -228,6 +228,12 @@ class CompaniaForm(ModelForm):
         model = Compania
         fields = '__all__'
 
+class LicenciaForm(ModelForm):
+    name_licencia = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa una Licencia", 'id':'name_licencia'}),label='Nombre Licencia')
+
+    class Meta:
+        model = Licencia
+        fields = '__all__'
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
 class DetalleForm(ModelForm):
