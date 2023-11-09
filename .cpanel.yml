@@ -1,5 +1,8 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/wwstgo/repositories/stgotech-dev-project
-    - /bin/cp -R /public_html/cgi-bin $DEPLOYPATH
+    - export DEPLOYPATH=/public_html
+    - /bin/cp -R /home/wwstgo/repositories/stgotech-dev-project $DEPLOYPATH
+
+
+    
