@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/wwstgo/repositories/stgotech-dev-project
+    - /bin/cp -R images $DEPLOYPATH
