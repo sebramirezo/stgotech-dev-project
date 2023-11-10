@@ -8,3 +8,4 @@ migrations
 .vscode
 admin
 error.log
+.pytest_cache
