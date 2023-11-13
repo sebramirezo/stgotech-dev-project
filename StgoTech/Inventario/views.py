@@ -141,20 +141,25 @@ def state_pie_chart(request):
 def buscar_productos_inicio(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_inicio = request.GET.get('n', '')
-
-    return render(request, 'resultados_busqueda/resultado_busqueda_inicio.html', {'query_inicio':query_inicio})
+    filtro = request.GET.get('f', '')
+    return render(request, 'resultados_busqueda/resultado_busqueda_inicio.html', {'query_inicio':query_inicio, 'filtro': filtro})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 def buscar_datos_inicio(request):
     draw = int(request.GET.get('draw', 0))
     start = int(request.GET.get('start', 0))
     length = int(request.GET.get('length', 10))
+    filtro = request.GET.get('f', '')
     search_value = request.GET.get('n', '')
 
-    # Consulta en Incoming
-    query_incoming = Incoming.objects.filter(
-        Q(part_number__icontains=search_value) | Q(stdf_fk__stdf_pk__icontains=search_value)
-    ).select_related('stdf_fk', 'ubicacion_fk', 'categoria_fk', 'owner_fk')
+    query_filter = Q()
+
+    if filtro == '1':
+        query_filter |= Q(stdf_fk__stdf_pk__icontains=search_value)
+    elif filtro == '2':
+        query_filter |= Q(part_number__icontains=search_value)
+
+    query_incoming = Incoming.objects.filter(query_filter).select_related('stdf_fk', 'ubicacion_fk', 'categoria_fk', 'owner_fk').order_by('stdf_fk__stdf_pk')
 
     total_records_incoming = query_incoming.count()
 
@@ -259,8 +264,9 @@ def comat(request):
 def buscar_productos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_comat = request.GET.get('c', '')
+    filtro = request.GET.get('t', '')
 
-    return render(request, 'resultados_busqueda/resultado_busqueda_stdf.html', {'query_comat':query_comat})
+    return render(request, 'resultados_busqueda/resultado_busqueda_stdf.html', {'query_comat':query_comat, 'filtro':filtro})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS RESULTADOS CON MÁS RELACION QUE TIENE LA BUSQUEDA
@@ -270,12 +276,23 @@ def obtener_datos_comat(request):
     start = int(request.GET.get('start', 0))
     length = int(request.GET.get('length', 10))  # Número de registros por página
     search_value = request.GET.get('c', '')  # Término de búsqueda
+    filtro = request.GET.get('t', '')
 
     comat_data = Comat.objects.all()
     
-    if search_value:
-        comat_data = comat_data.filter(Q(stdf_pk__icontains=search_value) | Q(awb__icontains=search_value)| Q(hawb__icontains=search_value))
-        
+    query_filter = Q()
+
+    if filtro == '1':
+        query_filter |= Q(stdf_pk__icontains=search_value)
+    elif filtro == '2':
+        query_filter |= Q(awb__icontains=search_value) 
+    elif filtro == '3':
+        query_filter |= Q(hawb__icontains=search_value)
+
+    comat_data = comat_data.filter(query_filter)
+
+    # Ordenar por stdf_pk
+    comat_data = comat_data.order_by('stdf_pk')
     # Realizar la consulta teniendo en cuenta la paginación
     comat_data = comat_data[start:start + length]
 
@@ -356,8 +373,9 @@ def incoming(request):
 def buscar_productos_incoming(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_inco = request.GET.get('e', '')
+    filtro = request.GET.get('t', '')
     
-    return render(request, 'resultados_busqueda/resultado_busqueda_incoming.html', {'query_inco':query_inco})
+    return render(request, 'resultados_busqueda/resultado_busqueda_incoming.html', {'query_inco':query_inco, 'filtro':filtro})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS RELACIONADOS A LA BUSQUEDA 
@@ -367,12 +385,25 @@ def obtener_datos_incoming(request):
     start = int(request.GET.get('start', 0))
     length = int(request.GET.get('length', 10))  # Número de registros por página
     search_value = request.GET.get('e', '')  # Término de búsqueda
+    filtro = request.GET.get('t', '')
 
     incoming_data = Incoming.objects.all()
-    
-    if search_value:
-        incoming_data = incoming_data.filter(Q(part_number__icontains = search_value) | Q(sn_batch_pk__icontains=search_value)|
-                                              Q(batch_pk__icontains=search_value))
+     
+    query_filter = Q()
+
+    if filtro == '1':
+        query_filter |= Q(part_number__icontains = search_value) 
+    elif filtro == '2':
+        query_filter |= Q(sn_batch_pk__icontains=search_value) |Q(batch_pk__icontains=search_value)
+    elif filtro == '3':
+        query_filter |= Q(stdf_fk__stdf_pk=search_value)
+
+
+
+    incoming_data = incoming_data.filter(query_filter)
+
+    # Ordenar por stdf_pk
+    incoming_data = incoming_data.order_by('stdf_fk')
         
     # Realizar la consulta teniendo en cuenta la paginación
     incoming_data = incoming_data[start:start + length]
