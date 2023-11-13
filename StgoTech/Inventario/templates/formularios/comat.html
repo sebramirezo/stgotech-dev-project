@@ -6,9 +6,21 @@
     <div class="row">
         <div class="col-6">
             <h5>Buscador STDF</h5>
-            <form action="{% url 'buscar_stdf' %}" method="GET">
-                <input class="form-control" type="text" name="c" placeholder="Ingrese STDF, AWB O HAWB">
-                <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
+            <form action="{% url 'buscar_stdf' %}" method="GET" autocomplete="off">
+                <div class="row">
+                    <div class="col-3">
+                        <select class="form-control" name="t">
+                            <option value="1">STDF</option>
+                            <option value="2">AWB</option>
+                            <option value="3">HAWB</option>
+                        </select>
+                        <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
+
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" type="text" name="c" placeholder="Ingrese STDF, AWB O HAWB">
+                    </div>
+                </div>
             </form>
         </div>
         

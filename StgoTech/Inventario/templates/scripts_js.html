@@ -284,7 +284,8 @@
               "url": "{% url 'obtener_datos_incoming' %}",
               "type": "GET", 
               "data": function (d) {
-                  d.e = '{{ query_inco }}';}
+                  d.e = '{{ query_inco }}';
+                  d.t = '{{ filtro}}';}
                 
           },
           "columns": [
@@ -333,7 +334,8 @@
               "url": "{% url 'obtener_datos_comat' %}",
               "type": "GET", 
               "data": function (d) {
-                  d.c = '{{ query_comat }}';}
+                  d.c = '{{ query_comat }}';
+                  d.t = '{{ filtro}}';}
                 
           },
           "columns": [
@@ -537,6 +539,7 @@
                 "type": "GET",
                 "data": function (d) {
                     d.n = '{{ query_inicio }}';
+                    d.f = '{{ filtro }}';
                 },
                 "dataSrc": "data_incoming"
             },
