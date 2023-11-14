@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render , get_object_or_404
 from django.contrib.auth.decorators import login_required
+import openpyxl
 from .forms import *
 from django.db.models import Q , Sum
 from django.http.response import JsonResponse
@@ -8,7 +9,7 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.db.models import Count
 from django.db import connection
-from .imprimir_excel import *
+# from .imprimir_excel import *
 from Inventario.forms import OrdenConsumoForm
 from django.contrib import messages
 from datetime import datetime, timedelta
