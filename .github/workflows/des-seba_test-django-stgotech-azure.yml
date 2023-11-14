@@ -66,4 +66,4 @@ jobs:
         with:
           app-name: 'test-django-stgotech-azure'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4C0E978C4BD949E987B811D450411330 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_88632E1E9EFF432483037AC180873618 }}
