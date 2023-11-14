@@ -125,13 +125,24 @@ WSGI_APPLICATION = 'StgoTech.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'inventario_stgotech', 
+#         'USER': 'postgres',
+#         'PASSWORD': '123asdzxc',
+#         'HOST': 'localhost', 
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'inventario_stgotech', 
-        'USER': 'postgres',
-        'PASSWORD': '123asdzxc',
-        'HOST': 'localhost', 
+        'NAME': 'test-django-stgotech-azure-database', 
+        'USER': 'lkranpmxyr',
+        'PASSWORD': '7H1JC401DQS66T8C$',
+        'HOST': 'test-django-stgotech-azure-server.postgres.database.azure.com', 
         'PORT': '5432',
     }
 }
