@@ -6,7 +6,6 @@ from openpyxl.styles import Alignment , Font , Border, Side
 from openpyxl.drawing.image import Image
 from PIL import Image
 from openpyxl.drawing.image import Image as ExcelImage
-import win32com.client as win32
 
 
 
