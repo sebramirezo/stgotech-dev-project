@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from . import exportar_excel
-from . import imprimir_excel
+# from . import imprimir_excel
 from . import orden_consumo
 
 urlpatterns = [
