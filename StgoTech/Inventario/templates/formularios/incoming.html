@@ -7,20 +7,23 @@
             <h5>Buscador Part Number , Serial Number o STDF</h5>
             <form action="{% url 'buscar_productos_incoming' %}" method="GET" autocomplete="off">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
                             <select class="form-control" name="t">
                                 <option value="1">PART NUMBER</option>
                                 <option value="2">SERIAL/BATCH NUMBER</option>
                                 <option value="3">STDF</option>
                             </select>
-                            <input
-                                style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;"
-                                class="btn m-2" type="submit" value="Buscar">
+                            
                         </div>
-                        <div class="col-8">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
                             <input class="form-control" type="text" name="e"
                                 placeholder="Ingrese Part Number, Serial Number o STDF">
                             
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                            <input
+                                style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;"
+                                class="btn m-2" type="submit" value="Buscar">
                         </div>
                     </div>
             </form>
