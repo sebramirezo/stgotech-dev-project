@@ -19,7 +19,7 @@
         {% csrf_token %}
         <div class="row p-2">
             {% for consumo in form_consumos %}
-            <div class="col-sm-12 col-md-12 col-lg-4 p-2">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 p-2">
                 <label>{{consumo.label}}</label>
                 {{consumo}}
             </div>
