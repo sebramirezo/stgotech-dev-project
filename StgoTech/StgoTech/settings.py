@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-4dr_l114j-fj#yi9$199u+=k(e$3pj8_85sqt@n8e!@r6t8p-m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://test-django-stgotech-azure.azurewebsites.net/', 'http://127.0.0.1:8000/']
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = '/login'
 
@@ -125,24 +125,13 @@ WSGI_APPLICATION = 'StgoTech.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'inventario_stgotech', 
-#         'USER': 'postgres',
-#         'PASSWORD': '123asdzxc',
-#         'HOST': 'localhost', 
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'test-django-stgotech-azure-database', 
-        'USER': 'lkranpmxyr',
-        'PASSWORD': '7H1JC401DQS66T8C$',
-        'HOST': 'test-django-stgotech-azure-server.postgres.database.azure.com', 
+        'NAME': 'inventario_stgotech', 
+        'USER': 'postgres',
+        'PASSWORD': '123asdzxc',
+        'HOST': 'localhost', 
         'PORT': '5432',
     }
 }
