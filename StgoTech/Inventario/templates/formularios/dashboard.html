@@ -10,20 +10,21 @@
             <h5>Buscador Inicio</h5>
             <form action="{% url 'buscar_productos_inicio' %}" method="GET" class="d-flex align-items-center" autocomplete="off">
 
-              <div class="col-3 m-3">
-                  <select class="form-control" name="f">
-                      <option value="1">STDF</option>
-                      <option value="2">PART NUMBER</option>
-                  </select>
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 m-2">
+                    <select class="form-control" name="f">
+                        <option value="1">STDF</option>
+                        <option value="2">PART NUMBER</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 m-2">
+                    <input class="form-control ml-3" type="text" name="n" placeholder="Ingresa un Part Number o STDF">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                  <input style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn m-2" type="submit" value="Buscar">
+                </div>
               </div>
 
-              <div class="col-6">
-                  <input class="form-control ml-3" type="text" name="n" placeholder="Ingresa un Part Number o STDF">
-              </div>
-
-              <input
-                  style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;"
-                  class="btn m-2" type="submit" value="Buscar">
           </form>
         </div>
         <div class="col-4">
