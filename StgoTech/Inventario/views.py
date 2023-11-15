@@ -9,7 +9,6 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.db.models import Count
 from django.db import connection
-# from .imprimir_excel import *
 from Inventario.forms import OrdenConsumoForm
 from django.contrib import messages
 from datetime import datetime, timedelta
