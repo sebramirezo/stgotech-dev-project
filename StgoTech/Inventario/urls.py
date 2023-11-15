@@ -3,6 +3,7 @@ from . import views
 from . import exportar_excel
 from . import imprimir_excel
 from . import orden_consumo
+from . import inventarios
 
 urlpatterns = [
     path('', views.redirect_login, name='redirect_login'),
@@ -42,6 +43,9 @@ urlpatterns = [
     path('orden_consumo/', orden_consumo.orden_consumos, name='orden_consumo'),
     # path('impresoras/', imprimir_excel.impresoras, name='impresoras'),
     path('estadostdf/', views.estadostdf, name='estadostdf'),
+    #inventarios
+    path('inventario_comat/', inventarios.inventario_comat, name='inventario_comat'),
+    path('inventario_incoming/', inventarios.inventario_incoming, name='inventario_incoming'),
     #mantenedores all
     path('mantenedores/', views.mantenedores_all, name='mantenedores'),
     #mantenedores comat
