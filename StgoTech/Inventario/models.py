@@ -222,6 +222,7 @@ class Incoming(models.Model):
     def __str__(self):
         return self.sn_batch_pk
     
+    
 class Estado_Repuesto(models.Model):
     id = models.AutoField(primary_key=True, unique=True ,validators=[MinValueValidator(1)] ) 
     name_estado = models.CharField( blank=True, null=True, max_length=50)

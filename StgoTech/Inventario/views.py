@@ -599,20 +599,28 @@ def detalle_consumos(request, consumo_pk):
 def obtener_datos_sn_consumos(request):
     term = request.GET.get('q', '')
 
-    # Filtra los objetos Comat según el término de búsqueda
-    sn_data = Incoming.objects.filter(sn_batch_pk__icontains=term).first()
+    # Filtra los objetos Incoming según el término de búsqueda
+    sn_data = Incoming.objects.filter(sn_batch_pk__icontains=term)[:10]
 
-    # Verifica si se encontró un objeto Comat
+    print(f'Término de búsqueda: {term}')
+    print(f'Número de resultados: {len(sn_data)}')
+
+    # Verifica si se encontraron objetos Incoming
     if sn_data:
-        # Convierte el objeto Comat a un diccionario
-        incoming_data = {
-            'sn_batch_pk': sn_data.sn_batch_pk,
-            # Agrega otros campos de Comat que necesites
-        }
+        # Convierte los objetos Incoming a una lista de diccionarios
+        incoming_data = [
+            {
+                'sn_batch_pk': f"SN:{item.sn_batch_pk} - STDF:{item.stdf_fk.stdf_pk}",
+        # Agrega otros campos de Incoming que necesites
+            }
+            for item in sn_data
+        ]
+        print(f'Datos de salida: {incoming_data}')
         return JsonResponse({'sn_data': incoming_data}, safe=False)
     else:
-        return JsonResponse({'sn_data': None}, safe=False)
-    
+        # Retorna un diccionario vacío si no se encuentran resultados
+        print('No se encontraron resultados')
+        return JsonResponse({'sn_data': []}, safe=False)
 # def obtener_datos_sn_consumos(request):
 
 #     term = request.GET.get('q', '')
@@ -799,25 +807,38 @@ def eliminar_incoming(request, sn_batch_pk):
 ##################################
 
 def editar_consumo(request, consumo_pk):
-    consumo = Consumos.objects.get(consumo_pk=consumo_pk)
+    try:
+        consumo = Consumos.objects.get(consumo_pk=consumo_pk)
+    except Consumos.DoesNotExist:
+        return render(request, 'error.html', {'mensaje': 'El Consumo no existe'})
+
     if request.method == 'POST':
+        # Guarda el valor actual de qty_extraida antes de actualizar el formulario
+        qty_inicial = consumo.incoming_fk.qty
+        qty_anterior = consumo.qty_extraida
+
         form = ConsumosForm(request.POST, instance=consumo)
         if form.is_valid():
-            incoming = consumo.incoming_fk
+            # Obtiene la cantidad total de cantidad extraída asociada al incoming
+            total_cantidad_extraida = consumo.incoming_fk.total_cantidad_extraida()
+
             nuevo_qty_extraida = form.cleaned_data['qty_extraida']
-            diferencia = nuevo_qty_extraida - consumo.qty_extraida
-            # Ajusta el saldo según la diferencia
-            incoming.saldo -= diferencia
-            print(nuevo_qty_extraida.saldo, diferencia)
-            incoming.save()
+
+            # Calcula la diferencia entre el valor anterior y el nuevo valor
+            saldo = qty_inicial - total_cantidad_extraida + nuevo_qty_extraida
+
+            consumo.incoming_fk.saldo = saldo
+            incoming.save()  # Guarda los cambios en el objeto Incoming
+
+            # Guarda los cambios en el objeto Consumo
             form.save()
-            messages.success(request, "Se ha Modificado Correctamente")
-            return redirect('/detalle_consumos/'+str(consumo_pk))  # Redirige a la página deseada después de la edición.
+
+            messages.success(request, "Se ha modificado correctamente.")
+            return redirect('/detalle_consumos/' + str(consumo_pk))
     else:
         form = ConsumosForm(instance=consumo)
 
     return render(request, 'formularios/editar_consumo.html', {'form': form, 'consumo': consumo})
-
 
 def eliminar_consumo(request, consumo_pk):
     consumos = Consumos.objects.get(consumo_pk=consumo_pk)
