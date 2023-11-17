@@ -22,19 +22,41 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-4dr_l114j-fj#yi9$199u+=k(e$3pj8_85sqt@n8e!@r6t8p-m'
-SECRET_KEY = os.environ['SECRET']
+SECRET_KEY = 'django-insecure-4dr_l114j-fj#yi9$199u+=k(e$3pj8_85sqt@n8e!@r6t8p-m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['inventario-stgotech.azurewebsites.net']
+ALLOWED_HOSTS = ['http://inventario-stgotech.azurewebsites.net/']
 
-CSRF_TRUSTED_ORIGINS = ['http://inventario-stgotech.azurewebsites.net/']
+
 
 LOGIN_URL = '/login'
 
 LOGIN_REDIRECT_URL = '/index'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'error.log',  # Nombre del archivo de registro de errores
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'ERROR',  # Configura el nivel en 'ERROR'
+    },
+}
+
+
+
+
 
 # Application definition
 
@@ -84,6 +106,22 @@ TEMPLATES = [
     },
 ]
 
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
+# # Set the cache backend to select2
+# SELECT2_CACHE_BACKEND = 'default'
+
+# # Tell select2 which cache configuration to use:
+# # SELECT2_CACHE_BACKEND = "default"
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
 
 WSGI_APPLICATION = 'StgoTech.wsgi.application'
 
@@ -91,15 +129,14 @@ WSGI_APPLICATION = 'StgoTech.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-conn_str = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
-conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': conn_str_params['inventario-stgotech-database'],
-        'HOST': conn_str_params['inventario-stgotech-server'],
-        'USER': conn_str_params['cdqmsgmfoq'],
-        'PASSWORD': conn_str_params['NMPII0S03W88Z48I$'],
+        'NAME': 'inventario_stgotech', 
+        'USER': 'postgres',
+        'PASSWORD': '123asdzxc',
+        'HOST': 'localhost', 
+        'PORT': '5432',
     }
 }
 
@@ -142,8 +179,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Reemplaza 'static' con la ubicación correcta si es diferente
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
