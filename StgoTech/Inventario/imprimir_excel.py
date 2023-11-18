@@ -1,9 +1,8 @@
-# import os
-# import subprocess  # Importa el módulo os
+# import os  # Importa el módulo os
 # import openpyxl
 # from .forms import *
 # from django.http import HttpResponse,  HttpResponseRedirect
-# from openpyxl import Workbook, load_workbook
+# from openpyxl import Workbook
 # from openpyxl.styles import Alignment , Font , Border, Side
 # from openpyxl.drawing.image import Image
 # from PIL import Image
@@ -874,8 +873,7 @@
 #         print("Error al imprimir:", str(e))
 #         messages.error(request, f"Error al imprimir: {str(e)}")
 #         return redirect('seleccionarimpresora', sn_batch_pk=sn_batch_pk)
-
-
+    
 # # def impresoras(request):
 # #     # Obtener la lista de impresoras disponibles
 # #     impresoras_disponibles = [printer[2] for printer in win32print.EnumPrinters(2)]

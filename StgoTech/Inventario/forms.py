@@ -120,6 +120,13 @@ class ConsumosForm(ModelForm):
             'observaciones',
         ]
 
+    def __init__(self, *args, **kwargs):
+        super(ConsumosForm, self).__init__(*args, **kwargs)
+        self.fields['incoming_fk'].label_from_instance = self.label_from_instance
+
+    def label_from_instance(self, obj):
+        return f'{obj.sn_batch_pk} - {obj.stdf_fk.stdf_pk}'
+
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 class CategoriaForm(ModelForm):
     name_categoria = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa Nueva Categoria", 'id':'name_categoria'}),label='Categoria')
