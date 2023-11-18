@@ -1,14 +1,7 @@
 from openpyxl import Workbook
 from openpyxl.styles import Alignment , Font , Border, Side, PatternFill
 from .forms import *
-import openpyxl
 from django.http import HttpResponse
-from openpyxl.drawing.image import Image
-from PIL import Image
-from openpyxl.drawing.image import Image as ExcelImage
-from django.shortcuts import redirect, render , get_object_or_404
-import locale
-import datetime
 from .models import *
 from openpyxl.utils import get_column_letter
 

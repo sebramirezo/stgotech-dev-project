@@ -3,11 +3,7 @@ from openpyxl.styles import Alignment , Font , Border, Side
 from .forms import *
 import openpyxl
 from django.http import HttpResponse
-from openpyxl.drawing.image import Image
-from PIL import Image
-from openpyxl.drawing.image import Image as ExcelImage
-#import win32com.client as win32
-from django.shortcuts import redirect, render , get_object_or_404
+from django.shortcuts import render
 import locale
 import datetime
 
