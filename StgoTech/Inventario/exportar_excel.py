@@ -119,6 +119,10 @@ def exportar_excel_incoming(request, sn_batch_pk):
         ws['T9'] = datos.sn_batch_pk
     elif datos.categoria_fk.categoria_pk == 2:
         ws['E60'] = datos.sn_batch_pk
+    elif datos.categoria_fk.categoria_pk == 3:
+        ws['T9'] = datos.sn_batch_pk
+        ws['E60'] = datos.batch_pk
+
 
     
     
