@@ -1,13 +1,9 @@
-import openpyxl
 from .forms import *
 from django.http import HttpResponse
 from openpyxl import Workbook
 from openpyxl.styles import Alignment , Font , Border, Side
-from openpyxl.drawing.image import Image
 from PIL import Image
 from openpyxl.drawing.image import Image as ExcelImage
-
-
 
 
 def exportar_excel_incoming(request, sn_batch_pk):
@@ -824,4 +820,3 @@ def exportar_excel_incoming(request, sn_batch_pk):
 
     wk.save(response)
     return response
-
