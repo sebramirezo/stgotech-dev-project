@@ -17,16 +17,22 @@
                   <tr class="">
                       <td>{{clasificacion.name_clasificacion}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_clasificacion/{{clasificacion.clasificacion_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{clasificacion.clasificacion_pk}}')" href="#" role="button">Eliminar</a>
-                      </td>
+                            {% if perms.Inventario.change_clasificacion %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_clasificacion/{{clasificacion.clasificacion_pk}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_clasificacion %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{clasificacion.clasificacion_pk}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
+            {% if perms.Inventario.add_clasificacion %}
             <a name="" id="" class="btn btn-primary" href="/registrar_clasificacion/" role="button">Añadir Clasificación</a>
-          </div>
+            {% endif %}
+        </div>
       </div>
     </div>
   </div>

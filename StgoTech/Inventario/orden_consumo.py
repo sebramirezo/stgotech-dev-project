@@ -10,7 +10,9 @@ from openpyxl.drawing.image import Image as ExcelImage
 from django.shortcuts import redirect, render , get_object_or_404
 import locale
 import datetime
+from django.contrib.auth.decorators import login_required, permission_required
 
+@login_required
 def orden_consumos(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="orden.xlsx"'
@@ -428,8 +430,10 @@ def orden_consumos(request):
                 celda = ws.cell(row=row, column=9).value
                 # Si la celda comienza con "USD ", quita ese texto antes de convertir el valor a un número
                 if celda and celda.startswith("USD "):
-                    valor = celda.replace('USD ', '').replace(',', '.')
+                    # Reemplaza todos los puntos por nada y luego reemplaza la coma por un punto (para el formato '18.000,00')
+                    valor = celda.replace('.', '').replace(',', '.').replace('USD ', '')
                     suma += float(valor)
+
 
             # Calcula la fila de destino restando 12 filas a la última fila con datos
             fila_destino = ws.max_row - 11
@@ -438,9 +442,6 @@ def orden_consumos(request):
             ws.cell(row=fila_destino, column=9, value=f"USD {locale.format_string('%.2f', suma, grouping=True)}")
 
 
-
-
-            
             ws.page_setup.fitToPage = True
             ws.page_setup.fitToWidth = True
             ws.page_setup.fitToHeight = False

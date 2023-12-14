@@ -17,16 +17,22 @@
                   <tr class="">
                       <td>{{compañia.nom_compania}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_compañia/{{compañia.cod_compania}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{compañia.cod_compania}}')" href="#" role="button">Eliminar</a>
-                      </td>
+                            {% if perms.Inventario.change_compania %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_compañia/{{compañia.cod_compania}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_compania %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{compañia.cod_compania}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
+            {% if perms.Inventario.add_compania %}
             <a name="" id="" class="btn btn-primary" href="/registrar_compañia/" role="button">Añadir Compañia</a>
-          </div>
+            {% endif %}
+        </div>
       </div>
     </div>
   </div>

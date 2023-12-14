@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render , get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 import openpyxl
 from .forms import *
 from django.db.models import Q , Sum
@@ -41,16 +41,19 @@ def error_500(request):
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
 #REDIRIGE A LA PAGINA PRINCIPAL INICIO
+@login_required
 def index(request):
     return redirect('dashboard')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 
 #VISTA DASHBOARD
+@login_required
 def dashboard(request):
     return render(request, 'formularios/dashboard.html')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+@login_required
 def get_chart_data(request):
     priority_order = ['Alta', 'Media', 'Baja']
     data = Comat.objects.values('prioridad').annotate(count=Count('prioridad'))
@@ -73,11 +76,12 @@ def get_chart_data(request):
     return JsonResponse(list(data), safe=False)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+@login_required
 def get_pks_by_priority(request, priority):
     stdf_pk = Comat.objects.filter(prioridad=priority).values_list('stdf_pk', flat=True)
     return JsonResponse({'stdf_pk': list(stdf_pk)}, safe=False)
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def get_chart_data_repuesto_owner(request):
     data = Incoming.objects.values('owner_fk__name_owner').annotate(part_count=Count('part_number'))
     labels = [entry['owner_fk__name_owner'] for entry in data]
@@ -85,7 +89,7 @@ def get_chart_data_repuesto_owner(request):
     return JsonResponse({'labels': labels, 'values': values}, safe=False)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def top_10_lowest_saldo(request):
     data = Incoming.objects.values('part_number', 'saldo').order_by('saldo')[:10]
     part_numbers = [entry['part_number'] for entry in data]
@@ -93,7 +97,7 @@ def top_10_lowest_saldo(request):
     return JsonResponse({'part_numbers': part_numbers, 'saldos': saldos})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def soon_to_expire_parts(request):
     today = datetime.now()
     three_months_later = today + timedelta(days=90)
@@ -107,7 +111,7 @@ def soon_to_expire_parts(request):
     return JsonResponse({'labels': labels, 'part_numbers': part_numbers})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def monthly_weight_chart(request):
     data = Comat.objects.annotate(month=TruncMonth('f_stdf')).values('month').annotate(total_weight=Sum('peso')).order_by('month')
     
@@ -117,7 +121,7 @@ def monthly_weight_chart(request):
     return JsonResponse({'labels': labels, 'weights': weights})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def monthly_cif_chart(request):
     data = Comat.objects.annotate(month=TruncMonth('f_stdf')).values('month').annotate(total_cif=Sum('sum_cif')).order_by('month')
     
@@ -127,7 +131,7 @@ def monthly_cif_chart(request):
     return JsonResponse({'labels': labels, 'cif_values': cif_values})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def state_pie_chart(request):
     data = Comat.objects.values('estado_fk__estado').annotate(stdf_count=Count('stdf_pk')).order_by('estado_fk__estado')
     
@@ -138,6 +142,7 @@ def state_pie_chart(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #BUSCADOR DE LA PAGINA DE INICIO, REDIRIGE AL RESULTADO DE BUSQUEDA DE LA PAGINA DE INICIO
+@login_required
 def buscar_productos_inicio(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_inicio = request.GET.get('n', '')
@@ -145,6 +150,7 @@ def buscar_productos_inicio(request):
     return render(request, 'resultados_busqueda/resultado_busqueda_inicio.html', {'query_inicio':query_inicio, 'filtro': filtro})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+@login_required
 def buscar_datos_inicio(request):
     draw = int(request.GET.get('draw', 0))
     start = int(request.GET.get('start', 0))
@@ -215,6 +221,7 @@ def buscar_datos_inicio(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS PARA REALIZAR EL DETALLE DE LA PAGINA DE INICIO
+@login_required
 def detalle_inicio(request, sn_batch_pk):
 
     detalle_inicio = Incoming.objects.get(sn_batch_pk=sn_batch_pk)   
@@ -261,6 +268,7 @@ def comat(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #BUSCADOR DE COMAT
+@login_required
 def buscar_productos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_comat = request.GET.get('c', '')
@@ -270,6 +278,7 @@ def buscar_productos(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS RESULTADOS CON MÁS RELACION QUE TIENE LA BUSQUEDA
+@login_required
 def obtener_datos_comat(request):
     # Obtén los parámetros enviados por DataTables
     draw = int(request.GET.get('draw', 0))
@@ -326,6 +335,7 @@ def obtener_datos_comat(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS PARA REALIZAR EL DETALLE POR LA ID
+@login_required
 def detalle_comat(request, stdf_pk):
     detalle_comat = Comat.objects.get(stdf_pk=stdf_pk)    
     return render(request,'tablas_detalle/detalle_comat.html' , {'detalle_comat':detalle_comat})
@@ -370,6 +380,7 @@ def incoming(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #GUARDA EL VALOR QUE SE BUSCO Y REDIRIGE A LA PAGINA DE RESULTADOS
+@login_required
 def buscar_productos_incoming(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_inco = request.GET.get('e', '')
@@ -379,6 +390,7 @@ def buscar_productos_incoming(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS RELACIONADOS A LA BUSQUEDA 
+@login_required
 def obtener_datos_incoming(request):
     # Obtén los parámetros enviados por DataTables
     draw = int(request.GET.get('draw', 0))
@@ -449,6 +461,7 @@ def obtener_datos_incoming(request):
     })
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+@login_required
 def detalle_incoming(request, sn_batch_pk):
     detalle_incoming = Incoming.objects.get(sn_batch_pk=sn_batch_pk)
     return render(request, 'tablas_detalle/detalle_incoming.html', {'detalle_incoming': detalle_incoming})
@@ -473,7 +486,7 @@ def detalle_incoming(request, sn_batch_pk):
 #     stdf_json = [{'stdf_pk': item['stdf_pk']} for item in stdf_list]
     
 #     return JsonResponse({'stdf_data': stdf_json}, safe=False)
-
+@login_required
 def obtener_datos_stdf_incoming(request):
     term = request.GET.get('q', '')
 
@@ -493,7 +506,7 @@ def obtener_datos_stdf_incoming(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #VISTA DE CONSUMO QUE VALIDA EL FORMULARIO Y LO GUARDA Y REDIRIGE A LA VISTA DE CONSUMOS
-
+@login_required
 def consumos(request):
     form_consumos = ConsumosForm()
     if request.method == 'POST':
@@ -532,6 +545,7 @@ def consumos(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #GUARDA LA BUSQUEDA QUE SE REALIZO Y REDIRIGE A LA PAGINA DE RESULTADOS DE CONSUMOS
+@login_required
 def buscar_productos_consumos(request):
     # Obtiene el término de búsqueda del usuario desde la URL
     query_consu = request.GET.get('t', '')
@@ -540,6 +554,7 @@ def buscar_productos_consumos(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS RELACIONADOS A LA BUSQUEDA DE CONSUMOS
+@login_required
 def obtener_datos_consumos(request):
     # Obtén los parámetros enviados por DataTables
     draw = int(request.GET.get('draw', 0))
@@ -586,6 +601,7 @@ def obtener_datos_consumos(request):
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
 #OBTIENE LOS DATOS PARA REALIZAR EL DETALLE DE CONSUMOS
+@login_required
 def detalle_consumos(request, consumo_pk):
     detalle_consumos = Consumos.objects.get(consumo_pk=consumo_pk)   
 
@@ -595,7 +611,7 @@ def detalle_consumos(request, consumo_pk):
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def obtener_datos_sn_consumos(request):
     term = request.GET.get('q', '')
 
@@ -636,7 +652,7 @@ def obtener_datos_sn_consumos(request):
 #     return JsonResponse({'sn_data': sn_json}, safe=False)
     
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def detalle_inicio(request, stdf_pk):
     draw = int(request.GET.get('draw', 0))
     start = int(request.GET.get('start', 0))
@@ -736,6 +752,7 @@ def detalle_inicio(request, stdf_pk):
         })
     
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+@login_required
 def detalle_form(request):
     form1 = DetalleForm(prefix='form1')
     if request.method == 'POST':
@@ -754,7 +771,8 @@ def detalle_form(request):
 ##################################
 ### Vista de Mantenedor Comat ####
 ##################################
-
+@login_required
+@permission_required('Inventario.change_comat')
 def editar_comat(request, stdf_pk):
     comat = Comat.objects.get(pk=stdf_pk)
 
@@ -769,7 +787,8 @@ def editar_comat(request, stdf_pk):
 
     return render(request, 'formularios/editar_comat.html', {'form': form, 'comat': comat})
 
-
+@login_required
+@permission_required('Inventario.delete_comat')
 def eliminar_comat(request, stdf_pk):
     comats = Comat.objects.get(pk=stdf_pk)
     comats.delete()
@@ -780,7 +799,7 @@ def eliminar_comat(request, stdf_pk):
 ##################################
 # Vista de Mantenedor Incoming   #
 ##################################
-
+@login_required
 def editar_incoming(request, sn_batch_pk):
     incoming = Incoming.objects.get(pk=sn_batch_pk)
 
@@ -795,7 +814,7 @@ def editar_incoming(request, sn_batch_pk):
 
     return render(request, 'formularios/editar_incoming.html', {'form': form, 'incoming': incoming})
 
-
+@login_required
 def eliminar_incoming(request, sn_batch_pk):
     incomings = Incoming.objects.get(pk=sn_batch_pk)
     incomings.delete()
@@ -805,7 +824,7 @@ def eliminar_incoming(request, sn_batch_pk):
 ##################################
 # Vista de Mantenedor Consumo   #
 ##################################
-
+@login_required
 def editar_consumo(request, consumo_pk):
     try:
         consumo = Consumos.objects.get(consumo_pk=consumo_pk)
@@ -839,7 +858,7 @@ def editar_consumo(request, consumo_pk):
         form = ConsumosForm(instance=consumo)
 
     return render(request, 'formularios/editar_consumo.html', {'form': form, 'consumo': consumo})
-
+@login_required
 def eliminar_consumo(request, consumo_pk):
     consumos = Consumos.objects.get(consumo_pk=consumo_pk)
     incoming = consumos.incoming_fk
@@ -853,14 +872,14 @@ def eliminar_consumo(request, consumo_pk):
 ### Vista de Mantenedores all ####
 ###########################################
 
+@login_required
 def mantenedores_all(request):
-
     return render(request, 'mantenedores/mantenedores_all.html')
 
 ###########################################
 ### Vista de Mantenedor Categotia_incoming ####
 ###########################################
-
+@login_required
 def mantenedor_categoria_incoming(request):
     get_categoria_incoming = Categotia_incoming.objects.all()
 
@@ -870,7 +889,7 @@ def mantenedor_categoria_incoming(request):
     return render(request, 'mantenedores/categoria_incoming/mantenedor_categoria_incoming.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_categoria_incoming(request, categoria_pk):
     categoria_incoming = Categotia_incoming.objects.get(categoria_pk=categoria_pk)
 
@@ -886,6 +905,7 @@ def editar_categoria_incoming(request, categoria_pk):
     return render(request, 'mantenedores/categoria_incoming/editar_categoria_incoming.html', {'form': form, 'categoria_incoming': categoria_incoming})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+@login_required
 def registrar_categoria_incoming(request):
     form_reg_categoria = CategoriaForm()
 
@@ -910,6 +930,7 @@ def registrar_categoria_incoming(request):
     return render(request, 'mantenedores/categoria_incoming/registrar_categoria_incoming.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
+@login_required
 def eliminar_categoria_incoming(request, categoria_pk):
     categoria_incoming = Categotia_incoming.objects.get(categoria_pk=categoria_pk)
     categoria_incoming.delete()
@@ -921,7 +942,7 @@ def eliminar_categoria_incoming(request, categoria_pk):
 ###########################################
 ### Vista de Mantenedor Estado         ####
 ###########################################
-
+@login_required
 def mantenedor_estado(request):
     get_estado = Estado.objects.all()
 
@@ -931,7 +952,7 @@ def mantenedor_estado(request):
     return render(request, 'mantenedores/estado/mantenedor_estado.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_estado(request, estado_pk):
     estados = Estado.objects.get(estado_pk=estado_pk)
 
@@ -947,7 +968,7 @@ def editar_estado(request, estado_pk):
     return render(request, 'mantenedores/estado/editar_estado.html', {'form': form, 'estados': estados})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_estado(request):
     form_reg_estado = EstadoForm()
 
@@ -972,7 +993,7 @@ def registrar_estado(request):
     return render(request, 'mantenedores/estado/registrar_estado.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_estado(request, estado_pk):
     estados = Estado.objects.get(pk=estado_pk)
     estados.delete()
@@ -983,7 +1004,7 @@ def eliminar_estado(request, estado_pk):
 ###########################################
 ### Vista de Mantenedor Ubicación         ####
 ###########################################
-
+@login_required
 def mantenedor_ubicacion(request):
     get_ubicacion = Ubicacion.objects.all()
 
@@ -993,7 +1014,7 @@ def mantenedor_ubicacion(request):
     return render(request, 'mantenedores/ubicacion/mantenedor_ubicacion.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_ubicacion(request, ubicacion_pk):
     ubicaciones = Ubicacion.objects.get(ubicacion_pk=ubicacion_pk)
 
@@ -1009,7 +1030,7 @@ def editar_ubicacion(request, ubicacion_pk):
     return render(request, 'mantenedores/ubicacion/editar_ubicacion.html', {'form': form, 'ubicaciones': ubicaciones})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_ubicacion(request):
     form_reg_ubicacion = UbicacionForm()
 
@@ -1034,7 +1055,7 @@ def registrar_ubicacion(request):
     return render(request, 'mantenedores/ubicacion/registrar_ubicacion.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_ubicacion(request, ubicacion_pk):
     ubicaciones = Ubicacion.objects.get(pk=ubicacion_pk)
     ubicaciones.delete()
@@ -1046,7 +1067,7 @@ def eliminar_ubicacion(request, ubicacion_pk):
 ###########################################
 ### Vista de Mantenedor Uom   uom      ####
 ###########################################
-
+@login_required
 def mantenedor_uom(request):
     get_uom = Uom.objects.all()
 
@@ -1056,7 +1077,7 @@ def mantenedor_uom(request):
     return render(request, 'mantenedores/uom/mantenedor_uom.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_uom(request, uom_pk):
     uoms = Uom.objects.get(uom_pk=uom_pk)
 
@@ -1072,7 +1093,7 @@ def editar_uom(request, uom_pk):
     return render(request, 'mantenedores/ubicacion/editar_ubicacion.html', {'form': form, 'uoms': uoms})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_uom(request):
     form_reg_uom = UomForm()
 
@@ -1097,7 +1118,7 @@ def registrar_uom(request):
     return render(request, 'mantenedores/uom/registrar_uom.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_uom(request, uom_pk):
     uoms = Uom.objects.get(pk=uom_pk)
     uoms.delete()
@@ -1109,7 +1130,7 @@ def eliminar_uom(request, uom_pk):
 ###########################################
 ### Vista de Mantenedor owner     ####
 ###########################################
-
+@login_required
 def mantenedor_owner(request):
     get_owner = Owner.objects.all()
 
@@ -1119,7 +1140,7 @@ def mantenedor_owner(request):
     return render(request, 'mantenedores/owner/mantenedor_owner.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_owner(request, owner_pk):
     owners = Owner.objects.get(owner_pk=owner_pk)
 
@@ -1135,7 +1156,7 @@ def editar_owner(request, owner_pk):
     return render(request, 'mantenedores/owner/editar_owner.html', {'form': form, 'owners': owners})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_owner(request):
     form_reg_owner = OwnerForm()
 
@@ -1160,7 +1181,7 @@ def registrar_owner(request):
     return render(request, 'mantenedores/owner/registrar_owner.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_owner(request, owner_pk):
     owners = Owner.objects.get(pk=owner_pk)
     owners.delete()
@@ -1172,7 +1193,7 @@ def eliminar_owner(request, owner_pk):
 ###########################################
 ### Vista de Mantenedor condition     ####
 ###########################################
-
+@login_required
 def mantenedor_condition(request):
     get_condition = Condicion.objects.all()
 
@@ -1182,7 +1203,7 @@ def mantenedor_condition(request):
     return render(request, 'mantenedores/condition/mantenedor_condition.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_condition(request, condicion_pk):
     conditions = Condicion.objects.get(condicion_pk=condicion_pk)
 
@@ -1223,7 +1244,7 @@ def registrar_condition(request):
     return render(request, 'mantenedores/condition/registrar_condition.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_condition(request, condicion_pk):
     condicions = Condicion.objects.get(pk=condicion_pk)
     condicions.delete()
@@ -1235,7 +1256,7 @@ def eliminar_condition(request, condicion_pk):
 ###########################################
 ### Vista de Mantenedor ficha     ####
 ###########################################
-
+@login_required
 def mantenedor_ficha(request):
     get_ficha = Ficha.objects.all()
 
@@ -1245,7 +1266,7 @@ def mantenedor_ficha(request):
     return render(request, 'mantenedores/ficha/mantenedor_ficha.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_ficha(request, ficha_pk):
     fichas = Ficha.objects.get(ficha_pk=ficha_pk)
 
@@ -1261,7 +1282,7 @@ def editar_ficha(request, ficha_pk):
     return render(request, 'mantenedores/ficha/editar_ficha.html', {'form': form, 'fichas': fichas})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_ficha(request):
     form_reg_ficha = FichaForm()
 
@@ -1286,7 +1307,7 @@ def registrar_ficha(request):
     return render(request, 'mantenedores/ficha/registrar_ficha.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_ficha(request, ficha_pk):
     fichas = Ficha.objects.get(pk=ficha_pk)
     fichas.delete()
@@ -1298,7 +1319,7 @@ def eliminar_ficha(request, ficha_pk):
 ###########################################
 ### Vista de Mantenedor bodega     ####
 ###########################################
-
+@login_required
 def mantenedor_bodega(request):
     get_bodega = Bodega.objects.all()
 
@@ -1308,7 +1329,7 @@ def mantenedor_bodega(request):
     return render(request, 'mantenedores/bodega/mantenedor_bodega.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_bodega(request, bodega_pk):
     bodegas = Bodega.objects.get(bodega_pk=bodega_pk)
 
@@ -1324,7 +1345,7 @@ def editar_bodega(request, bodega_pk):
     return render(request, 'mantenedores/bodega/editar_bodega.html', {'form': form, 'bodegas': bodegas})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_bodega(request):
     form_reg_bodega = BodegaForm()
 
@@ -1349,7 +1370,7 @@ def registrar_bodega(request):
     return render(request, 'mantenedores/bodega/registrar_bodega.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_bodega(request, bodega_pk):
     bodegas = Bodega.objects.get(pk=bodega_pk)
     bodegas.delete()
@@ -1361,7 +1382,7 @@ def eliminar_bodega(request, bodega_pk):
 ###########################################
 ### Vista de Mantenedor origen     ####
 ###########################################
-
+@login_required
 def mantenedor_origen(request):
     get_origen = Origen.objects.all()
 
@@ -1371,7 +1392,7 @@ def mantenedor_origen(request):
     return render(request, 'mantenedores/origen/mantenedor_origen.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_origen(request, origen_pk):
     origens = Origen.objects.get(origen_pk=origen_pk)
 
@@ -1387,7 +1408,7 @@ def editar_origen(request, origen_pk):
     return render(request, 'mantenedores/origen/editar_origen.html', {'form': form, 'origens': origens})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_origen(request):
     form_reg_origen = OrigenForm()
 
@@ -1412,7 +1433,7 @@ def registrar_origen(request):
     return render(request, 'mantenedores/origen/registrar_origen.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_origen(request, origen_pk):
     origenes = Origen.objects.get(pk=origen_pk)
     origenes.delete()
@@ -1424,7 +1445,7 @@ def eliminar_origen(request, origen_pk):
 ###########################################
 ### Vista de Mantenedor cargo     ####
 ###########################################
-
+@login_required
 def mantenedor_cargo(request):
     get_cargo = Cargo.objects.all()
 
@@ -1434,7 +1455,7 @@ def mantenedor_cargo(request):
     return render(request, 'mantenedores/cargo/mantenedor_cargo.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_cargo(request, id):
     cargos = Cargo.objects.get(id=id)
 
@@ -1450,7 +1471,7 @@ def editar_cargo(request, id):
     return render(request, 'mantenedores/cargo/editar_cargo.html', {'form': form, 'cargos': cargos})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_cargo(request):
     form_reg_cargo = CargoForm()
 
@@ -1475,7 +1496,7 @@ def registrar_cargo(request):
     return render(request, 'mantenedores/cargo/registrar_cargo.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_cargo(request, id):
     cargos = Cargo.objects.get(pk=id)
     cargos.delete()
@@ -1487,7 +1508,7 @@ def eliminar_cargo(request, id):
 ###########################################
 ### Vista de Mantenedor clasificacion     ####
 ###########################################
-
+@login_required
 def mantenedor_clasificacion(request):
     get_clasificacion = Clasificacion.objects.all()
 
@@ -1497,7 +1518,7 @@ def mantenedor_clasificacion(request):
     return render(request, 'mantenedores/clasificacion/mantenedor_clasificacion.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_clasificacion(request, clasificacion_pk):
     clasificaciones = Clasificacion.objects.get(clasificacion_pk=clasificacion_pk)
 
@@ -1513,7 +1534,7 @@ def editar_clasificacion(request, clasificacion_pk):
     return render(request, 'mantenedores/clasificacion/editar_clasificacion.html', {'form': form, 'clasificaciones': clasificaciones})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_clasificacion(request):
     form_reg_clasificacion = ClasificacionForm()
 
@@ -1538,7 +1559,7 @@ def registrar_clasificacion(request):
     return render(request, 'mantenedores/clasificacion/registrar_clasificacion.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_clasificacion(request, clasificacion_pk):
     clasificaciones = Clasificacion.objects.get(pk=clasificacion_pk)
     clasificaciones.delete()
@@ -1549,7 +1570,7 @@ def eliminar_clasificacion(request, clasificacion_pk):
 ###########################################
 ### Vista de Mantenedor compañia     ####
 ###########################################
-
+@login_required
 def mantenedor_compañia(request):
     get_compañia = Compania.objects.all()
 
@@ -1559,7 +1580,7 @@ def mantenedor_compañia(request):
     return render(request, 'mantenedores/compañia/mantenedor_compañia.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_compañia(request, cod_compania):
     compañias = Compania.objects.get(cod_compania=cod_compania)
 
@@ -1575,7 +1596,7 @@ def editar_compañia(request, cod_compania):
     return render(request, 'mantenedores/compañia/editar_compañia.html', {'form': form, 'compañias': compañias})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_compañia(request):
     form_reg_compañia = CompaniaForm()
 
@@ -1600,7 +1621,7 @@ def registrar_compañia(request):
     return render(request, 'mantenedores/compañia/registrar_compañia.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_compañia(request, cod_compania):
     companias = Compania.objects.get(pk=cod_compania)
     companias.delete()
@@ -1612,7 +1633,7 @@ def eliminar_compañia(request, cod_compania):
 ###########################################
 ### Vista de Mantenedor consumidor     ####
 ###########################################
-
+@login_required
 def mantenedor_consumidor(request):
     get_consumidor = Consumidor.objects.all()
 
@@ -1622,7 +1643,7 @@ def mantenedor_consumidor(request):
     return render(request, 'mantenedores/consumidor/mantenedor_consumidor.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_consumidor(request, id):
     consumidors = Consumidor.objects.get(id=id)
 
@@ -1638,7 +1659,7 @@ def editar_consumidor(request, id):
     return render(request, 'mantenedores/consumidor/editar_consumidor.html', {'form': form, 'consumidors': consumidors})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_consumidor(request):
     form_reg_consumidor = ConsumidorForm()
 
@@ -1663,7 +1684,7 @@ def registrar_consumidor(request):
     return render(request, 'mantenedores/consumidor/registrar_consumidor.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_consumidor(request, id):
     consumidores = Consumidor.objects.get(pk=id)
     consumidores.delete()
@@ -1675,7 +1696,7 @@ def eliminar_consumidor(request, id):
 ###########################################
 ### Vista de Mantenedor estado_repuesto     ####
 ###########################################
-
+@login_required
 def mantenedor_estado_repuesto(request):
     get_estado_repuesto = Estado_Repuesto.objects.all()
 
@@ -1685,7 +1706,7 @@ def mantenedor_estado_repuesto(request):
     return render(request, 'mantenedores/estado_repuesto/mantenedor_estado_repuesto.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_estado_repuesto(request, id):
     estado_repuestos = Estado_Repuesto.objects.get(id=id)
 
@@ -1701,7 +1722,7 @@ def editar_estado_repuesto(request, id):
     return render(request, 'mantenedores/estado_repuesto/editar_estado_repuesto.html', {'form': form, 'estado_repuestos': estado_repuestos})
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_estado_repuesto(request):
     form_reg_estado_repuesto = EstadoRepuestoForm()
 
@@ -1726,7 +1747,7 @@ def registrar_estado_repuesto(request):
     return render(request, 'mantenedores/estado_repuesto/registrar_estado_repuesto.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_estado_repuesto(request, id):
     estado_repuestos = Estado_Repuesto.objects.get(pk=id)
     estado_repuestos.delete()
@@ -1738,7 +1759,7 @@ def eliminar_estado_repuesto(request, id):
 ##################################
 ### Vista de Mantenedor DetalleForm ####
 ##################################
-
+@login_required
 def editar_detalle_incoming_form(request, sn_batch_pk):
     detalleForm = Detalle_Incoming.objects.get(incoming_fk=sn_batch_pk)
 
@@ -1759,7 +1780,7 @@ def editar_detalle_incoming_form(request, sn_batch_pk):
 ##################################
 ### Vista de Mantenedor Licencia ####
 ##################################
-
+@login_required
 def mantenedor_licencia(request):
     get_licencia = Licencia.objects.all()
 
@@ -1769,7 +1790,7 @@ def mantenedor_licencia(request):
     return render(request, 'mantenedores/licencia/mantenedor_licencia.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def editar_licencia(request, id):
     licencias = Licencia.objects.get(id=id)
 
@@ -1786,7 +1807,7 @@ def editar_licencia(request, id):
 
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def registrar_licencia(request):
     form_reg_licencia = LicenciaForm()
 
@@ -1811,7 +1832,7 @@ def registrar_licencia(request):
     return render(request, 'mantenedores/licencia/registrar_licencia.html', context)
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def eliminar_licencia(request, id):
     licencias = Licencia.objects.get(pk=id)
     licencias.delete()
@@ -1819,7 +1840,7 @@ def eliminar_licencia(request, id):
     return redirect('/mantenedor_licencia')
 
 # -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- ## -- # -- # -- # -- # -- # -- #
-
+@login_required
 def estadostdf(request):
     with connection.cursor() as cursor:
         cursor.execute('CALL abona_cancela()')
@@ -1827,46 +1848,3 @@ def estadostdf(request):
     return redirect('/orden_consumo')
 
 
-
-def orden_consumo(request):
-    if request.method == 'POST':
-        form = OrdenConsumoForm(request.POST)
-        if form.is_valid():
-            # Procesar las fechas ingresadas, por ejemplo, guardar en la base de datos o realizar cálculos
-            fechainicio = form.cleaned_data['fechainicio']
-            fechatermino = form.cleaned_data['fechatermino']
-            # Agregar aquí la lógica de procesamiento
-
-            consumos = Consumos.objects.filter(f_transaccion__range=(fechainicio,fechatermino))
-
-            wk = openpyxl.Workbook()
-            ws = wk.active
-
-            # Agregar encabezados
-            ws['A1'] = 'Fecha de Transacción'
-            ws['A2'] = 'Descripcion'
-            ws['A3'] = 'STDF'
-            ws['A4'] = 'Cancela o Abona'
-            # Agregar otros encabezados según tus campos
-
-            # Agregar datos de consumos
-            row = 2
-            for consumo in consumos:
-                ws.cell(row=row, column=1, value=consumo.f_transaccion)
-                ws.cell(row=row, column=2, value=consumo.incoming_fk.descripcion)
-                ws.cell(row=row, column=3, value=consumo.incoming_fk.stdf_fk)
-                ws.cell(row=row, column=4, value=consumo.incoming_fk.stdf_fk.estado_fk)
-                # Agregar otros campos de consumo según tus campos
-                row += 1
-
-            # Guardar el archivo Excel en la memoria
-            response = HttpResponse(content_type='application/ms-excel')
-            response['Content-Disposition'] = 'attachment; filename="consumos.xlsx"'
-            wk.save(response)
-
-            return response
-
-    else:
-        form = OrdenConsumoForm()
-
-    return render(request, 'orden_consumo.html', {'form': form})

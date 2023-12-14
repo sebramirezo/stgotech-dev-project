@@ -48,16 +48,22 @@
                   <tr class="">
                       <td>{{bodega.name_bodega}}</td>
                       <td>
+                          {% if perms.Inventario.change_bodega %}
                           <a name="" id="" class="btn btn-primary" href="/editar_bodega/{{bodega.bodega_pk}}" role="button">Editar</a>
+                          {% endif %}
+                          {% if perms.Inventario.delete_bodega %}
                           <a name="" id="" class="btn btn-danger" onclick="destroy('{{bodega.bodega_pk}}')"  href="#" role="button">Eliminar</a>
-                      </td>
+                          {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
+            {% if perms.Inventario.add_bodega %}
             <a name="" id="" class="btn btn-primary" href="/registrar_bodega/" role="button">Añadir Bodega</a>
-          </div>
+            {% endif %}
+        </div>
       </div>
     </div>
   </div>

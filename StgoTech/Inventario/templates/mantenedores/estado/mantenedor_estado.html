@@ -17,15 +17,21 @@
                   <tr class="">
                       <td>{{estado.estado}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_estado/{{estado.estado_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{estado.estado_pk}}')" href="#" role="button">Eliminar</a>
-                      </td>
+                            {% if perms.Inventario.change_estado %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_estado/{{estado.estado_pk}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_estado %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{estado.estado_pk}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
+            {% if perms.Inventario.add_bodega %}
             <a name="" id="" class="btn btn-primary" href="/registrar_estado/" role="button">Añadir Estado</a>
+            {% endif %}
           </div>
       </div>
     </div>

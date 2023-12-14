@@ -16,17 +16,23 @@
                   {% for owner in get_owner %}
                   <tr class="">
                       <td>{{owner.name_owner}}</td>
-                      <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_owner/{{owner.owner_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{owner.owner_pk}}')" href="#" role="button">Eliminar</a>
-                      </td>
+                        <td>
+                            {% if perms.Inventario.change_owner %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_owner/{{owner.owner_pk}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_owner %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{owner.owner_pk}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
-          <div class="container">
-            <a name="" id="" class="btn btn-primary" href="/registrar_owner/" role="button">Añadir Owner</a>
-          </div>
+            <div class="container">
+                {% if perms.Inventario.add_owner %}
+                <a name="" id="" class="btn btn-primary" href="/registrar_owner/" role="button">Añadir Owner</a>
+                {% endif %}
+            </div>
       </div>
     </div>
   </div>

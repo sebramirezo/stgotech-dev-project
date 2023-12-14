@@ -8,7 +8,7 @@ from django import forms
 class ComatForm(ModelForm):
     stdf_pk = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa STDF"}),label='STDF')
     awb = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa AWB"}),label='AWB')
-    hawb = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa HAWB"}),label='HAWB')
+    hawb = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa HAWB"}),label='HAWB', required=False)
     num_manifiesto = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Número de Manifiesto"}),label='Número Manifiesto')
     corr_interno = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control reducido","placeholder": "Ingresa Correlativo Interno"}),label='Correlativo Interno')
     pcs = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control reducido", "placeholder": "Ingresa Cantidad de Piezas"}),label='Piezas')

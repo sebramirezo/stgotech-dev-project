@@ -6,10 +6,11 @@ from openpyxl.styles import Alignment , Font , Border, Side
 from openpyxl.drawing.image import Image
 from PIL import Image
 from openpyxl.drawing.image import Image as ExcelImage
+from django.contrib.auth.decorators import login_required, permission_required
 
 
 
-
+@login_required
 def exportar_excel_incoming(request, sn_batch_pk):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="datos.xlsx"'

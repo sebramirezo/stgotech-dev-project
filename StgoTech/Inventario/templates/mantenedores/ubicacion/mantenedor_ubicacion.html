@@ -15,18 +15,24 @@
               <tbody>
                   {% for ubicacion in get_ubicacion %}
                   <tr class="">
-                      <td>{{ubicacion.name_ubicacion}}</td>
-                      <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_ubicacion/{{ubicacion.ubicacion_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{ubicacion.ubicacion_pk}}')" href="#" role="button">Eliminar</a>
-                      </td>
+                        <td>{{ubicacion.name_ubicacion}}</td>
+                        <td>
+                            {% if perms.Inventario.change_ubicacion %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_ubicacion/{{ubicacion.ubicacion_pk}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_ubicacion %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{ubicacion.ubicacion_pk}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
-          <div class="container">
-            <a name="" id="" class="btn btn-primary" href="/registrar_ubicacion/" role="button">Añadir Ubicación</a>
-          </div>
+            <div class="container">
+                {% if perms.Inventario.add_ubicacion %}
+                <a name="" id="" class="btn btn-primary" href="/registrar_ubicacion/" role="button">Añadir Ubicación</a>
+                {% endif %}
+            </div>
       </div>
     </div>
   </div>

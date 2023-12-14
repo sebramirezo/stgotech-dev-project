@@ -126,8 +126,12 @@
                
             </tbody>
         </table>
+        {% if perms.Inventario.change_comat %}
         <a name="" id="" style="background-image: linear-gradient(135deg, rgb(32, 144, 215) 0%, rgb(16, 91, 148) 100%); color: #f1f8fe;" class="btn" href="/editar_comat/{{detalle_comat.stdf_pk}}"  role="button">Editar</a>
+        {% endif %}
+        {% if perms.Inventario.delete_comat %}
         <a name="" id="" style="background-image: linear-gradient(135deg, rgb(246, 61, 61) 0%, rgb(191, 22, 22) 100%); color: #f1f8fe;" class="btn" onclick="destroy('{{detalle_comat.stdf_pk}}')" href="#" role="button">Eliminar</a>
+        {% endif %}
     </div>
 </div>
   

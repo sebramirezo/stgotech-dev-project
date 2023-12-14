@@ -17,16 +17,22 @@
                   <tr class="">
                       <td>{{cargo.name_cargo}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_cargo/{{cargo.id}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{cargo.id}}')" href="#" role="button">Eliminar</a>
-                      </td>
+                            {% if perms.Inventario.change_cargo %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_cargo/{{cargo.id}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_cargo %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{cargo.id}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
+            {% if perms.Inventario.add_cargo %}
             <a name="" id="" class="btn btn-primary" href="/registrar_cargo/" role="button">Añadir Cargo</a>
-          </div>
+            {% endif %}
+        </div>
       </div>
     </div>
   </div>

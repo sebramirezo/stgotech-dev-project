@@ -17,16 +17,22 @@
                   <tr class="">
                       <td>{{condition.name_condicion}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_condition/{{condition.condicion_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{condition.condicion_pk}}')" href="#" role="button">Eliminar</a>
-                      </td>
+                            {% if perms.Inventario.change_condicion %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_condition/{{condition.condicion_pk}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_condicion %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{condition.condicion_pk}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
+            {% if perms.Inventario.add_condicion %}
             <a name="" id="" class="btn btn-primary" href="/registrar_condition/" role="button">Añadir Condición</a>
-          </div>
+            {% endif %}
+            </div>
       </div>
     </div>
   </div>
