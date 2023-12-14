@@ -23,15 +23,21 @@
                       <td>{{consumidor.email}}</td>
                       <td>{{consumidor.cargo}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_consumidor/{{consumidor.id}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{consumidor.id}}')" href="#" role="button">Eliminar</a>
-                      </td>
+                            {% if perms.Inventario.change_consumidor %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_consumidor/{{consumidor.id}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_consumidor %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{consumidor.id}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
+                        </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
+            {% if perms.Inventario.add_consumidor %}
             <a name="" id="" class="btn btn-primary" href="/registrar_consumidor/" role="button">Añadir Consumidor</a>
+            {% endif %}
           </div>
       </div>
     </div>

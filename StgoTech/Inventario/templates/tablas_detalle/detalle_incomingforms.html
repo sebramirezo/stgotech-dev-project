@@ -13,7 +13,9 @@
             </div>
             {% endfor %}
         </div>
+        {% if perms.Inventario.add_detalle_incoming %}
         <input class="btn btn-primary m-2" type="submit" value="Guardar">
+        {% endif %}
     </form>
     <div>
         <h4>Instrucciones de uso:</h4>

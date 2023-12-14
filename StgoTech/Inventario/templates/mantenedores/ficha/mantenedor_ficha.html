@@ -17,15 +17,21 @@
                   <tr class="">
                       <td>{{ficha.name_ficha}}</td>
                       <td>
-                          <a name="" id="" class="btn btn-primary" href="/editar_ficha/{{ficha.ficha_pk}}" role="button">Editar</a>
-                          <a name="" id="" class="btn btn-danger" onclick="destroy('{{ficha.ficha_pk}}')" href="#" role="button">Eliminar</a>
+                            {% if perms.Inventario.change_ficha %}
+                            <a name="" id="" class="btn btn-primary" href="/editar_ficha/{{ficha.ficha_pk}}" role="button">Editar</a>
+                            {% endif %}
+                            {% if perms.Inventario.delete_ficha %}
+                            <a name="" id="" class="btn btn-danger" onclick="destroy('{{ficha.ficha_pk}}')" href="#" role="button">Eliminar</a>
+                            {% endif %}
                       </td>
                   </tr>
                   {% endfor %}
               </tbody>
           </table>
           <div class="container">
+            {% if perms.Inventario.add_ficha %}
             <a name="" id="" class="btn btn-primary" href="/registrar_ficha/" role="button">Añadir Ficha</a>
+            {% endif %}
           </div>
       </div>
     </div>
